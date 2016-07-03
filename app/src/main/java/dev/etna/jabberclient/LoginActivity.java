@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity
         username = this.usernameField.getText().toString();
         password = this.passwordField.getText().toString();
         xmpp = new XMPPService(username, password, serverAddress);
-        task = new XMPPLoginTask(xmpp);
+        task = new XMPPLoginTask(xmpp, this);
         task.execute();
     }
 }
