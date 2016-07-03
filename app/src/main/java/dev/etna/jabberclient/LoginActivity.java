@@ -2,11 +2,13 @@ package dev.etna.jabberclient;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
+import dev.etna.jabberclient.xmpp.XMPPLoginTask;
+import dev.etna.jabberclient.xmpp.XMPPService;
 
 public class LoginActivity extends AppCompatActivity
 {
@@ -63,10 +65,23 @@ public class LoginActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                Log.d("server address = ", self.serverAddressField.getText().toString());
-                Log.d("username = ", self.usernameField.getText().toString());
-                Log.d("password = ", self.passwordField.getText().toString());
+                self.login();
             }
         };
+    }
+    private void login()
+    {
+        String serverAddress;
+        String username;
+        String password;
+        XMPPService xmpp;
+        XMPPLoginTask task;
+
+        serverAddress = this.serverAddressField.getText().toString();
+        username = this.usernameField.getText().toString();
+        password = this.passwordField.getText().toString();
+        xmpp = new XMPPService(username, password, serverAddress);
+        task = new XMPPLoginTask(xmpp);
+        task.execute();
     }
 }
