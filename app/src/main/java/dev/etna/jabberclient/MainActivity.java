@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import dev.etna.jabberclient.tasks.LogoutTask;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
@@ -66,10 +68,11 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout)
         {
-            Log.d("OPTIONS", "logout");
+            JabberClientApplication app = (JabberClientApplication)this.getApplication();
+            LogoutTask task = new LogoutTask(app.getXmppService(), this);
+            task.execute();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
