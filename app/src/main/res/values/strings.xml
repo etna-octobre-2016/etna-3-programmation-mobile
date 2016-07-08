@@ -4,7 +4,7 @@
     <string name="login_password">Mot de passe</string>
     <string name="login_submit">Se connecter</string>
     <string name="login_serveraddress">Adresse du serveur</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Bienvenue</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
