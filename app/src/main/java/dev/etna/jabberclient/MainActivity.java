@@ -97,7 +97,14 @@ public class MainActivity extends AppCompatActivity
         {
             Log.i("SIDENAV", "click on my account button");
         }
-
+        else if (id == R.id.sidenav_contact_list)
+        {
+            Log.i("SIDENAV", "click on contact list button");
+        }
+        else if (id == R.id.sidenav_contact_add)
+        {
+            Log.i("SIDENAV", "click on contact add button");
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
