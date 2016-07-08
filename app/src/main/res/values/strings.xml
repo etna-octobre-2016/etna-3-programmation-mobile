@@ -13,4 +13,5 @@
 
     <string name="sidenav_account">Mon compte</string>
     <string name="sidenav_contactslist">Mes contacts</string>
+    <string name="sidenav_contact_add">Ajouter un contact</string>
 </resources>

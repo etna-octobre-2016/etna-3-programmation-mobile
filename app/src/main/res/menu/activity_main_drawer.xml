@@ -10,6 +10,10 @@
             android:id="@+id/sidenav_contactslist"
             android:icon="@drawable/ic_contactslist"
             android:title="@string/sidenav_contactslist"/>
+        <item
+            android:id="@+id/sidenav_contact_add"
+            android:icon="@drawable/ic_contact_add"
+            android:title="@string/sidenav_contact_add"/>
     </group>
 
 </menu>
