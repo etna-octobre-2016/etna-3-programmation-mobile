@@ -1,8 +1,13 @@
 package dev.etna.jabberclient.xmpp;
 
+import android.util.Log;
+
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+
+import dev.etna.jabberclient.profil.Profil;
 
 public class XMPPService
 {
@@ -14,6 +19,7 @@ public class XMPPService
     private String password;
     private String serverAddress;
     private String username;
+    private VCard vcard;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -49,6 +55,10 @@ public class XMPPService
         try
         {
             this.connection.login();
+            this.vcard = new VCard();
+            this.vcard.load(connection);
+            Profil profil = new Profil(this);
+            Log.i(" ###### profil --",(String) profil.toString());
         }
         catch (Exception e)
         {
@@ -72,4 +82,18 @@ public class XMPPService
                 .build();
         return config;
     }
+
+    ////////////////////////////////////////////////////////////
+    // PRIVATE METHODS
+    ////////////////////////////////////////////////////////////
+
+    public AbstractXMPPConnection getConnection() {
+        return connection;
+    }
+
+    public VCard getVcard() {
+        return vcard;
+    }
+
+
 }

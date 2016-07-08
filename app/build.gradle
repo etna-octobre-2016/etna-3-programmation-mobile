@@ -32,4 +32,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.0.0'
     compile 'org.igniterealtime.smack:smack-android-extensions:4.1.7'
     compile 'org.igniterealtime.smack:smack-tcp:4.1.7'
+    testCompile 'org.igniterealtime.smack:smack-android-extensions:4.1.7'
+    testCompile 'org.igniterealtime.smack:smack-tcp:4.1.7'
 }
