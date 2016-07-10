@@ -65,6 +65,17 @@ public class XMPPService
             throw new XMPPServiceException(XMPPServiceError.LOGIN_BAD_CREDENTIALS.toString(), e);
         }
     }
+    public void logout() throws XMPPServiceException
+    {
+        try
+        {
+            this.connection.disconnect();
+        }
+        catch (Exception e)
+        {
+            throw new XMPPServiceException(XMPPServiceError.LOGOUT_UNEXPECTED_ERROR.toString(), e);
+        }
+    }
 
     ////////////////////////////////////////////////////////////
     // PRIVATE METHODS
