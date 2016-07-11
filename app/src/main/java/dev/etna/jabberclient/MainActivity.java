@@ -1,5 +1,7 @@
 package dev.etna.jabberclient;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
 import android.support.design.widget.NavigationView;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity
@@ -93,10 +96,20 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.sidenav_contact_add)
         {
-            Log.i("SIDENAV", "click on contact add button");
+            this.switchFragment(new ContactAddFragment());
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void switchFragment(Fragment newFragment)
+    {
+        FragmentTransaction transaction;
+
+        transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.mainFragmentContainer, newFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
