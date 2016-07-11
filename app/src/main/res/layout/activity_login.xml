@@ -16,7 +16,7 @@
         android:layout_alignParentStart="true"
         android:layout_height="wrap_content"
         android:layout_width="fill_parent"
-        android:hint="@string/login_serveraddress" />
+        android:hint="@string/label_server_address" />
 
     <EditText
         android:id="@+id/username"
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_width="fill_parent"
-        android:hint="@string/login_username" />
+        android:hint="@string/label_username" />
 
     <EditText
         android:id="@+id/password"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_width="fill_parent"
-        android:hint="@string/login_password" />
+        android:hint="@string/label_password" />
 
     <Button
         android:id="@+id/submit"
@@ -45,6 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_width="fill_parent"
-        android:text="@string/login_submit" />
+        android:text="@string/label_action_login" />
 
 </RelativeLayout>

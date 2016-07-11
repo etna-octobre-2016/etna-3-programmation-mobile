@@ -4,10 +4,37 @@
              android:layout_height="match_parent"
              tools:context=".fragments.ContactAddFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment"/>
+        android:gravity="center">
 
+        <EditText
+            android:id="@+id/serverAddress"
+            android:inputType="textUri"
+            android:layout_alignParentStart="true"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:hint="@string/label_server_address" />
+
+        <EditText
+            android:id="@+id/username"
+            android:inputType="text"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/serverAddress"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:hint="@string/label_contact_username" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/username"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:text="@string/label_action_contact_add" />
+
+    </RelativeLayout>
 </FrameLayout>
