@@ -2,14 +2,17 @@ package dev.etna.jabberclient.fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import dev.etna.jabberclient.JabberClientApplication;
+import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.R;
+import dev.etna.jabberclient.model.User;
+import dev.etna.jabberclient.tasks.ContactAddTask;
 
 public class ContactAddFragment extends Fragment
 {
@@ -35,6 +38,17 @@ public class ContactAddFragment extends Fragment
     // PRIVATE METHODS
     ////////////////////////////////////////////////////////////
 
+    private void addContact()
+    {
+        ContactAddTask task;
+        JabberClientApplication app;
+        User contact;
+
+        contact = new User(serverAddressField.getText().toString(), usernameField.getText().toString());
+        app = (JabberClientApplication)this.getActivity().getApplication();
+        task = new ContactAddTask(contact, app.getXmppService(), (MainActivity) this.getActivity());
+        task.execute();
+    }
     private void addListeners()
     {
         this.submitButton.setOnClickListener(this.getSubmitButtonClickListener());
@@ -49,7 +63,7 @@ public class ContactAddFragment extends Fragment
             @Override
             public void onClick(View view)
             {
-                Log.d("test", "form submit");
+                self.addContact();
             }
         };
     }
