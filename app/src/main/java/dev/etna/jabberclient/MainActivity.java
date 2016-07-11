@@ -1,6 +1,7 @@
 package dev.etna.jabberclient;
 
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
@@ -105,11 +106,22 @@ public class MainActivity extends AppCompatActivity
 
     public void switchFragment(Fragment newFragment)
     {
+        Fragment currentFragment;
+        FragmentManager manager;
         FragmentTransaction transaction;
 
-        transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.mainFragmentContainer, newFragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        manager = this.getFragmentManager();
+        currentFragment = manager.findFragmentByTag("MAIN_FRAGMENT");
+        if (currentFragment == null || !(currentFragment.getClass().equals(newFragment.getClass())))
+        {
+            transaction = manager.beginTransaction();
+            transaction.replace(R.id.mainFragmentContainer, newFragment, "MAIN_FRAGMENT");
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+        else
+        {
+            Log.i("MainActivity", "same fragment will not be loaded twice in a row");
+        }
     }
 }
