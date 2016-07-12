@@ -1,8 +1,11 @@
 package dev.etna.jabberclient.xmpp;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
+import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+
+import dev.etna.jabberclient.model.User;
 
 public class XMPPService
 {
@@ -31,6 +34,30 @@ public class XMPPService
         this.username = username;
         this.password = password;
         this.serverAddress = serverAddress;
+    }
+    public void addContact(String contactUsername, String contactServerAddress) throws XMPPServiceException
+    {
+        Roster roster;
+        String jabberID;
+
+        try
+        {
+            roster = Roster.getInstanceFor(this.connection);
+            if (!roster.isLoaded())
+            {
+                roster.reloadAndWait();
+            }
+            jabberID = contactUsername + "@" + contactServerAddress;
+            roster.createEntry(jabberID, contactUsername, null);
+        }
+        catch (Exception e)
+        {
+            throw new XMPPServiceException(XMPPServiceError.CONTACT_ADD_UNEXPECTED_ERROR.toString(), e);
+        }
+    }
+    public void addContact(User contact) throws XMPPServiceException
+    {
+        this.addContact(contact.getUsername(), contact.getServerAddress());
     }
     public void connect() throws XMPPServiceException
     {
