@@ -1,4 +1,4 @@
-package dev.etna.jabberclient.Model;
+package dev.etna.jabberclient.model;
 
 import android.util.Log;
 
@@ -11,9 +11,11 @@ public class ContactManager {
     private static ContactManager instance = null;
     private ArrayList<ContactModel> contact_list;
     private ContactModel contact;
+    public static final String EXTRA_CONTACT = "extra.contact";
 
     private ContactManager() {
         contact_list = new ArrayList<ContactModel>();
+        initContactList();
     }
 
     public static ContactManager getInstance() {
@@ -24,6 +26,7 @@ public class ContactManager {
 
     public void initContactList() {
         //TODO: get all users contact with api or saved data
+        addContact("gatopreto@jabber.hot-chilli.eu");
     }
 
     public void addContact(String login, String nom) {

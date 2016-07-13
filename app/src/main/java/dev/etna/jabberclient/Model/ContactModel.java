@@ -1,4 +1,4 @@
-package dev.etna.jabberclient.Model;
+package dev.etna.jabberclient.model;
 
 import org.jivesoftware.smack.packet.Message;
 
@@ -38,11 +38,11 @@ public class ContactModel extends Observable {
         this.name = name;
     }
 
-    public ArrayList<Message> getmList() {
+    public ArrayList<Message> getMessageList() {
         return mList;
     }
 
-    public void setmList(ArrayList<Message> mList) {
+    public void setModelList(ArrayList<Message> mList) {
         this.mList = mList;
     }
 
@@ -50,5 +50,9 @@ public class ContactModel extends Observable {
         mList.add(message);
         setChanged();
         notifyObservers();
+    }
+
+    public Message getLastMessage() {
+        return mList.get(mList.size() - 1);
     }
 }

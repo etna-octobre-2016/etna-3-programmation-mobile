@@ -1,19 +1,14 @@
 package dev.etna.jabberclient.xmpp;
 
 import android.util.Log;
-import android.view.View;
 
 import org.jivesoftware.smack.SmackException;
-import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.packet.Message;
 
-import java.util.Observable;
-import java.util.Observer;
-
-import dev.etna.jabberclient.Model.ContactModel;
+import dev.etna.jabberclient.model.ContactModel;
 
 /**
  * Created by ceolivie on 13/07/2016.
