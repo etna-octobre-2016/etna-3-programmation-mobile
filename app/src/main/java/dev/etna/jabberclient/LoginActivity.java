@@ -1,5 +1,6 @@
 package dev.etna.jabberclient;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import dev.etna.jabberclient.model.ContactManager;
 import dev.etna.jabberclient.xmpp.XMPPLoginTask;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
@@ -69,8 +71,7 @@ public class LoginActivity extends AppCompatActivity
             }
         };
     }
-    private void login()
-    {
+    private void login() {
         String serverAddress;
         String username;
         String password;
@@ -80,8 +81,18 @@ public class LoginActivity extends AppCompatActivity
         serverAddress = this.serverAddressField.getText().toString();
         username = this.usernameField.getText().toString();
         password = this.passwordField.getText().toString();
-        xmpp = new XMPPService(username, password, serverAddress);
+        XMPPService.createInstance(username, password, serverAddress);
+        xmpp = XMPPService.getInstance();
         task = new XMPPLoginTask(xmpp, this);
         task.execute();
+        int inc = 0;
+
+       while (xmpp.getConnection() != null) {
+           inc++;
+       }
+
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra(ContactManager.EXTRA_CONTACT, "gatopreto@jabber.hot-chilli.eu");
+        startActivity(intent);
     }
 }
