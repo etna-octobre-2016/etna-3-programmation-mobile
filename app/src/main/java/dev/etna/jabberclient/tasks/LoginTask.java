@@ -5,8 +5,12 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
+import org.jivesoftware.smack.AbstractXMPPConnection;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+
 import dev.etna.jabberclient.LoginActivity;
 import dev.etna.jabberclient.MainActivity;
+import dev.etna.jabberclient.profil.Profil;
 import dev.etna.jabberclient.xmpp.XMPPService;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
@@ -18,7 +22,8 @@ public class LoginTask extends AsyncTask<Void, Void, XMPPServiceException>
 
     private LoginActivity activity;
     private XMPPService service;
-
+    private VCard vcard;
+    private AbstractXMPPConnection connection;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -39,6 +44,11 @@ public class LoginTask extends AsyncTask<Void, Void, XMPPServiceException>
         {
             this.service.connect();
             this.service.login();
+
+            /** loading the profil model **/
+            this.vcard = service.getVcard();
+            new Profil(service);
+
             error = null;
         }
         catch (XMPPServiceException e)

@@ -1,16 +1,18 @@
 package dev.etna.jabberclient;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import dev.etna.jabberclient.profil.DisplayProfilTask;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity
@@ -72,6 +74,9 @@ public class MainActivity extends AppCompatActivity
             LogoutTask task = new LogoutTask(app.getXmppService(), this);
             task.execute();
             return true;
+        }else if(id == R.id.sidenav_account){
+            Intent toy = new Intent(this, DisplayProfilTask.class);
+            startActivity(toy);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -85,7 +90,10 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.sidenav_account)
         {
+            Intent intent = new Intent(this,ProfilActivity.class);
+            startActivity(intent);
             Log.i("SIDENAV", "click on my account button");
+
         }
         else if (id == R.id.sidenav_contact_list)
         {

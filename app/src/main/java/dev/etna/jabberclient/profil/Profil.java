@@ -23,7 +23,7 @@ public class Profil {
     private String pseudo;
     private String firstName;
     private String name;
-    private Date birthday;
+    private String birthday;
 
     private String email;
     private String phoneNumber;
@@ -51,13 +51,27 @@ public class Profil {
         setPseudo(vCard.getNickName());
         setEmail(vCard.getEmailHome());
         setAvatar(vCard.getAvatar());
+        vCard.getPhoneHome("");
+        vCard.getJabberId();
+        vCard.getOrganization();
 
+        if (INSTANCE == null)
+        {
+            INSTANCE = this;
+        }
     }
 
     ////////////////////////////////////////////////////////////
     // METHODS
     ////////////////////////////////////////////////////////////
 
+    private static Profil INSTANCE = null;
+
+    /** Point d'accès pour l'instance unique du singleton */
+    public static Profil getInstance()
+    {
+        return INSTANCE;
+    }
 
     ////////////////////////////////////////////////////////////
     // GETTER & SETTER
@@ -83,7 +97,7 @@ public class Profil {
         return name;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
@@ -160,7 +174,7 @@ public class Profil {
         this.email = email;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
