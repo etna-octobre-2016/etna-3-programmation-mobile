@@ -1,8 +1,10 @@
-package dev.etna.jabberclient.model;
+package dev.etna.jabberclient.manager;
 
 import android.util.Log;
 
 import java.util.ArrayList;
+
+import dev.etna.jabberclient.model.ContactModel;
 
 /**
  * Created by ceolivie on 13/07/2016.
@@ -10,10 +12,11 @@ import java.util.ArrayList;
 public class ContactManager {
     private static ContactManager instance = null;
     private ArrayList<ContactModel> contact_list;
-    private ContactModel contact;
     public static final String EXTRA_CONTACT = "extra.contact";
 
     private ContactManager() {
+        ContactModel contact;
+
         contact_list = new ArrayList<ContactModel>();
         initContactList();
     }
@@ -30,23 +33,29 @@ public class ContactManager {
     }
 
     public void addContact(String login, String nom) {
+        ContactModel contact;
+
         contact = new ContactModel(login, nom);
         addContact(contact);
     }
 
     public void addContact(String login) {
+        ContactModel contact;
+
         contact = new ContactModel(login);
         addContact(contact);
     }
 
-    private void addContact(ContactModel contactModel) {
-        if (contact.getLogin().equals(getContact(contact.getLogin()).getLogin()))
+    private void addContact(ContactModel contact) {
+        if (getContact(contact.getLogin()) != null)
             Log.i("WAR", "Contact « " + contact.getLogin() + " » already exist in contact list");
         else
             contact_list.add(contact);
     }
 
     public void removeContact(String login) {
+        ContactModel contact;
+
         contact = getContact(login);
         contact_list.remove(contact);
     }
@@ -58,5 +67,9 @@ public class ContactManager {
         }
         Log.i("WAR", "Contact not found : " + login );
         return null;
+    }
+
+    public ArrayList<ContactModel> getContact_list() {
+        return contact_list;
     }
 }

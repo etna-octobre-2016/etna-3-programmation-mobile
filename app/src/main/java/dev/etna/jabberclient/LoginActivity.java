@@ -8,7 +8,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-import dev.etna.jabberclient.model.ContactManager;
+import dev.etna.jabberclient.manager.ChatManager;
+import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.xmpp.XMPPLoginTask;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
@@ -85,12 +86,14 @@ public class LoginActivity extends AppCompatActivity
         xmpp = XMPPService.getInstance();
         task = new XMPPLoginTask(xmpp, this);
         task.execute();
+
+        ContactManager.getInstance(); // for init contact list
         int inc = 0;
 
-       while (xmpp.getConnection() != null) {
+        while (xmpp.getConnection() == null) {
            inc++;
-       }
-
+        }
+        ChatManager.getInstance().initAllChat();
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra(ContactManager.EXTRA_CONTACT, "gatopreto@jabber.hot-chilli.eu");
         startActivity(intent);

@@ -15,11 +15,13 @@ public class ContactModel extends Observable {
 
     public ContactModel(String login) {
         this.login = login;
+        mList = new ArrayList<Message>();
     }
 
     public ContactModel(String login, String name) {
         this.login = login;
         this.name = name;
+        mList = new ArrayList<Message>();
     }
 
     public String getLogin() {

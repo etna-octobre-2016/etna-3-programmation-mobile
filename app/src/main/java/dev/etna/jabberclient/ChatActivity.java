@@ -1,14 +1,8 @@
 package dev.etna.jabberclient;
 
-import android.content.DialogInterface;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -19,7 +13,8 @@ import org.jivesoftware.smack.packet.Message;
 import java.util.Observable;
 import java.util.Observer;
 
-import dev.etna.jabberclient.model.ContactManager;
+import dev.etna.jabberclient.manager.ChatManager;
+import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.model.ContactModel;
 import dev.etna.jabberclient.xmpp.XMPPChat;
 
@@ -27,6 +22,7 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button bSend;
     private ContactModel contact;
+    private XMPPChat chat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +32,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
         contact = ContactManager.getInstance().getContact(
                 getIntent().getStringExtra(ContactManager.EXTRA_CONTACT));
         contact.addObserver(this);
+
+        chat = ChatManager.getInstance().getChat(contact);
         bSend = (Button) findViewById(R.id.button);
         bSend.setOnClickListener(this);
     }
@@ -44,7 +42,8 @@ public class ChatActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         TextView text = (TextView) findViewById(R.id.editText);
         Message message = new Message();
-        message.setBody(text.toString());
+        message.setBody(text.getText().toString());
+        chat.sendMessage(message);
         contact.addMessage(message);
     }
 

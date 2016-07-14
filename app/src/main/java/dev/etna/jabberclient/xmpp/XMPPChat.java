@@ -27,7 +27,7 @@ public class XMPPChat implements ChatMessageListener{
         chat = chatmanager.createChat(contact.getLogin(), this);
     }
 
-    private void sendMessage(Message message) {
+    public void sendMessage(Message message) {
         try {
             chat.sendMessage(message.getBody());
         } catch (SmackException.NotConnectedException e) {
@@ -37,6 +37,7 @@ public class XMPPChat implements ChatMessageListener{
 
     private void receiptMessage(Message message) {
         System.out.println("Received message: " + message);
+//        contact.addMessage(message);
     }
 
     @Override
