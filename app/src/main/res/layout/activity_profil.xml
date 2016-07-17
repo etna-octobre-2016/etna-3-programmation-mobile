@@ -7,14 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="dev.etna.jabberclient.ProfilActivity">
+    tools:context="dev.etna.jabberclient.ProfilActivity"
+    android:background="@color/dim_foreground_material_dark">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView"
+        android:id="@+id/imageView_avatarProfil"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_profile"
+        android:layout_alignEnd="@+id/textView_telephone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,9 +26,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Pseudo"
         android:id="@+id/textView_pseudo"
-        android:layout_below="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView"
-        android:layout_marginTop="50dp" />
+        android:layout_alignBottom="@+id/imageView_avatarProfil"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="29dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -33,7 +37,8 @@
         android:text="Prenom"
         android:id="@+id/textView_prenom"
         android:layout_below="@+id/textView_pseudo"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="29dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,17 +46,17 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Nom"
         android:id="@+id/textView_nom"
-        android:layout_below="@+id/textView_prenom"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_alignTop="@+id/editText_datenaiss"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Date de naissance"
+        android:text="Naissance (date)"
         android:id="@+id/textView_datenaiss"
-        android:layout_below="@+id/textView_nom"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_above="@+id/editText_telephone"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -68,8 +73,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Email"
         android:id="@+id/textView_email"
-        android:layout_below="@+id/textView_datenaiss"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_alignTop="@+id/editText_telephone"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -78,7 +83,7 @@
         android:text="Telephone"
         android:id="@+id/textView_telephone"
         android:layout_below="@+id/textView_email"
-        android:layout_toEndOf="@+id/imageView" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -101,14 +106,16 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText_prenom"
         android:layout_alignBottom="@+id/textView_prenom"
-        android:layout_alignEnd="@+id/editText_pseudo" />
+        android:layout_alignEnd="@+id/editText_pseudo"
+        android:layout_alignStart="@+id/editText_nom" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_nom"
         android:layout_above="@+id/textView_datenaiss"
-        android:layout_alignEnd="@+id/editText_pseudo" />
+        android:layout_alignEnd="@+id/editText_pseudo"
+        android:layout_alignStart="@+id/editText_datenaiss" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -117,29 +124,55 @@
         android:ems="10"
         android:id="@+id/editText_datenaiss"
         android:layout_below="@+id/editText_prenom"
-        android:layout_toEndOf="@+id/textView_datenaiss" />
+        android:layout_toEndOf="@+id/textView_datenaiss"
+        android:layout_alignStart="@+id/textView_pseudo" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
-        android:ems="10"
+        android:ems="8"
         android:id="@+id/editText_email"
         android:layout_below="@+id/editText_nom"
-        android:layout_alignEnd="@+id/editText_datenaiss" />
+        android:layout_alignEnd="@+id/editText_datenaiss"
+        android:layout_alignStart="@+id/textView_pseudo" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_telephone"
         android:layout_below="@+id/editText_datenaiss"
-        android:layout_alignEnd="@+id/editText_email" />
+        android:layout_alignEnd="@+id/editText_email"
+        android:layout_alignStart="@+id/editText_email" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_siteweb"
-        android:layout_alignTop="@+id/textView_telephone"
-        android:layout_alignEnd="@+id/editText_email" />
+        android:layout_alignBottom="@+id/textView_siteweb"
+        android:layout_alignStart="@+id/editText_email"
+        android:layout_toStartOf="@+id/button"
+        android:layout_alignEnd="@+id/editText_telephone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="bio"
+        android:id="@+id/textView_bio"
+        android:layout_below="@+id/textView_siteweb"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editText_bio"
+        android:layout_below="@+id/textView_bio"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/editText_siteweb"
+        android:layout_alignEnd="@+id/editText_pseudo" />
 
 </RelativeLayout>

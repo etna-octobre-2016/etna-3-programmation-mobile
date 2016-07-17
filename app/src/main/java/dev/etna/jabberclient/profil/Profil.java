@@ -4,8 +4,6 @@ import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.vcardtemp.provider.VCardProvider;
 
-import java.util.Date;
-
 import dev.etna.jabberclient.xmpp.XMPPService;
 
 /**
@@ -36,6 +34,8 @@ public class Profil {
 
     private String bio;
 
+    private static Profil INSTANCE = null;
+
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
@@ -45,15 +45,15 @@ public class Profil {
         VCard vCard = service.getVcard();
         ProviderManager.addIQProvider("vCard", "vcard-temp",new VCardProvider());
 
-
+        setAvatar(vCard.getAvatar());
         setFirstName(vCard.getFirstName());
         setName(vCard.getLastName());
         setPseudo(vCard.getNickName());
         setEmail(vCard.getEmailHome());
-        setAvatar(vCard.getAvatar());
-        vCard.getPhoneHome("");
-        vCard.getJabberId();
-        vCard.getOrganization();
+        setPhoneNumber(vCard.getPhoneHome("CELL"));
+        setBirthday(vCard.getField("BDAY"));
+        setBio(vCard.getField("DESC"));
+        setWebSite(vCard.getField("URL"));
 
         if (INSTANCE == null)
         {
@@ -64,8 +64,6 @@ public class Profil {
     ////////////////////////////////////////////////////////////
     // METHODS
     ////////////////////////////////////////////////////////////
-
-    private static Profil INSTANCE = null;
 
     /** Point d'accès pour l'instance unique du singleton */
     public static Profil getInstance()
@@ -134,7 +132,7 @@ public class Profil {
     }
 
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(byte[]  avatar) {
         this.avatar = avatar;
     }
 
