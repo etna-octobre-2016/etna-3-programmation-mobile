@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.jivesoftware.smack.packet.Message;
@@ -81,39 +83,38 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
+    RelativeLayout rl;
     @Override
     public void update(Observable observable, Object o)
     {
-        LinearLayout.LayoutParams lparams;
+        rl = new RelativeLayout(this.getActivity());
 
+        RelativeLayout.LayoutParams lprams = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        lparams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         tv = new TextView(this.getView().getContext());
-        tv.setPadding(10,10,0,0);
 
         if (contact.getLastMessage().getFrom() != null)
         {
-//            lparams.gravity =
-            tv.setGravity(Gravity.LEFT);
+            lprams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             tv.setBackgroundColor(ContextCompat.getColor(this.getView().getContext(), R.color.isChat));
         }
         else
         {
-//            lparams.gravity = Gravity.RIGHT;
-            tv.setGravity(Gravity.RIGHT);
-            
+            lprams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             tv.setBackgroundColor(ContextCompat.getColor(this.getView().getContext(), R.color.myChat));
         }
 
+        tv.setText(contact.getLastMessage().getBody());
+        rl.addView(tv, lprams);
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                tv.setText(contact.getLastMessage().getBody());
-                messageContener.addView(tv);
+                messageContener.addView(rl);
             }
         });
-        tv.setLayoutParams(lparams);
+
     }
 
     @Override
