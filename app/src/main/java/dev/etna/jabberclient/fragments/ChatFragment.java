@@ -3,13 +3,11 @@ package dev.etna.jabberclient.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,7 +16,6 @@ import org.jivesoftware.smack.packet.Message;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.concurrent.RunnableFuture;
 
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.manager.ChatManager;
@@ -73,8 +70,6 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
         this.contact = ContactManager.getInstance().getContact("gatopreto@jabber.hot-chilli.eu");
         this.chat = ChatManager.getInstance().getChat(contact);
         this.addListeners();
-
-
     }
 
     @Override

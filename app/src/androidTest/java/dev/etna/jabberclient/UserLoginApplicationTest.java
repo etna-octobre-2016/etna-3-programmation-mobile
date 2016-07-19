@@ -18,7 +18,8 @@ public class UserLoginApplicationTest
     @Test
     public void testLogin() throws Exception
     {
-        this.service = new XMPPService("johndoe000001", "Password1", "jabber.hot-chilli.net");
+        XMPPService.initXmppService("johndoe000001", "Password1", "jabber.hot-chilli.net");
+        this.service = XMPPService.getInstance();
         this.service.connect();
         this.service.login();
         this.service.logout();
@@ -30,7 +31,8 @@ public class UserLoginApplicationTest
     {
         try
         {
-            this.service = new XMPPService("johndoe000001", "Password", "jabber.hot-chilli.net");
+            XMPPService.initXmppService("johndoe000001", "Password1", "jabber.hot-chilli.net");
+            this.service = XMPPService.getInstance();
             this.service.connect();
             this.service.login();
             this.service.logout();

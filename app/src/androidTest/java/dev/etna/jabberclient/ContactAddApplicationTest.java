@@ -20,7 +20,8 @@ public class ContactAddApplicationTest
     @Before
     public void initialize() throws Exception
     {
-        this.service = new XMPPService("johndoe000001", "Password1", "jabber.hot-chilli.net");
+        XMPPService.initXmppService("johndoe000001", "Password1", "jabber.hot-chilli.net");
+        this.service = XMPPService.getInstance();
         this.service.connect();
         this.service.login();
     }
