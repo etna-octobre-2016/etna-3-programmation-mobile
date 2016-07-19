@@ -49,7 +49,7 @@ public class XMPPChat implements ChatMessageListener{
 
     private void receiptMessage(Message message) {
         System.out.println("Received message: " + message);
-//        contact.addMessage(message);
+        contact.addMessage(message);
     }
 
     @Override
