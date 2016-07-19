@@ -1,7 +1,23 @@
 <resources>
     <string name="app_name">JabberClient</string>
-    <string name="login_username">Nom d\'utilisateur</string>
-    <string name="login_password">Mot de passe</string>
-    <string name="login_submit">Se connecter</string>
-    <string name="login_serveraddress">Adresse du serveur</string>
+
+    <!-- Labels -->
+    <string name="label_action_contact_add">Ajouter aux contacts</string>
+    <string name="label_action_login">Se connecter</string>
+    <string name="label_action_logout">Se déconnecter</string>
+    <string name="label_contact_username">Nom d\'utilisateur du contact</string>
+    <string name="label_password">Mot de passe</string>
+    <string name="label_server_address">Adresse du serveur</string>
+    <string name="label_username">Nom d\'utilisateur</string>
+
+    <!-- Titles -->
+    <string name="title_activity_main">Bienvenue</string>
+    <string name="title_fragment_contact_add">Ajouter un contact</string>
+
+    <!-- Side nav -->
+    <string name="sidenav_account">Mon compte</string>
+    <string name="sidenav_contact_list">Mes contacts</string>
+    <string name="sidenav_contact_add">Ajouter un contact</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

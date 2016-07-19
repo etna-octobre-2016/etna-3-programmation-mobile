@@ -1,12 +1,16 @@
-package dev.etna.jabberclient.xmpp;
+package dev.etna.jabberclient.tasks;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
 import dev.etna.jabberclient.LoginActivity;
+import dev.etna.jabberclient.MainActivity;
+import dev.etna.jabberclient.xmpp.XMPPService;
+import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
-public class XMPPLoginTask extends AsyncTask<Void, Void, XMPPServiceException>
+public class LoginTask extends AsyncTask<Void, Void, XMPPServiceException>
 {
     ////////////////////////////////////////////////////////////
     // ATTRIBUTES
@@ -20,7 +24,7 @@ public class XMPPLoginTask extends AsyncTask<Void, Void, XMPPServiceException>
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public XMPPLoginTask(XMPPService service, LoginActivity activity)
+    public LoginTask(XMPPService service, LoginActivity activity)
     {
         this.service = service;
         this.activity = activity;
@@ -52,7 +56,8 @@ public class XMPPLoginTask extends AsyncTask<Void, Void, XMPPServiceException>
 
         if (error == null)
         {
-            Log.i("LOGIN", "success, no error");
+            Intent intent = new Intent(this.activity.getApplicationContext(), MainActivity.class);
+            this.activity.startActivity(intent);
         }
         else
         {

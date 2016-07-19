@@ -1,9 +1,11 @@
 package dev.etna.jabberclient.xmpp;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
-import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+
+import dev.etna.jabberclient.model.User;
 
 public class XMPPService
 {
@@ -15,11 +17,6 @@ public class XMPPService
     private String password;
     private String serverAddress;
     private String username;
-    private static XMPPService instance = null;
-
-    public static XMPPService getInstance() {
-        return  instance;
-    }
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -38,11 +35,30 @@ public class XMPPService
         this.password = password;
         this.serverAddress = serverAddress;
     }
+    public void addContact(String contactUsername, String contactServerAddress) throws XMPPServiceException
+    {
+        Roster roster;
+        String jabberID;
 
-    public static void createInstance(String username, String password, String serverAddress) {
-        instance = new XMPPService(username, password, serverAddress);
+        try
+        {
+            roster = Roster.getInstanceFor(this.connection);
+            if (!roster.isLoaded())
+            {
+                roster.reloadAndWait();
+            }
+            jabberID = contactUsername + "@" + contactServerAddress;
+            roster.createEntry(jabberID, contactUsername, null);
+        }
+        catch (Exception e)
+        {
+            throw new XMPPServiceException(XMPPServiceError.CONTACT_ADD_UNEXPECTED_ERROR.toString(), e);
+        }
     }
-
+    public void addContact(User contact) throws XMPPServiceException
+    {
+        this.addContact(contact.getUsername(), contact.getServerAddress());
+    }
     public void connect() throws XMPPServiceException
     {
         try
@@ -66,6 +82,17 @@ public class XMPPService
             throw new XMPPServiceException(XMPPServiceError.LOGIN_BAD_CREDENTIALS.toString(), e);
         }
     }
+    public void logout() throws XMPPServiceException
+    {
+        try
+        {
+            this.connection.disconnect();
+        }
+        catch (Exception e)
+        {
+            throw new XMPPServiceException(XMPPServiceError.LOGOUT_UNEXPECTED_ERROR.toString(), e);
+        }
+    }
 
     ////////////////////////////////////////////////////////////
     // PRIVATE METHODS
@@ -82,9 +109,5 @@ public class XMPPService
                 .setUsernameAndPassword(this.username, this.password)
                 .build();
         return config;
-    }
-
-    public XMPPConnection getConnection() {
-        return connection;
     }
 }
