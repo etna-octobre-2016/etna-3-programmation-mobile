@@ -4,20 +4,20 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import dev.etna.jabberclient.model.ContactModel;
+import dev.etna.jabberclient.model.Contact;
 
 /**
  * Created by ceolivie on 13/07/2016.
  */
 public class ContactManager {
     private static ContactManager instance = null;
-    private ArrayList<ContactModel> contact_list;
+    private ArrayList<Contact> contact_list;
     public static final String EXTRA_CONTACT = "extra.contact";
 
     private ContactManager() {
-        ContactModel contact;
+        Contact contact;
 
-        contact_list = new ArrayList<ContactModel>();
+        contact_list = new ArrayList<Contact>();
         initContactList();
     }
 
@@ -33,20 +33,20 @@ public class ContactManager {
     }
 
     public void addContact(String login, String nom) {
-        ContactModel contact;
+        Contact contact;
 
-        contact = new ContactModel(login, nom);
+        contact = new Contact(login, nom);
         addContact(contact);
     }
 
     public void addContact(String login) {
-        ContactModel contact;
+        Contact contact;
 
-        contact = new ContactModel(login);
+        contact = new Contact(login);
         addContact(contact);
     }
 
-    private void addContact(ContactModel contact) {
+    private void addContact(Contact contact) {
         if (getContact(contact.getLogin()) != null)
             Log.i("WAR", "Contact « " + contact.getLogin() + " » already exist in contact list");
         else
@@ -54,14 +54,14 @@ public class ContactManager {
     }
 
     public void removeContact(String login) {
-        ContactModel contact;
+        Contact contact;
 
         contact = getContact(login);
         contact_list.remove(contact);
     }
 
-    public ContactModel getContact(String login) {
-        for (ContactModel contactModel : contact_list) {
+    public Contact getContact(String login) {
+        for (Contact contactModel : contact_list) {
             if (contactModel.getLogin().equals(login))
                 return contactModel;
         }
@@ -69,7 +69,7 @@ public class ContactManager {
         return null;
     }
 
-    public ArrayList<ContactModel> getContact_list() {
+    public ArrayList<Contact> getContact_list() {
         return contact_list;
     }
 }

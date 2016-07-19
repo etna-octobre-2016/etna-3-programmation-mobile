@@ -3,27 +3,39 @@ package dev.etna.jabberclient.xmpp;
 import android.util.Log;
 
 import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.chat.ChatManager;
 import org.jivesoftware.smack.chat.ChatMessageListener;
 import org.jivesoftware.smack.packet.Message;
 
-import dev.etna.jabberclient.model.ContactModel;
+import dev.etna.jabberclient.model.Contact;
 
 /**
  * Created by ceolivie on 13/07/2016.
  */
 public class XMPPChat implements ChatMessageListener{
 
-    private ContactModel contact;
+    private Contact contact;
     private Chat chat;
-    public XMPPChat(ContactModel contact) {
+    public XMPPChat(Contact contact) {
         this.contact = contact;
         openChat();
     }
 
     private void openChat() {
-        ChatManager chatmanager = ChatManager.getInstanceFor(XMPPService.getInstance().getConnection());
+        XMPPConnection connection;
+
+        connection = XMPPService.getInstance().getConnection();
+        while (connection == null) {
+            try {
+                Thread.sleep(100);
+                connection = XMPPService.getInstance().getConnection();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        ChatManager chatmanager = ChatManager.getInstanceFor(connection);
         chat = chatmanager.createChat(contact.getLogin(), this);
     }
 

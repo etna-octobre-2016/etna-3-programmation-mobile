@@ -1,6 +1,7 @@
 package dev.etna.jabberclient.xmpp;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
+import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
@@ -13,10 +14,24 @@ public class XMPPService
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
+    private static XMPPService instance = null;
     private AbstractXMPPConnection connection;
     private String password;
     private String serverAddress;
     private String username;
+
+
+    ////////////////////////////////////////////////////////////
+    // STATIC METHODES
+    ////////////////////////////////////////////////////////////
+
+    public static XMPPService getInstance() {
+        return instance;
+    }
+
+    public static void initXmppService(String username, String password, String serverAddress) {
+        instance = new XMPPService(username, password, serverAddress);
+    }
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -29,7 +44,7 @@ public class XMPPService
      * @param serverAddress
      * @throws XMPPServiceException
      */
-    public XMPPService(String username, String password, String serverAddress)
+    private XMPPService(String username, String password, String serverAddress)
     {
         this.username = username;
         this.password = password;
@@ -109,5 +124,9 @@ public class XMPPService
                 .setUsernameAndPassword(this.username, this.password)
                 .build();
         return config;
+    }
+
+    public XMPPConnection getConnection() {
+        return this.connection;
     }
 }

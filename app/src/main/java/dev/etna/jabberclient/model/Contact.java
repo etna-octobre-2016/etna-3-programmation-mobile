@@ -8,17 +8,17 @@ import java.util.Observable;
 /**
  * Created by ceolivie on 13/07/2016.
  */
-public class ContactModel extends Observable {
+public class Contact extends Observable {
     private String login;
     private String name;
     private ArrayList<Message> mList;
 
-    public ContactModel(String login) {
+    public Contact(String login) {
         this.login = login;
         mList = new ArrayList<Message>();
     }
 
-    public ContactModel(String login, String name) {
+    public Contact(String login, String name) {
         this.login = login;
         this.name = name;
         mList = new ArrayList<Message>();

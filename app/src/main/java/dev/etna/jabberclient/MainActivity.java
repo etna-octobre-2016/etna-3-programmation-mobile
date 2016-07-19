@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import dev.etna.jabberclient.fragments.ChatFragment;
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        //TODO: Delete next line before merge to develop repo
+        this.switchFragment(new ChatFragment());
     }
 
     @Override
@@ -84,6 +87,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
     {
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

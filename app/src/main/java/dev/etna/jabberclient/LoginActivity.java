@@ -7,6 +7,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import dev.etna.jabberclient.manager.ChatManager;
 import dev.etna.jabberclient.tasks.LoginTask;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
@@ -81,10 +82,13 @@ public class LoginActivity extends AppCompatActivity
         serverAddress = this.serverAddressField.getText().toString();
         username = this.usernameField.getText().toString();
         password = this.passwordField.getText().toString();
-        xmpp = new XMPPService(username, password, serverAddress);
+        XMPPService.initXmppService(username, password, serverAddress);
+        xmpp = XMPPService.getInstance();
         app = (JabberClientApplication)this.getApplication();
         app.setXmppService(xmpp);
         task = new LoginTask(xmpp, this);
         task.execute();
+
+        ChatManager.getInstance().initAllChat();
     }
 }
