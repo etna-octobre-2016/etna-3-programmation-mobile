@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import dev.etna.jabberclient.model.User;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
 import static org.junit.Assert.assertTrue;

@@ -30,6 +30,7 @@ public class ContactManager {
     public void initContactList() {
         //TODO: get all users contact with api or saved data
         addContact("gatopreto@jabber.hot-chilli.eu");
+        addContact("johndoe000001@jabber.hot-chilli.net");
     }
 
     public void addContact(String login, String nom) {

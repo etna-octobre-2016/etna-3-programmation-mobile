@@ -11,7 +11,7 @@ import android.widget.EditText;
 import dev.etna.jabberclient.JabberClientApplication;
 import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.R;
-import dev.etna.jabberclient.model.User;
+import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactAddTask;
 
 public class ContactAddFragment extends Fragment
@@ -42,9 +42,9 @@ public class ContactAddFragment extends Fragment
     {
         ContactAddTask task;
         JabberClientApplication app;
-        User contact;
+        Contact contact;
 
-        contact = new User(serverAddressField.getText().toString(), usernameField.getText().toString());
+        contact = new Contact(serverAddressField.getText().toString(), usernameField.getText().toString());
         app = (JabberClientApplication)this.getActivity().getApplication();
         task = new ContactAddTask(contact, app.getXmppService(), (MainActivity) this.getActivity());
         task.execute();

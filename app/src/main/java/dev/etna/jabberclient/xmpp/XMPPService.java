@@ -6,7 +6,7 @@ import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
 
-import dev.etna.jabberclient.model.User;
+import dev.etna.jabberclient.model.Contact;
 
 public class XMPPService
 {
@@ -70,7 +70,7 @@ public class XMPPService
             throw new XMPPServiceException(XMPPServiceError.CONTACT_ADD_UNEXPECTED_ERROR.toString(), e);
         }
     }
-    public void addContact(User contact) throws XMPPServiceException
+    public void addContact(Contact contact) throws XMPPServiceException
     {
         this.addContact(contact.getUsername(), contact.getServerAddress());
     }

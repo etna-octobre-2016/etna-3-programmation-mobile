@@ -8,20 +8,20 @@ import java.util.Observable;
 /**
  * Created by ceolivie on 13/07/2016.
  */
-public class Contact extends Observable {
+public class Contact {
     private String login;
-    private String name;
-    private ArrayList<Message> mList;
+    private String username;
+    private String serverAddress;
 
     public Contact(String login) {
         this.login = login;
-        mList = new ArrayList<Message>();
     }
 
-    public Contact(String login, String name) {
-        this.login = login;
-        this.name = name;
-        mList = new ArrayList<Message>();
+    public Contact (String serverAddress, String username)
+    {
+        this.serverAddress = serverAddress;
+        this.username = username;
+        this.login = username + "@" + serverAddress;
     }
 
     public String getLogin() {
@@ -32,29 +32,19 @@ public class Contact extends Observable {
         this.login = login;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String name) {
+        this.username = username;
     }
 
-    public ArrayList<Message> getMessageList() {
-        return mList;
+    public String getServerAddress() {
+        return serverAddress;
     }
 
-    public void setModelList(ArrayList<Message> mList) {
-        this.mList = mList;
-    }
-
-    public void addMessage(Message message) {
-        mList.add(message);
-        setChanged();
-        notifyObservers();
-    }
-
-    public Message getLastMessage() {
-        return mList.get(mList.size() - 1);
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress = serverAddress;
     }
 }

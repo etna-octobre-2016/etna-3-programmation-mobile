@@ -9,7 +9,7 @@ import org.jivesoftware.smack.SmackException;
 
 import dev.etna.jabberclient.LoginActivity;
 import dev.etna.jabberclient.MainActivity;
-import dev.etna.jabberclient.model.User;
+import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPService;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
@@ -21,18 +21,18 @@ public class ContactAddTask extends AsyncTask<Void, Void, XMPPServiceException>
 
     private MainActivity activity;
     private XMPPService service;
-    private User user;
+    private Contact contact;
 
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public ContactAddTask(User user, XMPPService service, MainActivity activity)
+    public ContactAddTask(Contact contact, XMPPService service, MainActivity activity)
     {
         this.service = service;
         this.activity = activity;
-        this.user = user;
+        this.contact = contact;
     }
 
     ////////////////////////////////////////////////////////////
@@ -46,7 +46,7 @@ public class ContactAddTask extends AsyncTask<Void, Void, XMPPServiceException>
 
         try
         {
-            this.service.addContact(this.user);
+            this.service.addContact(this.contact);
             error = null;
         }
         catch (XMPPServiceException e)

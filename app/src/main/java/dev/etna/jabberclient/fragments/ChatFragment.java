@@ -3,6 +3,7 @@ package dev.etna.jabberclient.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.packet.Message;
 
 import java.util.Observable;
@@ -53,7 +55,7 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
     private void addListeners()
     {
         this.sendButton.setOnClickListener(this);
-        this.contact.addObserver(this);
+        this.chat.addObserver(this);
     }
 
     ////////////////////////////////////////////////////////////
@@ -64,6 +66,7 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
+
         this.sendButton = (Button) this.getView().findViewById(R.id.button);
         this.editText = (EditText) this.getView().findViewById(R.id.editText);
         this.messageContener = (LinearLayout) this.getView().findViewById(R.id.messageContener);
@@ -90,7 +93,7 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
 
         tv = new TextView(this.getView().getContext());
 
-        if (contact.getLastMessage().getFrom() != null)
+        if (chat.getLastMessage().getFrom() != null)
         {
             lprams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             tv.setBackgroundColor(ContextCompat.getColor(this.getView().getContext(), R.color.isChat));
@@ -101,7 +104,7 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
             tv.setBackgroundColor(ContextCompat.getColor(this.getView().getContext(), R.color.myChat));
         }
 
-        tv.setText(contact.getLastMessage().getBody());
+        tv.setText(chat.getLastMessage().getBody());
         rl.addView(tv, lprams);
         this.getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -109,7 +112,6 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
                 messageContener.addView(rl);
             }
         });
-
     }
 
     @Override
@@ -117,9 +119,11 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
     {
         Message message = new Message();
         message.setBody(editText.getText().toString());
-
-        chat.sendMessage(message);
-        contact.addMessage(message);
+        try {
+            chat.sendMessage(message);
+        } catch (SmackException.NotConnectedException e) {
+            Log.i("ERR", "Error Delivering block");
+        }
         editText.setText(null);
     }
 }
