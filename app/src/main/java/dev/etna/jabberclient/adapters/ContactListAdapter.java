@@ -1,10 +1,13 @@
 package dev.etna.jabberclient.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -18,7 +21,6 @@ public class ContactListAdapter extends BaseAdapter
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
-    private Context context;
     private LayoutInflater layoutInflater;
     private List list;
 
@@ -28,7 +30,6 @@ public class ContactListAdapter extends BaseAdapter
 
     public ContactListAdapter(List list, Context context)
     {
-        this.context = context;
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
     }
@@ -58,16 +59,27 @@ public class ContactListAdapter extends BaseAdapter
     @Override
     public View getView(int i, View view, ViewGroup root)
     {
+        byte[] avatarBinary;
+        Bitmap bitmap;
+        BitmapFactory.Options bitmapOptions;
         Contact contact;
-        TextView usernameText;
+        ImageView avatar;
+        TextView username;
 
         if (view == null)
         {
             view = layoutInflater.inflate(R.layout.fragment_contact_list_item, root, false);
         }
         contact = (Contact)this.getItem(i);
-        usernameText = (TextView)view.findViewById(R.id.username);
-        usernameText.setText(contact.getUsername());
+        avatarBinary = contact.getAvatar();
+        bitmapOptions = new BitmapFactory.Options();
+        bitmapOptions.outHeight = R.dimen.img_avatar_size;
+        bitmapOptions.outWidth = R.dimen.img_avatar_size;
+        bitmap = BitmapFactory.decodeByteArray(avatarBinary, 0, avatarBinary.length, bitmapOptions);
+        avatar = (ImageView) view.findViewById(R.id.avatar);
+        avatar.setImageBitmap(bitmap);
+        username = (TextView) view.findViewById(R.id.username);
+        username.setText(contact.getUsername());
         return view;
     }
 }

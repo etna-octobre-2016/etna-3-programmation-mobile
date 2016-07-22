@@ -5,9 +5,14 @@ package dev.etna.jabberclient.model;
  */
 public class Contact
 {
+    private byte[] avatar;
     private String login;
     private String serverAddress;
     private String username;
+
+    public Contact()
+    {
+    }
 
     public Contact(String login)
     {
@@ -19,7 +24,7 @@ public class Contact
         this.setLogin(login);
     }
 
-    public Contact (String serverAddress, String username)
+    public Contact(String serverAddress, String username)
     {
         this.setLogin(username + "@" + serverAddress);
         this.setServerAddress(serverAddress);
@@ -54,5 +59,15 @@ public class Contact
     public void setServerAddress(String serverAddress)
     {
         this.serverAddress = serverAddress;
+    }
+
+    public byte[] getAvatar()
+    {
+        return this.avatar;
+    }
+
+    public void setAvatar(byte[] avatar)
+    {
+        this.avatar = avatar;
     }
 }

@@ -6,6 +6,7 @@ public enum XMPPServiceError
     LOGIN_UNEXPECTED_ERROR ("Une erreur inattendue a eu lieu lors de la connexion"),
     LOGOUT_UNEXPECTED_ERROR ("Une erreur inattendue a eu lieu lors de la déconnexion"),
     CONTACT_ADD_UNEXPECTED_ERROR ("Une erreur inattendue a eu lieu lors de l'ajout d'un contact"),
+    CONTACT_PROFILE_FETCH_ERROR ("Une erreur a eu lieu lors de la récupération du profil utilisateur"),
     CONTACT_FETCH_UNEXPECTED_ERROR ("Une erreur inattendue a eu lieu lors de la récupération des contacts");
 
     private String name = "";
