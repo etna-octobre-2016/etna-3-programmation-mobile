@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import dev.etna.jabberclient.JabberClientApplication;
-import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactAddTask;
@@ -41,12 +39,10 @@ public class ContactAddFragment extends Fragment
     private void addContact()
     {
         ContactAddTask task;
-        JabberClientApplication app;
         Contact contact;
 
         contact = new Contact(serverAddressField.getText().toString(), usernameField.getText().toString());
-        app = (JabberClientApplication)this.getActivity().getApplication();
-        task = new ContactAddTask(contact, app.getXmppService(), (MainActivity) this.getActivity());
+        task = new ContactAddTask(contact, this.getActivity(), null);
         task.execute();
     }
     private void addListeners()

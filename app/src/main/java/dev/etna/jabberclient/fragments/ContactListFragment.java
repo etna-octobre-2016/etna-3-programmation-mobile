@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import dev.etna.jabberclient.JabberClientApplication;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
@@ -78,11 +77,9 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     private void initialize()
     {
         ContactListFetchTask task;
-        JabberClientApplication app;
 
         this.activity = this.getActivity();
-        app = (JabberClientApplication)this.activity.getApplication();
-        task = new ContactListFetchTask(app.getXmppService(), this.activity, this);
+        task = new ContactListFetchTask(this.activity, this);
         task.execute();
     }
 }

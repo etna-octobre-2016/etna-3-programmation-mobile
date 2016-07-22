@@ -1,37 +1,27 @@
 package dev.etna.jabberclient.tasks;
 
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import android.app.Activity;
 import android.util.Log;
 
-import org.jivesoftware.smack.SmackException;
-
-import dev.etna.jabberclient.LoginActivity;
-import dev.etna.jabberclient.MainActivity;
+import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
-import dev.etna.jabberclient.xmpp.XMPPService;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
-public class ContactAddTask extends AsyncTask<Void, Void, XMPPServiceException>
+public class ContactAddTask extends Task
 {
     ////////////////////////////////////////////////////////////
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
-    private MainActivity activity;
-    private XMPPService service;
     private Contact contact;
-
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public ContactAddTask(Contact contact, XMPPService service, MainActivity activity)
+    public ContactAddTask(Contact contact, Activity activity, ITaskObservable callback)
     {
-        this.service = service;
-        this.activity = activity;
+        super(activity, callback);
         this.contact = contact;
     }
 
@@ -59,31 +49,13 @@ public class ContactAddTask extends AsyncTask<Void, Void, XMPPServiceException>
     @Override
     protected void onPostExecute(XMPPServiceException error)
     {
-        AlertDialog dialog;
-        AlertDialog.Builder dialogBuilder;
-        Intent intent;
-        Throwable cause;
-
         if (error == null)
         {
             Log.i("CONTACT_ADD", "contact added successfully!");
         }
         else
         {
-            cause = error.getCause();
-            if (cause instanceof SmackException.NotLoggedInException || cause instanceof SmackException.NotConnectedException)
-            {
-                intent = new Intent(this.activity.getApplicationContext(), LoginActivity.class);
-                this.activity.startActivity(intent);
-            }
-            else
-            {
-                dialogBuilder = new AlertDialog.Builder(this.activity);
-                dialogBuilder.setTitle("Echec lors de l'ajout d'un contact");
-                dialogBuilder.setMessage(error.getMessage());
-                dialog = dialogBuilder.create();
-                dialog.show();
-            }
+            this.handleError(error);
         }
     }
 }

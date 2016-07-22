@@ -14,31 +14,43 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import dev.etna.jabberclient.fragments.ChatFragment;
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.fragments.ContactListFragment;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
+    ////////////////////////////////////////////////////////////
+    // PUBLIC METHODS
+    ////////////////////////////////////////////////////////////
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public void logout()
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        LogoutTask task;
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        task = new LogoutTask(this, null);
+        task.execute();
+    }
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+    public void switchFragment(Fragment newFragment)
+    {
+        Fragment currentFragment;
+        FragmentManager manager;
+        FragmentTransaction transaction;
+
+        manager = this.getFragmentManager();
+        currentFragment = manager.findFragmentByTag("MAIN_FRAGMENT");
+        if (currentFragment == null || !(currentFragment.getClass().equals(newFragment.getClass())))
+        {
+            transaction = manager.beginTransaction();
+            transaction.replace(R.id.mainFragmentContainer, newFragment, "MAIN_FRAGMENT");
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+        else
+        {
+            Log.i("MainActivity", "same fragment will not be loaded twice in a row");
+        }
     }
 
     @Override
@@ -71,12 +83,9 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout)
         {
-            JabberClientApplication app = (JabberClientApplication)this.getApplication();
-            LogoutTask task = new LogoutTask(app.getXmppService(), this);
-            task.execute();
+            this.logout();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -107,24 +116,25 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void switchFragment(Fragment newFragment)
-    {
-        Fragment currentFragment;
-        FragmentManager manager;
-        FragmentTransaction transaction;
+    ////////////////////////////////////////////////////////////
+    // PROTECTED METHODS
+    ////////////////////////////////////////////////////////////
 
-        manager = this.getFragmentManager();
-        currentFragment = manager.findFragmentByTag("MAIN_FRAGMENT");
-        if (currentFragment == null || !(currentFragment.getClass().equals(newFragment.getClass())))
-        {
-            transaction = manager.beginTransaction();
-            transaction.replace(R.id.mainFragmentContainer, newFragment, "MAIN_FRAGMENT");
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
-        else
-        {
-            Log.i("MainActivity", "same fragment will not be loaded twice in a row");
-        }
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 }
