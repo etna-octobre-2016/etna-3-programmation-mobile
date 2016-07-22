@@ -13,6 +13,7 @@ import android.widget.ListView;
 import dev.etna.jabberclient.JabberClientApplication;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
+import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactListFetchTask;
 
 public class ContactListFragment extends Fragment implements ITaskObservable
@@ -66,7 +67,10 @@ public class ContactListFragment extends Fragment implements ITaskObservable
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id)
             {
-                Log.i("CONTACT-LIST", "on item click");
+                Contact contact;
+
+                contact = (Contact) adapterView.getItemAtPosition(index);
+                Log.i("CONTACT-LIST", "contact selected : " + contact.getUsername());
             }
         };
     }
