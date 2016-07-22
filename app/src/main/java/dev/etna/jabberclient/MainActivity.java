@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import dev.etna.jabberclient.fragments.ChatFragment;
 import dev.etna.jabberclient.fragments.ContactAddFragment;
+import dev.etna.jabberclient.fragments.ContactListFragment;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.sidenav_contact_list)
         {
-            Log.i("SIDENAV", "click on contact list button");
+            this.switchFragment(new ContactListFragment());
         }
         else if (id == R.id.sidenav_contact_add)
         {
