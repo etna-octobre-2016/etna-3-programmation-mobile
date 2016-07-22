@@ -1,50 +1,58 @@
 package dev.etna.jabberclient.model;
 
-import org.jivesoftware.smack.packet.Message;
-
-import java.util.ArrayList;
-import java.util.Observable;
-
 /**
  * Created by ceolivie on 13/07/2016.
  */
-public class Contact {
+public class Contact
+{
     private String login;
-    private String username;
     private String serverAddress;
+    private String username;
 
-    public Contact(String login) {
-        this.login = login;
+    public Contact(String login)
+    {
+        String[] arr;
+
+        arr = login.split("@");
+        this.setUsername(arr[0]);
+        this.setServerAddress(arr[1]);
+        this.setLogin(login);
     }
 
     public Contact (String serverAddress, String username)
     {
-        this.serverAddress = serverAddress;
-        this.username = username;
-        this.login = username + "@" + serverAddress;
+        this.setLogin(username + "@" + serverAddress);
+        this.setServerAddress(serverAddress);
+        this.setUsername(username);
     }
 
-    public String getLogin() {
-        return login;
+    public String getLogin()
+    {
+        return this.login;
     }
 
-    public void setLogin(String login) {
+    public void setLogin(String login)
+    {
         this.login = login;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUsername()
+    {
+        return this.username;
     }
 
-    public void setUsername(String name) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
 
-    public String getServerAddress() {
-        return serverAddress;
+    public String getServerAddress()
+    {
+        return this.serverAddress;
     }
 
-    public void setServerAddress(String serverAddress) {
+    public void setServerAddress(String serverAddress)
+    {
         this.serverAddress = serverAddress;
     }
 }
