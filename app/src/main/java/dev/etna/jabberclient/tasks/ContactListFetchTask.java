@@ -1,5 +1,6 @@
 package dev.etna.jabberclient.tasks;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -11,8 +12,8 @@ import java.util.List;
 
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.LoginActivity;
-import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.adapters.ContactListAdapter;
+import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPService;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
@@ -24,7 +25,8 @@ public class ContactListFetchTask extends AsyncTask<Void, Void, XMPPServiceExcep
     ////////////////////////////////////////////////////////////
 
     private List<Contact> contacts;
-    private MainActivity activity;
+    private Activity activity;
+    private ITaskObservable callback;
     private XMPPService service;
 
 
@@ -32,8 +34,9 @@ public class ContactListFetchTask extends AsyncTask<Void, Void, XMPPServiceExcep
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public ContactListFetchTask(XMPPService service, MainActivity activity)
+    public ContactListFetchTask(XMPPService service, Activity activity, ITaskObservable callback)
     {
+        this.callback = callback;
         this.service = service;
         this.activity = activity;
     }
@@ -74,6 +77,7 @@ public class ContactListFetchTask extends AsyncTask<Void, Void, XMPPServiceExcep
             adapter = new ContactListAdapter(this.contacts, this.activity);
             listView = (ListView) this.activity.findViewById(R.id.contactListView);
             listView.setAdapter(adapter);
+            callback.onComplete();
         }
         else
         {
