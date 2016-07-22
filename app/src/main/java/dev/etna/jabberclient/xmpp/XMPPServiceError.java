@@ -28,10 +28,14 @@ public enum XMPPServiceError
         String key;
         String label;
 
+        if (context == null)
+        {
+            return this.name();
+        }
         key = "error_" + this.name().toLowerCase();
         resources = context.getResources();
         resourceID = resources.getIdentifier(key, "string", context.getPackageName());
-        label = (resourceID != 0) ? resources.getString(resourceID) : name();
+        label = (resourceID != 0) ? resources.getString(resourceID) : this.name();
         return label;
     }
 }

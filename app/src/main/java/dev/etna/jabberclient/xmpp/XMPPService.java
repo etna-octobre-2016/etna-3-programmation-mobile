@@ -43,17 +43,15 @@ public class XMPPService
     {
         instance = new XMPPService(username, password, serverAddress, context);
     }
+    public static void initXmppService(String username, String password, String serverAddress)
+    {
+        instance = new XMPPService(username, password, serverAddress, null);
+    }
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    /**
-     * Initializes connection to XMPP server
-     * @param username the username
-     * @param password the password
-     * @param serverAddress the server address
-     */
     private XMPPService(String username, String password, String serverAddress, Context context)
     {
         this.username = username;
