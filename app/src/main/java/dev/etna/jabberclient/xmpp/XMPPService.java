@@ -1,5 +1,7 @@
 package dev.etna.jabberclient.xmpp;
 
+import android.content.Context;
+
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.roster.Roster;
@@ -23,6 +25,7 @@ public class XMPPService
 
     private static XMPPService instance = null;
     private AbstractXMPPConnection connection;
+    private Context context;
     private String password;
     private String serverAddress;
     private String username;
@@ -36,9 +39,9 @@ public class XMPPService
     {
         return instance;
     }
-    public static void initXmppService(String username, String password, String serverAddress)
+    public static void initXmppService(String username, String password, String serverAddress, Context context)
     {
-        instance = new XMPPService(username, password, serverAddress);
+        instance = new XMPPService(username, password, serverAddress, context);
     }
 
     ////////////////////////////////////////////////////////////
@@ -51,11 +54,12 @@ public class XMPPService
      * @param password the password
      * @param serverAddress the server address
      */
-    private XMPPService(String username, String password, String serverAddress)
+    private XMPPService(String username, String password, String serverAddress, Context context)
     {
         this.username = username;
         this.password = password;
         this.serverAddress = serverAddress;
+        this.context = context;
     }
 
     ////////////////////////////////////////////////////////////
@@ -88,7 +92,7 @@ public class XMPPService
         }
         catch (Exception e)
         {
-            throw new XMPPServiceException(XMPPServiceError.CONTACT_ADD_UNEXPECTED_ERROR.toString(), e);
+            throw new XMPPServiceException(XMPPServiceError.CONTACT_ADD_UNEXPECTED_ERROR, this.context, e);
         }
     }
     public void addContact(Contact contact) throws XMPPServiceException
@@ -104,7 +108,7 @@ public class XMPPService
         }
         catch (Exception e)
         {
-            throw new XMPPServiceException(XMPPServiceError.LOGIN_UNEXPECTED_ERROR.toString(), e);
+            throw new XMPPServiceException(XMPPServiceError.LOGIN_UNEXPECTED_ERROR, this.context, e);
         }
     }
     public List<Contact> fetchContacts() throws XMPPServiceException
@@ -135,7 +139,7 @@ public class XMPPService
         }
         catch (Exception e)
         {
-            throw new XMPPServiceException(XMPPServiceError.CONTACT_FETCH_UNEXPECTED_ERROR, e);
+            throw new XMPPServiceException(XMPPServiceError.CONTACT_FETCH_UNEXPECTED_ERROR, this.context, e);
         }
     }
     public void login() throws XMPPServiceException
@@ -146,7 +150,7 @@ public class XMPPService
         }
         catch (Exception e)
         {
-            throw new XMPPServiceException(XMPPServiceError.LOGIN_BAD_CREDENTIALS.toString(), e);
+            throw new XMPPServiceException(XMPPServiceError.LOGIN_BAD_CREDENTIALS, this.context, e);
         }
     }
     public void logout() throws XMPPServiceException
@@ -157,7 +161,7 @@ public class XMPPService
         }
         catch (Exception e)
         {
-            throw new XMPPServiceException(XMPPServiceError.LOGOUT_UNEXPECTED_ERROR.toString(), e);
+            throw new XMPPServiceException(XMPPServiceError.LOGOUT_UNEXPECTED_ERROR, this.context, e);
         }
     }
 

@@ -7,6 +7,7 @@ import android.support.v7.app.AlertDialog;
 import org.jivesoftware.smack.SmackException;
 
 import dev.etna.jabberclient.MainActivity;
+import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.xmpp.XMPPService;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
@@ -52,7 +53,7 @@ abstract public class Task extends AsyncTask<Void, Void, XMPPServiceException>
         else
         {
             dialogBuilder = new AlertDialog.Builder(this.activity);
-            dialogBuilder.setTitle("Oups...");
+            dialogBuilder.setTitle(R.string.error_title);
             dialogBuilder.setMessage(error.getMessage());
             dialog = dialogBuilder.create();
             dialog.show();

@@ -1,22 +1,25 @@
 package dev.etna.jabberclient.xmpp;
 
+import android.content.Context;
+
 public class XMPPServiceException extends Exception
 {
-    public XMPPServiceException(String message)
-    {
-        super(message);
-    }
+    ////////////////////////////////////////////////////////////
+    // CONSTRUCTORS
+    ////////////////////////////////////////////////////////////
 
+    public XMPPServiceException(XMPPServiceError error, Context context, Throwable wrappedThrowable)
+    {
+        super(error.getLabel(context), wrappedThrowable);
+    }
     public XMPPServiceException(String message, Throwable wrappedThrowable)
     {
         super(message, wrappedThrowable);
     }
-
-    public XMPPServiceException(XMPPServiceError error, Throwable wrappedThrowable)
+    public XMPPServiceException(String message)
     {
-        super(error.toString(), wrappedThrowable);
+        super(message);
     }
-
     public XMPPServiceException()
     {
         super();

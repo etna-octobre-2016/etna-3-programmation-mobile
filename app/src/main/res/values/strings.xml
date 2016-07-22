@@ -21,6 +21,12 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Error messages -->
+    <string name="error_title">Oups...</string>
+    <string name="error_login_bad_credentials">Ces identifiants sont incorrects</string>
+    <string name="error_login_unexpected_error">Une erreur inattendue a eu lieu lors de la connexion</string>
+    <string name="error_logout_unexpected_error">Une erreur inattendue a eu lieu lors de la déconnexion</string>
+    <string name="error_contact_add_unexpected_error">Une erreur inattendue a eu lieu lors de l\'ajout d\'un contact</string>
+    <string name="error_contact_profile_fetch_error">Une erreur a eu lieu lors de la récupération du profil utilisateur</string>
+    <string name="error_contact_fetch_unexpected_error">Une erreur inattendue a eu lieu lors de la récupération des contacts</string>
 </resources>
