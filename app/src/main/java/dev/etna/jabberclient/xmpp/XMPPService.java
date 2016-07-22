@@ -3,8 +3,15 @@ package dev.etna.jabberclient.xmpp;
 import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.roster.Roster;
+import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.jivesoftware.smack.tcp.XMPPTCPConnectionConfiguration;
+import org.jivesoftware.smackx.vcardtemp.VCardManager;
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import dev.etna.jabberclient.model.Contact;
 
@@ -22,14 +29,15 @@ public class XMPPService
 
 
     ////////////////////////////////////////////////////////////
-    // STATIC METHODES
+    // STATIC METHODS
     ////////////////////////////////////////////////////////////
 
-    public static XMPPService getInstance() {
+    public static XMPPService getInstance()
+    {
         return instance;
     }
-
-    public static void initXmppService(String username, String password, String serverAddress) {
+    public static void initXmppService(String username, String password, String serverAddress)
+    {
         instance = new XMPPService(username, password, serverAddress);
     }
 
@@ -39,10 +47,9 @@ public class XMPPService
 
     /**
      * Initializes connection to XMPP server
-     * @param username
-     * @param password
-     * @param serverAddress
-     * @throws XMPPServiceException
+     * @param username the username
+     * @param password the password
+     * @param serverAddress the server address
      */
     private XMPPService(String username, String password, String serverAddress)
     {
@@ -50,6 +57,20 @@ public class XMPPService
         this.password = password;
         this.serverAddress = serverAddress;
     }
+
+    ////////////////////////////////////////////////////////////
+    // ACCESSORS & MUTATORS
+    ////////////////////////////////////////////////////////////
+
+    public XMPPConnection getConnection()
+    {
+        return this.connection;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // PUBLIC METHODS
+    ////////////////////////////////////////////////////////////
+
     public void addContact(String contactUsername, String contactServerAddress) throws XMPPServiceException
     {
         Roster roster;
@@ -84,6 +105,37 @@ public class XMPPService
         catch (Exception e)
         {
             throw new XMPPServiceException(XMPPServiceError.LOGIN_UNEXPECTED_ERROR.toString(), e);
+        }
+    }
+    public List<Contact> fetchContacts() throws XMPPServiceException
+    {
+        Collection<RosterEntry> entries;
+        Contact contact;
+        List<Contact> contacts;
+        Roster roster;
+        VCard contactProfile;
+
+        try
+        {
+            contacts = new ArrayList<>();
+            roster = Roster.getInstanceFor(this.connection);
+            if (!roster.isLoaded())
+            {
+                roster.reloadAndWait();
+            }
+            entries = roster.getEntries();
+            for (RosterEntry entry : entries)
+            {
+                contact = new Contact(entry.getUser());
+                contactProfile = this.getContactProfileData(contact);
+                contact.setAvatar(contactProfile.getAvatar());
+                contacts.add(contact);
+            }
+            return contacts;
+        }
+        catch (Exception e)
+        {
+            throw new XMPPServiceException(XMPPServiceError.CONTACT_FETCH_UNEXPECTED_ERROR, e);
         }
     }
     public void login() throws XMPPServiceException
@@ -125,8 +177,11 @@ public class XMPPService
                 .build();
         return config;
     }
+    private VCard getContactProfileData(Contact contact) throws Exception
+    {
+        VCardManager vCardManager;
 
-    public XMPPConnection getConnection() {
-        return this.connection;
+        vCardManager = VCardManager.getInstanceFor(this.connection);
+        return vCardManager.loadVCard(contact.getLogin());
     }
 }

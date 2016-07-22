@@ -12,6 +12,11 @@ public class XMPPServiceException extends Exception
         super(message, wrappedThrowable);
     }
 
+    public XMPPServiceException(XMPPServiceError error, Throwable wrappedThrowable)
+    {
+        super(error.toString(), wrappedThrowable);
+    }
+
     public XMPPServiceException()
     {
         super();
