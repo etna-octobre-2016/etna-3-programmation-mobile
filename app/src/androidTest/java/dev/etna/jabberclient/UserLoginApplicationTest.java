@@ -31,7 +31,7 @@ public class UserLoginApplicationTest
     {
         try
         {
-            XMPPService.initXmppService("johndoe000001", "Password1", "jabber.hot-chilli.net");
+            XMPPService.initXmppService("johndoe00001", "Password1", "jabber.hot-chilli.net");
             this.service = XMPPService.getInstance();
             this.service.connect();
             this.service.login();

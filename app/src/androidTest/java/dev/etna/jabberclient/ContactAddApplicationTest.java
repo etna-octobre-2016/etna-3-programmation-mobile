@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
 import static org.junit.Assert.assertTrue;
@@ -35,10 +36,10 @@ public class ContactAddApplicationTest
     @Test
     public void testContactAddWithUser() throws Exception
     {
-        User user;
+        Contact contact;
 
-        user = new User("jabber.hot-chilli.net", "olivie_c");
-        this.service.addContact(user);
+        contact = new Contact("jabber.hot-chilli.net", "olivie_c");
+        this.service.addContact(contact);
         assertTrue("Should add contact using instance of User class", true);
     }
 
