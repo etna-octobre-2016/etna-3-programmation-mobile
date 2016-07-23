@@ -47,7 +47,7 @@ public class XMPPChat extends Observable implements ChatMessageListener{
             } catch (InterruptedException e) {
                 Log.i("INF", "Connection test number " + connectionTimer + " failed");
             }
-            if (connectionTimer > 10)
+            if (connectionTimer++ > 10)
                 throw new Exception();
         }
         ChatManager chatmanager = ChatManager.getInstanceFor(connection);

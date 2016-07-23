@@ -14,6 +14,7 @@ public class ChatManager {
     private HashMap<Contact, XMPPChat> chatMap = null;
     private ChatManager() {
         chatMap     = new HashMap<Contact, XMPPChat>();
+        initAllChat();
     }
 
     public static ChatManager getInstance() {

@@ -25,10 +25,11 @@ public class ChatApplicationTest {
 
     @Test
     public void testOpenChat() throws Exception {
-        ChatManager.getInstance().initAllChat();
-
+        XMPPService.initXmppService("gato", "gato", "jabber.hot-chilli.eu");
         this.contact = ContactManager.getInstance().getContact("gatopreto@jabber.hot-chilli.eu");
         this.service = XMPPService.getInstance();
+        this.service.connect();
+        this.service.login();
         this.chat = ChatManager.getInstance().getChat(contact);
         assertTrue("Chat should be created", true);
     }
@@ -38,10 +39,13 @@ public class ChatApplicationTest {
         Message message;
 
         message = new Message();
-        message.setBody("Test");
-        ChatManager.getInstance().initAllChat();
+        message.setBody("Send Unit Test");
+        XMPPService.initXmppService("gato", "gato", "jabber.hot-chilli.eu");
         this.contact = ContactManager.getInstance().getContact("gatopreto@jabber.hot-chilli.eu");
         this.service = XMPPService.getInstance();
+        this.service.connect();
+        this.service.login();
+
         this.chat = ChatManager.getInstance().getChat(contact);
         this.chat.sendMessage(message);
         assertTrue("The message should be sended", true);
