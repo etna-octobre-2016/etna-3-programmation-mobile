@@ -73,10 +73,9 @@ public class XMPPService
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
 
-    public void addContact(String contactUsername, String contactServerAddress) throws XMPPServiceException
+    public void addContact(Contact contact) throws XMPPServiceException
     {
         Roster roster;
-        String jabberID;
 
         try
         {
@@ -85,17 +84,12 @@ public class XMPPService
             {
                 roster.reloadAndWait();
             }
-            jabberID = contactUsername + "@" + contactServerAddress;
-            roster.createEntry(jabberID, contactUsername, null);
+            roster.createEntry(contact.getLogin(), contact.getUsername(), null);
         }
         catch (Exception e)
         {
             throw new XMPPServiceException(XMPPServiceError.CONTACT_ADD_UNEXPECTED_ERROR, this.context, e);
         }
-    }
-    public void addContact(Contact contact) throws XMPPServiceException
-    {
-        this.addContact(contact.getUsername(), contact.getServerAddress());
     }
     public void connect() throws XMPPServiceException
     {
