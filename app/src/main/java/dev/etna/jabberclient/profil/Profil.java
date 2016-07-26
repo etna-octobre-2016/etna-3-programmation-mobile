@@ -4,6 +4,7 @@ import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.vcardtemp.provider.VCardProvider;
 
+import dev.etna.jabberclient.ProfilFragment;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
 /**
@@ -33,6 +34,7 @@ public class Profil {
     private String Country;
 
     private String bio;
+    private VCard vCard;
 
     private static Profil INSTANCE = null;
 
@@ -42,7 +44,7 @@ public class Profil {
 
     public Profil(XMPPService service){
 
-        VCard vCard = service.getVcard();
+        vCard = service.getVcard();
         ProviderManager.addIQProvider("vCard", "vcard-temp",new VCardProvider());
 
         setAvatar(vCard.getAvatar());
@@ -69,6 +71,13 @@ public class Profil {
     public static Profil getInstance()
     {
         return INSTANCE;
+    }
+
+
+    public void setDataProfil(ProfilFragment fragProf){
+        vCard.setFirstName(fragProf.getEditPrenom().getText().toString());
+
+        //vCard.save();
     }
 
     ////////////////////////////////////////////////////////////

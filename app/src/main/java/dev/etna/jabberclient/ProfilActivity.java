@@ -1,58 +1,51 @@
 package dev.etna.jabberclient;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.util.Log;
 
-import dev.etna.jabberclient.profil.Profil;
-
-public class ProfilActivity extends AppCompatActivity {
+public class ProfilActivity extends AppCompatActivity implements ProfilFragment.OnFragmentInteractionListener{
     
-    ImageView imgView_avatar;
-    EditText editPseudo;
-    EditText editPrenom;
-    EditText editNom;
-    EditText editDateNaiss;
-    EditText editEmail;
-    EditText editPhoneNumber;
-    EditText editSiteWeb;
-    EditText editBio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profil);
 
-        imgView_avatar = (ImageView) findViewById(R.id.imageView_avatarProfil);
-        byte[] imgProfile = Profil.getInstance().getAvatar();
-        Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgProfile , 0, imgProfile.length);
-        imgView_avatar.setImageBitmap(imgBitmap);
+        if (savedInstanceState == null) {
+            this.switchFragment(new ProfilFragment());
+        }
 
-        editPseudo = (EditText) findViewById(R.id.editText_pseudo);
-        editPseudo.setText(Profil.getInstance().getPseudo());
 
-        editPrenom = (EditText) findViewById(R.id.editText_prenom);
-        editPrenom.setText(Profil.getInstance().getFirstName());
+    }
 
-        editNom = (EditText) findViewById(R.id.editText_nom);
-        editNom.setText(Profil.getInstance().getName());
+    public void switchFragment(Fragment newFragment)
+    {
+        Fragment currentFragment;
+        FragmentManager manager;
+        FragmentTransaction transaction;
 
-        editDateNaiss = (EditText) findViewById(R.id.editText_datenaiss);
-        editDateNaiss.setText(Profil.getInstance().getBirthday());
+        manager = this.getFragmentManager();
+        currentFragment = manager.findFragmentByTag("PROFIL_FRAGMENT");
+        if (currentFragment == null || !(currentFragment.getClass().equals(newFragment.getClass())))
+        {
+            transaction = manager.beginTransaction();
+            transaction.replace(R.id.activity_profil, newFragment, "PROFIL_FRAGMENT");
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
+        else
+        {
+            Log.i("MainActivity", "same fragment will not be loaded twice in a row");
+        }
+    }
 
-        editEmail = (EditText) findViewById(R.id.editText_email);
-        editEmail.setText(Profil.getInstance().getEmail());
-
-        editPhoneNumber = (EditText) findViewById(R.id.editText_telephone);
-        editPhoneNumber.setText(Profil.getInstance().getPhoneNumber());
-
-        editSiteWeb = (EditText) findViewById(R.id.editText_siteweb);
-        editSiteWeb.setText(Profil.getInstance().getWebSite());
-
-        editBio = (EditText) findViewById(R.id.editText_bio);
-        editBio.setText(Profil.getInstance().getBio());
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        
     }
 }

@@ -16,7 +16,7 @@
         android:layout_alignParentStart="true"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_profile"
-        android:layout_alignEnd="@+id/textView_telephone" />
+        android:layout_alignEnd="@+id/textView_datenaiss" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -60,10 +60,10 @@
         android:layout_width="wrap_content"
         android:layout_height="80dp"
         android:text="save"
-        android:id="@+id/button"
+        android:id="@+id/button_save"
+        android:textColor="@color/abc_search_url_text"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/abc_search_url_text" />
+        android:layout_alignEnd="@+id/editText_telephone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -97,7 +97,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/editText_pseudo"
         android:layout_alignBottom="@+id/textView_pseudo"
-        android:layout_alignEnd="@+id/button" />
+        android:layout_alignEnd="@+id/button_save"
+        android:layout_alignStart="@+id/button_save"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -105,7 +107,8 @@
         android:id="@+id/editText_prenom"
         android:layout_alignBottom="@+id/textView_prenom"
         android:layout_alignEnd="@+id/editText_pseudo"
-        android:layout_alignStart="@+id/editText_nom" />
+        android:layout_alignStart="@+id/editText_nom"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -113,7 +116,8 @@
         android:id="@+id/editText_nom"
         android:layout_above="@+id/textView_datenaiss"
         android:layout_alignEnd="@+id/editText_pseudo"
-        android:layout_alignStart="@+id/editText_datenaiss" />
+        android:layout_alignStart="@+id/editText_datenaiss"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -123,7 +127,8 @@
         android:id="@+id/editText_datenaiss"
         android:layout_below="@+id/editText_prenom"
         android:layout_toEndOf="@+id/textView_datenaiss"
-        android:layout_alignStart="@+id/textView_pseudo" />
+        android:layout_alignStart="@+id/textView_pseudo"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -133,7 +138,8 @@
         android:id="@+id/editText_email"
         android:layout_below="@+id/editText_nom"
         android:layout_alignEnd="@+id/editText_datenaiss"
-        android:layout_alignStart="@+id/textView_pseudo" />
+        android:layout_alignStart="@+id/textView_pseudo"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -141,7 +147,8 @@
         android:id="@+id/editText_telephone"
         android:layout_below="@+id/editText_datenaiss"
         android:layout_alignEnd="@+id/editText_email"
-        android:layout_alignStart="@+id/editText_email" />
+        android:layout_alignStart="@+id/editText_email"
+        />
 
     <EditText
         android:layout_width="wrap_content"
@@ -149,8 +156,9 @@
         android:id="@+id/editText_siteweb"
         android:layout_alignBottom="@+id/textView_siteweb"
         android:layout_alignStart="@+id/editText_email"
-        android:layout_toStartOf="@+id/button"
-        android:layout_alignEnd="@+id/editText_telephone" />
+        android:layout_toStartOf="@+id/button_save"
+        android:layout_alignEnd="@+id/editText_telephone"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -171,6 +179,7 @@
         android:layout_below="@+id/textView_bio"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/editText_siteweb"
-        android:layout_alignEnd="@+id/editText_pseudo" />
+        android:layout_alignEnd="@+id/editText_pseudo"
+        />
 
 </RelativeLayout>

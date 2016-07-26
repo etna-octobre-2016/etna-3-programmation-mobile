@@ -12,13 +12,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import dev.etna.jabberclient.profil.DisplayProfilTask;
+import dev.etna.jabberclient.profil.Profil;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
 {
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,6 +34,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        Log.i(" -- myProfil ",Profil.getInstance().toString());
     }
 
     @Override
@@ -74,10 +75,8 @@ public class MainActivity extends AppCompatActivity
             LogoutTask task = new LogoutTask(app.getXmppService(), this);
             task.execute();
             return true;
-        }else if(id == R.id.sidenav_account){
-            Intent toy = new Intent(this, DisplayProfilTask.class);
-            startActivity(toy);
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -93,7 +92,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this,ProfilActivity.class);
             startActivity(intent);
             Log.i("SIDENAV", "click on my account button");
-
         }
         else if (id == R.id.sidenav_contact_list)
         {

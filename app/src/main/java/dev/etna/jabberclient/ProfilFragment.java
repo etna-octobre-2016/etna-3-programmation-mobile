@@ -1,14 +1,16 @@
 package dev.etna.jabberclient;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -23,27 +25,21 @@ import dev.etna.jabberclient.profil.Profil;
  * Use the {@link ProfilFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProfilFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class ProfilFragment extends Fragment implements View.OnClickListener
+{
 
     private View myFragmentView;
 
-    ImageView imgView_avatar;
-    EditText editPseudo;
-    EditText editPrenom;
-    EditText editNom;
-    EditText editDateNaiss;
-    EditText editEmail;
-    EditText editPhoneNumber;
-    EditText editSiteWeb;
-    EditText editBio;
+    private ImageView imgView_avatar;
+    private EditText editPseudo;
+    private EditText editPrenom;
+    private EditText editNom;
+    private EditText editDateNaiss;
+    private EditText editEmail;
+    private EditText editPhoneNumber;
+    private EditText editSiteWeb;
+    private EditText editBio;
+    private Button buttonSave;
 
     private OnFragmentInteractionListener mListener;
 
@@ -62,10 +58,6 @@ public class ProfilFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static ProfilFragment newInstance(String param1, String param2) {
         ProfilFragment fragment = new ProfilFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -73,8 +65,6 @@ public class ProfilFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -82,8 +72,7 @@ public class ProfilFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
-        myFragmentView = inflater.inflate(R.layout.activity_profil, container, false);
+        myFragmentView = inflater.inflate(R.layout.fragment_profil, container, false);
 
         imgView_avatar = (ImageView) myFragmentView.findViewById(R.id.imageView_avatarProfil);
         byte[] imgProfile = Profil.getInstance().getAvatar();
@@ -114,6 +103,10 @@ public class ProfilFragment extends Fragment {
         editBio = (EditText) myFragmentView.findViewById(R.id.editText_bio);
         editBio.setText(Profil.getInstance().getBio());
 
+
+        buttonSave = (Button) myFragmentView.findViewById(R.id.button_save);
+        buttonSave.setOnClickListener(this);
+
         // Inflate the layout for this fragment
         return myFragmentView;
     }
@@ -123,6 +116,12 @@ public class ProfilFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
+    }
+
+    @Override
+    public void onClick(View v)
+    {
+        Log.i(" button click "," clicked ");
     }
 
     @Override
@@ -155,5 +154,53 @@ public class ProfilFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    ////////////////////////////////////////////////////////////
+    // GETTER & SETTER
+    ////////////////////////////////////////////////////////////
+
+    public EditText getEditPseudo() {
+        return editPseudo;
+    }
+
+    public ImageView getImgView_avatar() {
+        return imgView_avatar;
+    }
+
+    public View getMyFragmentView() {
+        return myFragmentView;
+    }
+
+    public EditText getEditPrenom() {
+        return editPrenom;
+    }
+
+    public EditText getEditNom() {
+        return editNom;
+    }
+
+    public EditText getEditDateNaiss() {
+        return editDateNaiss;
+    }
+
+    public EditText getEditEmail() {
+        return editEmail;
+    }
+
+    public EditText getEditPhoneNumber() {
+        return editPhoneNumber;
+    }
+
+    public EditText getEditSiteWeb() {
+        return editSiteWeb;
+    }
+
+    public EditText getEditBio() {
+        return editBio;
+    }
+
+    public Button getButtonSave() {
+        return buttonSave;
     }
 }
