@@ -29,6 +29,7 @@ public class XMPPService
     private String password;
     private String serverAddress;
     private String username;
+    private VCard vcard;
 
 
     ////////////////////////////////////////////////////////////
@@ -63,11 +64,6 @@ public class XMPPService
     ////////////////////////////////////////////////////////////
     // ACCESSORS & MUTATORS
     ////////////////////////////////////////////////////////////
-
-    public XMPPConnection getConnection()
-    {
-        return this.connection;
-    }
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
@@ -145,6 +141,8 @@ public class XMPPService
         try
         {
             this.connection.login();
+            this.vcard = new VCard();
+            this.vcard.load(connection);
         }
         catch (Exception e)
         {
@@ -185,5 +183,16 @@ public class XMPPService
 
         vCardManager = VCardManager.getInstanceFor(this.connection);
         return vCardManager.loadVCard(contact.getLogin());
+    }
+
+    ////////////////////////////////////////////////////////////
+    // PRIVATE METHODS
+    ////////////////////////////////////////////////////////////
+    public AbstractXMPPConnection getConnection() {
+        return connection;
+    }
+
+    public VCard getVcard() {
+        return vcard;
     }
 }

@@ -1,0 +1,32 @@
+package dev.etna.jabberclient.profil;
+
+import android.os.AsyncTask;
+
+import dev.etna.jabberclient.xmpp.XMPPService;
+import dev.etna.jabberclient.xmpp.XMPPServiceException;
+
+/**
+ * Created by pakpak on 08/07/2016.
+ */
+public class DisplayProfilTask extends AsyncTask<Void, Void, XMPPServiceException> {
+
+    ////////////////////////////////////////////////////////////
+    // ATTRIBUTES
+    ////////////////////////////////////////////////////////////
+
+    private XMPPService service;
+
+    ////////////////////////////////////////////////////////////
+    // CONSTRUCTORS
+    ////////////////////////////////////////////////////////////
+
+
+    ////////////////////////////////////////////////////////////
+    // METHODS
+    ////////////////////////////////////////////////////////////
+
+    @Override
+    protected XMPPServiceException doInBackground(Void... voids) {
+        return null;
+    }
+}
