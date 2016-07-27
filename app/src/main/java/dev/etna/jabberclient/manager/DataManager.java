@@ -7,31 +7,56 @@ import android.database.sqlite.SQLiteDatabase;
 
 import org.jivesoftware.smack.packet.Message;
 
-import java.util.ArrayList;
-
+import dev.etna.jabberclient.interfaces.DataBaseConstants;
 import dev.etna.jabberclient.model.Contact;
 
 /**
  * Created by Cedric Olivier on 27/07/2016.
  */
-public class DataManager {
-    private static final int VERSION_BDD    = 1;
-    public static final String TBL_NAME     = "MESSAGE_HISTORY";
-    private final String COL_ID             = "ID";
-    private final String COL_FROM           = "FROM_USER";
-    private final String COL_TO             = "TO_USER";
-    private final String COL_CONTENT        = "MESSAGE_CONTENT";
+public class DataManager implements DataBaseConstants{
 
-    private Context context;
+    ////////////////////////////////////////////////////////////
+    // PRIVATE STATIC ATTRIBUTES
+    ////////////////////////////////////////////////////////////
+    private static DataManager instance;
+    private static final int VERSION_BDD    = 1;
+
+
+    ////////////////////////////////////////////////////////////
+    // PRIVATE ATTRIBUTES
+    ////////////////////////////////////////////////////////////
     private SQLiteBDD sqLiteBDD;
     private SQLiteDatabase db;
 
-    public DataManager(Context context) throws Exception {
-        sqLiteBDD = new SQLiteBDD(context, SQLiteBDD.DB_NAME, null, VERSION_BDD);
+
+    ////////////////////////////////////////////////////////////
+    // CONSTRUCTOR
+    ////////////////////////////////////////////////////////////
+    private DataManager() {
+
     }
 
+
+    ////////////////////////////////////////////////////////////
+    // STATIC METHODS
+    ////////////////////////////////////////////////////////////
+    public static DataManager getInstance() {
+        if (instance == null)
+            instance = new DataManager();
+        return instance;
+    }
+
+
+    ////////////////////////////////////////////////////////////
+    // PUBLIC METHODS
+    ////////////////////////////////////////////////////////////
     public void open() {
         db = sqLiteBDD.getWritableDatabase();
+    }
+
+    public void open(Context context) {
+        sqLiteBDD = new SQLiteBDD(context, DB_NAME, null, VERSION_BDD);
+        open();
     }
 
     public void close() {

@@ -8,12 +8,13 @@ import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPChat;
 
 /**
- * Created by ceolivie on 13/07/2016.
+ * Created by Cedric Olivier on 13/07/2016.
  */
 public class ContactManager {
     private XMPPChat currentChat;
     private static ContactManager instance = null;
     private ArrayList<Contact> contact_list;
+    private Contact mainUser;
     public static final String EXTRA_CONTACT = "extra.contact";
 
     private ContactManager() {
@@ -87,5 +88,13 @@ public class ContactManager {
     public XMPPChat getCurrentChat() {
 
         return this.currentChat;
+    }
+
+    public void setMainUser(Contact contact) {
+        this.mainUser = contact;
+    }
+
+    public Contact getMainUser() {
+        return this.mainUser;
     }
 }

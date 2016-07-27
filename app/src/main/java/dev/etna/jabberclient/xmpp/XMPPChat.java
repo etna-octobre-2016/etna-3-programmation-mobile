@@ -12,13 +12,16 @@ import org.jivesoftware.smack.packet.Message;
 import java.util.ArrayList;
 import java.util.Observable;
 
+import dev.etna.jabberclient.manager.ContactManager;
+import dev.etna.jabberclient.manager.DataManager;
 import dev.etna.jabberclient.model.Contact;
 
 /**
- * Created by ceolivie on 13/07/2016.
+ * Created by Cedric Olivier on 13/07/2016.
  */
 public class XMPPChat extends Observable implements ChatMessageListener{
 
+    private DataManager dataManager;
     private Contact contact;
     private Chat chat;
     private ArrayList<Message> messageList;
@@ -27,6 +30,7 @@ public class XMPPChat extends Observable implements ChatMessageListener{
         this.contact = contact;
         try {
             openChat();
+            dataManager = DataManager.getInstance();
             this.messageList = new ArrayList<Message>();
         } catch (Exception e) {
             Log.i("ERR", "Connection error");
@@ -55,6 +59,7 @@ public class XMPPChat extends Observable implements ChatMessageListener{
     }
 
     public void sendMessage(Message message) throws SmackException.NotConnectedException {
+        message.setFrom(ContactManager.getInstance().getMainUser().getLogin());
         chat.sendMessage(message.getBody());
         saveMessage(message);
     }
@@ -69,6 +74,7 @@ public class XMPPChat extends Observable implements ChatMessageListener{
 
     private void saveMessage(Message message) {
         messageList.add(message);
+        dataManager.saveMessage(message);
         setChanged();
         notifyObservers();
     }

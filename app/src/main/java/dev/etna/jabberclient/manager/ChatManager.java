@@ -7,7 +7,7 @@ import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPChat;
 
 /**
- * Created by Gato on 14/07/16.
+ * Created by Cedric Olivier on 14/07/16.
  */
 public class ChatManager {
     private static ChatManager instance             = null;

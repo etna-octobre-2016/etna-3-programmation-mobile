@@ -20,19 +20,26 @@ import static junit.framework.Assert.assertTrue;
  */
 public class DataManagerTest {
 
+    ////////////////////////////////////////////////////////////
+    // PUBLIC ATTRIBUTES
+    ////////////////////////////////////////////////////////////
     @Rule
-    public ActivityTestRule<MainActivity> activityRule
-            = new ActivityTestRule<>(
-            MainActivity.class,
-            true,
-            false);
+    public ActivityTestRule<MainActivity> activityRule;
 
+    ////////////////////////////////////////////////////////////
+    // PRIVATE ATTRIBUTES
+    ////////////////////////////////////////////////////////////
     private Contact me;
     private Contact her;
-    private final String[] MESS = {"Yo!", "Wesh bien ou quoi ?", "Vas y laisse moi tranquil!"};
-    private final String login_1    = "gato@jabber.hot-chilli.eu";
-    private final String login_2    = "sexyKaira@jabber.hot-chilli.eu";
+    private final String[] MESS = { "Yo!",
+                                    "Wesh bien ou quoi ?",
+                                    "Vas y laisse moi tranquil!"};
 
+
+
+    ////////////////////////////////////////////////////////////
+    // TEST METHODE
+    ////////////////////////////////////////////////////////////
     @Test
     public void testInsert() throws Exception {
         DataManager dm;
@@ -40,6 +47,7 @@ public class DataManagerTest {
         String messText;
         int i;
 
+        activityRule = new ActivityTestRule<>(MainActivity.class, true, false);
         activityRule.launchActivity(null);
         dm = new DataManager(activityRule.getActivity());
         dm.open();
@@ -57,7 +65,14 @@ public class DataManagerTest {
         } while (cursor.moveToNext());
     }
 
+    ////////////////////////////////////////////////////////////
+    // PRIVATE METHODES
+    ////////////////////////////////////////////////////////////
+
     private void initContact() {
+        final String login_1  = "gato@jabber.hot-chilli.eu";
+        final String login_2  = "sexyKaira@jabber.hot-chilli.eu";
+
         me = new Contact();
         me.setLogin(login_1);
         her = new Contact();
