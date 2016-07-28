@@ -1,4 +1,4 @@
-package dev.etna.jabberclient;
+package dev.etna.jabberclient.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -14,7 +14,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import dev.etna.jabberclient.profil.Profil;
+import dev.etna.jabberclient.R;
+import dev.etna.jabberclient.model.Profil;
 
 
 /**

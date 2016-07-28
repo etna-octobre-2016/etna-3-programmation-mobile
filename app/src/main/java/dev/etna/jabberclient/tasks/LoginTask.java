@@ -3,12 +3,11 @@ package dev.etna.jabberclient.tasks;
 import android.app.Activity;
 import android.content.Intent;
 
-import org.jivesoftware.smack.AbstractXMPPConnection;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 
 import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
-import dev.etna.jabberclient.profil.Profil;
+import dev.etna.jabberclient.model.Profil;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
 public class LoginTask extends Task

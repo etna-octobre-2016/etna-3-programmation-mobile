@@ -17,7 +17,7 @@ import android.view.MenuItem;
 
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.fragments.ContactListFragment;
-import dev.etna.jabberclient.profil.Profil;
+import dev.etna.jabberclient.model.Profil;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener

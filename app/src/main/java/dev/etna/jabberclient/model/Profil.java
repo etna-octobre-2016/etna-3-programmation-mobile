@@ -1,10 +1,10 @@
-package dev.etna.jabberclient.profil;
+package dev.etna.jabberclient.model;
 
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.vcardtemp.provider.VCardProvider;
 
-import dev.etna.jabberclient.ProfilFragment;
+import dev.etna.jabberclient.fragments.ProfilFragment;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
 /**

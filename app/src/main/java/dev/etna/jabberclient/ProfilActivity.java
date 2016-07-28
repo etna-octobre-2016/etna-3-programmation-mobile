@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import dev.etna.jabberclient.fragments.ProfilFragment;
+
 public class ProfilActivity extends AppCompatActivity implements ProfilFragment.OnFragmentInteractionListener{
     
 

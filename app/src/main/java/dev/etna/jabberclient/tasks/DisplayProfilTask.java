@@ -1,4 +1,4 @@
-package dev.etna.jabberclient.profil;
+package dev.etna.jabberclient.tasks;
 
 import android.os.AsyncTask;
 
