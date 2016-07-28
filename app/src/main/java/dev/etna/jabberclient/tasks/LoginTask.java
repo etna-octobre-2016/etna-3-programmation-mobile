@@ -3,12 +3,21 @@ package dev.etna.jabberclient.tasks;
 import android.app.Activity;
 import android.content.Intent;
 
+import org.jivesoftware.smackx.vcardtemp.packet.VCard;
+
 import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
+import dev.etna.jabberclient.model.Profil;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
 public class LoginTask extends Task
 {
+    ////////////////////////////////////////////////////////////
+    // ATTRIBUTES
+    ////////////////////////////////////////////////////////////
+
+    private VCard vcard;
+
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
@@ -27,6 +36,11 @@ public class LoginTask extends Task
         {
             this.service.connect();
             this.service.login();
+
+            /** loading the profil model **/
+            this.vcard = service.getVcard();
+            new Profil(service);
+
             error = null;
         }
         catch (XMPPServiceException e)
