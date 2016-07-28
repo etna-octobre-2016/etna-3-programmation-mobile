@@ -9,7 +9,7 @@ public class Contact
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
-    private byte[] avatar;
+    private Profil profile;
     private String login;
     private String serverAddress;
     private String username;
@@ -20,7 +20,7 @@ public class Contact
 
     public Contact()
     {
-        this.setAvatar(null);
+        this.setProfile(null);
         this.setLogin(null);
         this.setServerAddress(null);
         this.setUsername(null);
@@ -35,7 +35,7 @@ public class Contact
             throw new IllegalArgumentException("Invalid login format. Should be formated like so: username@server.tld. Given: " + login);
         }
         arr = login.split("@");
-        this.setAvatar(null);
+        this.setProfile(null);
         this.setUsername(arr[0]);
         this.setServerAddress(arr[1]);
         this.setLogin(login);
@@ -43,7 +43,7 @@ public class Contact
 
     public Contact(String serverAddress, String username)
     {
-        this.setAvatar(null);
+        this.setProfile(null);
         this.setLogin(username + "@" + serverAddress);
         this.setServerAddress(serverAddress);
         this.setUsername(username);
@@ -83,22 +83,32 @@ public class Contact
         this.serverAddress = serverAddress;
     }
 
-    public byte[] getAvatar()
-    {
-        return this.avatar;
+    public byte[] getAvatar() {
+
+        return profile.getAvatar();
     }
 
-    public void setAvatar(byte[] avatar)
-    {
-        this.avatar = avatar;
+    public void setAvatar(byte[] avatar) {
+
+        profile.setAvatar(avatar);
+    }
+
+    public Profil getProfile() {
+
+        return profile;
+    }
+
+    public void setProfile(Profil profile) {
+
+        this.profile = profile;
     }
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
 
-    public boolean hasAvatar()
-    {
-        return (avatar != null && avatar.length > 0);
+    public boolean hasAvatar() {
+
+        return (profile.hasAvatar());
     }
 }

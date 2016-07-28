@@ -3,7 +3,6 @@ package dev.etna.jabberclient.xmpp;
 import android.content.Context;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
-import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException.XMPPErrorException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.packet.XMPPError;
@@ -19,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import dev.etna.jabberclient.model.Contact;
+import dev.etna.jabberclient.model.Profil;
 
 public class XMPPService
 {
@@ -131,7 +131,7 @@ public class XMPPService
                 try
                 {
                     contactProfile = this.getContactProfileData(contact);
-                    contact.setAvatar(contactProfile.getAvatar());
+                    contact.setProfile(new Profil(contactProfile));
                 }
                 catch (XMPPServiceException e)
                 {
@@ -139,6 +139,7 @@ public class XMPPService
                     {
                         throw e;
                     }
+                    contact.setProfile(new Profil());
                 }
                 contacts.add(contact);
             }
