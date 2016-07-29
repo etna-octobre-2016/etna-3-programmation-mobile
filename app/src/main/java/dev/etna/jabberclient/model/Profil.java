@@ -47,21 +47,21 @@ public class Profil {
         vCard = service.getVcard();
         ProviderManager.addIQProvider("vCard", "vcard-temp",new VCardProvider());
 
-        setAvatar(vCard.getAvatar());
-        setFirstName(vCard.getFirstName());
-        setName(vCard.getLastName());
-        setPseudo(vCard.getNickName());
-        setEmail(vCard.getEmailHome());
-        setPhoneNumber(vCard.getPhoneHome("CELL"));
-        setBirthday(vCard.getField("BDAY"));
-        setBio(vCard.getField("DESC"));
-        setWebSite(vCard.getField("URL"));
+        fillProfileData();
 
         if (INSTANCE == null)
         {
             INSTANCE = this;
         }
     }
+
+    public Profil(VCard vCard) {
+
+        this.vCard = vCard;
+        fillProfileData();
+    }
+
+    public Profil() {}
 
     ////////////////////////////////////////////////////////////
     // METHODS
@@ -78,6 +78,24 @@ public class Profil {
         vCard.setFirstName(fragProf.getEditPrenom().getText().toString());
 
         //vCard.save();
+    }
+
+    public boolean hasAvatar() {
+
+        return (avatar != null && avatar.length > 0);
+    }
+
+    private void fillProfileData() {
+
+        setAvatar(vCard.getAvatar());
+        setFirstName(vCard.getFirstName());
+        setName(vCard.getLastName());
+        setPseudo(vCard.getNickName());
+        setEmail(vCard.getEmailHome());
+        setPhoneNumber(vCard.getPhoneHome("CELL"));
+        setBirthday(vCard.getField("BDAY"));
+        setBio(vCard.getField("DESC"));
+        setWebSite(vCard.getField("URL"));
     }
 
     ////////////////////////////////////////////////////////////

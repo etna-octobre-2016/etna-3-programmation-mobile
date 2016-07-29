@@ -47,7 +47,7 @@ public class ContactAddTask extends Task
     }
 
     @Override
-    protected void onPostExecute(XMPPServiceException error)
+    protected void onPostExecute(Throwable error)
     {
         if (error == null)
         {
