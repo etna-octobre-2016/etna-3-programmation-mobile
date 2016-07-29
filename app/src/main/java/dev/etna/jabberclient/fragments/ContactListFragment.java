@@ -5,6 +5,9 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +38,19 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     }
 
     @Override
+    public void onCreate (Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu (Menu menu, MenuInflater inflater)
+    {
+        inflater.inflate(R.menu.contact_list_fragment, menu);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
@@ -45,6 +61,20 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     public void onComplete()
     {
         this.addListeners();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        int itemID;
+
+        itemID = item.getItemId();
+        if (itemID == R.id.action_contact_list_select)
+        {
+            Log.d("ACTION", "contact-select");
+            return true;
+        }
+        return false;
     }
 
     ////////////////////////////////////////////////////////////
