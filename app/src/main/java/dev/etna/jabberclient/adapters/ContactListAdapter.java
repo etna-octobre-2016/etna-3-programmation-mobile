@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public class ContactListAdapter extends BaseAdapter
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
+    private boolean isSelectionEnabled;
     private LayoutInflater layoutInflater;
     private List list;
 
@@ -32,11 +34,18 @@ public class ContactListAdapter extends BaseAdapter
     {
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
+        isSelectionEnabled = false;
     }
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
+
+    public void enableSelection()
+    {
+        isSelectionEnabled = true;
+        notifyDataSetChanged();
+    }
 
     @Override
     public int getCount()
@@ -60,8 +69,10 @@ public class ContactListAdapter extends BaseAdapter
     public View getView(int i, View view, ViewGroup root)
     {
         byte[] avatarBinary;
+        int checkboxVisibility;
         Bitmap bitmap;
         BitmapFactory.Options bitmapOptions;
+        CheckBox checkBox;
         Contact contact;
         ImageView avatar;
         TextView username;
@@ -70,6 +81,9 @@ public class ContactListAdapter extends BaseAdapter
         {
             view = layoutInflater.inflate(R.layout.fragment_contact_list_item, root, false);
         }
+        checkBox = (CheckBox) view.findViewById(R.id.checkBox);
+        checkboxVisibility = (isSelectionEnabled) ? CheckBox.VISIBLE : CheckBox.GONE;
+        checkBox.setVisibility(checkboxVisibility);
         contact = (Contact)this.getItem(i);
         avatarBinary = contact.getAvatar();
         bitmapOptions = new BitmapFactory.Options();

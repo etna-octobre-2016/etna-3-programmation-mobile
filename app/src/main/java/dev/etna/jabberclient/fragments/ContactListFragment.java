@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import dev.etna.jabberclient.R;
+import dev.etna.jabberclient.adapters.ContactListAdapter;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactListFetchTask;
@@ -25,6 +26,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     ////////////////////////////////////////////////////////////
 
     private Activity activity;
+    private ListView listView;
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
@@ -71,7 +73,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
         itemID = item.getItemId();
         if (itemID == R.id.action_contact_list_select)
         {
-            Log.d("ACTION", "contact-select");
+            enableListSelection();
             return true;
         }
         return false;
@@ -83,10 +85,16 @@ public class ContactListFragment extends Fragment implements ITaskObservable
 
     private void addListeners()
     {
-        ListView listView;
-
-        listView = (ListView) this.activity.findViewById(R.id.contactListView);
         listView.setOnItemClickListener(this.getItemClickListener());
+    }
+
+    private void enableListSelection()
+    {
+        ContactListAdapter adapter;
+
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+        adapter = (ContactListAdapter) listView.getAdapter();
+        adapter.enableSelection();
     }
 
     private AdapterView.OnItemClickListener getItemClickListener()
@@ -108,8 +116,9 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     {
         ContactListFetchTask task;
 
-        this.activity = this.getActivity();
-        task = new ContactListFetchTask(this.activity, this);
+        activity = getActivity();
+        listView = (ListView) activity.findViewById(R.id.contactListView);
+        task = new ContactListFetchTask(activity, this);
         task.execute();
     }
 }
