@@ -3,19 +3,21 @@ package dev.etna.jabberclient;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.fragments.ContactListFragment;
+import dev.etna.jabberclient.model.Profil;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -51,6 +53,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             Log.i("MainActivity", "same fragment will not be loaded twice in a row");
         }
+        //=======
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        Log.i(" -- myProfil ",Profil.getInstance().toString());
     }
 
     @Override
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.logout();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -101,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.sidenav_account)
         {
+            Intent intent = new Intent(this,ProfilActivity.class);
+            startActivity(intent);
             Log.i("SIDENAV", "click on my account button");
         }
         else if (id == R.id.sidenav_contact_list)

@@ -5,20 +5,37 @@ package dev.etna.jabberclient.model;
  */
 public class Contact
 {
-    private byte[] avatar;
+    ////////////////////////////////////////////////////////////
+    // ATTRIBUTES
+    ////////////////////////////////////////////////////////////
+
+    private Profil profile;
     private String login;
     private String serverAddress;
     private String username;
 
+    ////////////////////////////////////////////////////////////
+    // CONSTRUCTORS
+    ////////////////////////////////////////////////////////////
+
     public Contact()
     {
+        this.setProfile(null);
+        this.setLogin(null);
+        this.setServerAddress(null);
+        this.setUsername(null);
     }
 
-    public Contact(String login)
+    public Contact(String login) throws IllegalArgumentException
     {
         String[] arr;
 
+        if (login.indexOf('@') == -1)
+        {
+            throw new IllegalArgumentException("Invalid login format. Should be formated like so: username@server.tld. Given: " + login);
+        }
         arr = login.split("@");
+        this.setProfile(null);
         this.setUsername(arr[0]);
         this.setServerAddress(arr[1]);
         this.setLogin(login);
@@ -26,10 +43,15 @@ public class Contact
 
     public Contact(String serverAddress, String username)
     {
+        this.setProfile(null);
         this.setLogin(username + "@" + serverAddress);
         this.setServerAddress(serverAddress);
         this.setUsername(username);
     }
+
+    ////////////////////////////////////////////////////////////
+    // ACCESSORS & MUTATORS
+    ////////////////////////////////////////////////////////////
 
     public String getLogin()
     {
@@ -61,13 +83,32 @@ public class Contact
         this.serverAddress = serverAddress;
     }
 
-    public byte[] getAvatar()
-    {
-        return this.avatar;
+    public byte[] getAvatar() {
+
+        return profile.getAvatar();
     }
 
-    public void setAvatar(byte[] avatar)
-    {
-        this.avatar = avatar;
+    public void setAvatar(byte[] avatar) {
+
+        profile.setAvatar(avatar);
+    }
+
+    public Profil getProfile() {
+
+        return profile;
+    }
+
+    public void setProfile(Profil profile) {
+
+        this.profile = profile;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // PUBLIC METHODS
+    ////////////////////////////////////////////////////////////
+
+    public boolean hasAvatar() {
+
+        return (profile.hasAvatar());
     }
 }

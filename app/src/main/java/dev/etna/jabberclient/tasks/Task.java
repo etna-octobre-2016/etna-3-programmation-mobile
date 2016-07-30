@@ -10,9 +10,8 @@ import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.xmpp.XMPPService;
-import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
-abstract public class Task extends AsyncTask<Void, Void, XMPPServiceException>
+abstract public class Task extends AsyncTask<Void, Void, Throwable>
 {
     ////////////////////////////////////////////////////////////
     // ATTRIBUTES

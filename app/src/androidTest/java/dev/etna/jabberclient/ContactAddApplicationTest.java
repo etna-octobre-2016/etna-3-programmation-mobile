@@ -29,18 +29,11 @@ public class ContactAddApplicationTest
     @Test
     public void testContactAdd() throws Exception
     {
-        this.service.addContact("mohan_a", "jabber.hot-chilli.net");
-        assertTrue("Should add contact using credentials", true);
-    }
-
-    @Test
-    public void testContactAddWithUser() throws Exception
-    {
         Contact contact;
 
-        contact = new Contact("jabber.hot-chilli.net", "olivie_c");
+        contact = new Contact("jabber.hot-chilli.net", "mohan_a");
         this.service.addContact(contact);
-        assertTrue("Should add contact using instance of User class", true);
+        assertTrue("Should add contact", true);
     }
 
     @After
