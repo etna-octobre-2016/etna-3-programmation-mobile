@@ -3,7 +3,6 @@ package dev.etna.jabberclient.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.ListView;
 
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
+import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactListFetchTask;
 
@@ -67,9 +67,11 @@ public class ContactListFragment extends Fragment implements ITaskObservable
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id)
             {
                 Contact contact;
+                ContactManager contactManager;
 
                 contact = (Contact) adapterView.getItemAtPosition(index);
-                Log.i("CONTACT-LIST", "contact selected : " + contact.getUsername());
+                contactManager = ContactManager.getInstance();
+                contactManager.setCurrentChat(contact);
             }
         };
     }

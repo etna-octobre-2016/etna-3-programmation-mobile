@@ -5,11 +5,13 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import dev.etna.jabberclient.model.Contact;
+import dev.etna.jabberclient.xmpp.XMPPChat;
 
 /**
  * Created by ceolivie on 13/07/2016.
  */
 public class ContactManager {
+    private XMPPChat currentChat;
     private static ContactManager instance = null;
     private ArrayList<Contact> contact_list;
     public static final String EXTRA_CONTACT = "extra.contact";
@@ -72,5 +74,18 @@ public class ContactManager {
 
     public ArrayList<Contact> getContact_list() {
         return contact_list;
+    }
+
+    public void setCurrentChat(Contact contact) {
+
+        ChatManager chatManager;
+
+        chatManager = ChatManager.getInstance();
+        this.currentChat = chatManager.getChat(contact);
+    }
+
+    public XMPPChat getCurrentChat() {
+
+        return this.currentChat;
     }
 }
