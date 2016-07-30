@@ -49,11 +49,13 @@ public class ContactManager {
         addContact(contact);
     }
 
-    private void addContact(Contact contact) {
-        if (getContact(contact.getLogin()) != null)
+    public void addContact(Contact contact) {
+        if (getContact(contact.getLogin()) != null) {
             Log.i("WAR", "Contact « " + contact.getLogin() + " » already exist in contact list");
-        else
+        } else {
             contact_list.add(contact);
+            ChatManager.getInstance().initChat(contact);
+        }
     }
 
     public void removeContact(String login) {
