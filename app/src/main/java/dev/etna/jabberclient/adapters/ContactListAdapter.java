@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.etna.jabberclient.R;
@@ -22,13 +23,13 @@ public class ContactListAdapter extends BaseAdapter
     ////////////////////////////////////////////////////////////
 
     private LayoutInflater layoutInflater;
-    private List list;
+    private List<Contact> list;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public ContactListAdapter(List list, Context context)
+    public ContactListAdapter(List<Contact> list, Context context)
     {
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;

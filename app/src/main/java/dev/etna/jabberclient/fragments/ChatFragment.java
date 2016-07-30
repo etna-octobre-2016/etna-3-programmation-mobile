@@ -67,11 +67,12 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
     {
         super.onActivityCreated(savedInstanceState);
 
-        this.sendButton = (Button) this.getView().findViewById(R.id.button);
-        this.editText = (EditText) this.getView().findViewById(R.id.editText);
-        this.messageContener = (LinearLayout) this.getView().findViewById(R.id.messageContener);
-        this.contact = ContactManager.getInstance().getContact("gatopreto@jabber.hot-chilli.eu");
-        this.chat = ChatManager.getInstance().getChat(contact);
+        this.sendButton         = (Button) this.getView().findViewById(R.id.button);
+        this.editText           = (EditText) this.getView().findViewById(R.id.editText);
+        this.messageContener    = (LinearLayout) this.getView().findViewById(R.id.messageContener);
+
+        this.contact    = ContactManager.getInstance().getCurrentChatContact();
+        this.chat       = ChatManager.getInstance().getChat(contact);
         this.addListeners();
     }
 
