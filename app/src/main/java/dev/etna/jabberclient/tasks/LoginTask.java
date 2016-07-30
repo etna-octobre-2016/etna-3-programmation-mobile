@@ -38,7 +38,6 @@ public class LoginTask extends Task
             this.service.login();
 
             /** loading the profil model **/
-            this.vcard = service.getVcard();
             new Profil(service);
 
             error = null;

@@ -1,5 +1,7 @@
 package dev.etna.jabberclient.model;
 
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.vcardtemp.provider.VCardProvider;
@@ -75,9 +77,24 @@ public class Profil {
 
 
     public void setDataProfil(ProfilFragment fragProf){
-        vCard.setFirstName(fragProf.getEditPrenom().getText().toString());
 
-        //vCard.save();
+        vCard.setFirstName(fragProf.getEditPrenom().getText().toString());
+        vCard.setLastName(fragProf.getEditNom().getText().toString());
+        vCard.setNickName(fragProf.getEditPseudo().getText().toString());
+        vCard.setEmailHome(fragProf.getEditEmail().getText().toString());
+        vCard.setField("BDAY",fragProf.getEditDateNaiss().getText().toString());
+        vCard.setField("DESC",fragProf.getEditBio().getText().toString());
+        vCard.setField("URL",fragProf.getEditSiteWeb().getText().toString());
+
+        try {
+            vCard.save(XMPPService.getInstance().getConnection());
+        } catch (SmackException.NoResponseException e) {
+            e.printStackTrace();
+        } catch (XMPPException.XMPPErrorException e) {
+            e.printStackTrace();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
     }
 
     ////////////////////////////////////////////////////////////

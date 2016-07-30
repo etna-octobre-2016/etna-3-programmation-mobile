@@ -16,7 +16,7 @@
         android:layout_alignParentStart="true"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_profile"
-        android:layout_alignEnd="@+id/textView_datenaiss" />
+        android:layout_alignEnd="@+id/textView_telephone" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
         android:id="@+id/textView_prenom"
         android:layout_below="@+id/textView_pseudo"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="29dp" />
+        android:layout_marginTop="35dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -44,8 +44,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Nom"
         android:id="@+id/textView_nom"
-        android:layout_alignTop="@+id/editText_datenaiss"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/textView_prenom"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,17 +54,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Naissance (date)"
         android:id="@+id/textView_datenaiss"
-        android:layout_above="@+id/editText_telephone"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="80dp"
-        android:text="save"
-        android:id="@+id/button_save"
-        android:textColor="@color/abc_search_url_text"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/editText_telephone" />
+        android:layout_alignTop="@+id/textView_nom"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,8 +64,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Email"
         android:id="@+id/textView_email"
-        android:layout_alignTop="@+id/editText_telephone"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/textView_datenaiss"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -80,8 +74,9 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Telephone"
         android:id="@+id/textView_telephone"
-        android:layout_below="@+id/textView_email"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/textView_email"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -89,8 +84,19 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Site web"
         android:id="@+id/textView_siteweb"
-        android:layout_below="@+id/textView_telephone"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/textView_telephone"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="biographie"
+        android:id="@+id/textView_bio"
+        android:layout_alignTop="@+id/textView_siteweb"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="40dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -99,7 +105,7 @@
         android:layout_alignBottom="@+id/textView_pseudo"
         android:layout_alignEnd="@+id/button_save"
         android:layout_alignStart="@+id/button_save"
-        />
+        android:layout_marginTop="10dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -108,16 +114,16 @@
         android:layout_alignBottom="@+id/textView_prenom"
         android:layout_alignEnd="@+id/editText_pseudo"
         android:layout_alignStart="@+id/editText_nom"
-        />
+        android:layout_marginTop="10dp"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_nom"
-        android:layout_above="@+id/textView_datenaiss"
-        android:layout_alignEnd="@+id/editText_pseudo"
-        android:layout_alignStart="@+id/editText_datenaiss"
-        />
+        android:layout_alignTop="@+id/editText_prenom"
+        android:layout_marginTop="35dp"
+        android:layout_alignEnd="@+id/editText_datenaiss"
+        android:layout_alignStart="@+id/editText_datenaiss" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -125,10 +131,10 @@
         android:inputType="date"
         android:ems="10"
         android:id="@+id/editText_datenaiss"
-        android:layout_below="@+id/editText_prenom"
+        android:layout_alignTop="@+id/editText_nom"
         android:layout_toEndOf="@+id/textView_datenaiss"
         android:layout_alignStart="@+id/textView_pseudo"
-        />
+        android:layout_marginTop="35dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -136,39 +142,29 @@
         android:inputType="textEmailAddress"
         android:ems="8"
         android:id="@+id/editText_email"
-        android:layout_below="@+id/editText_nom"
+        android:layout_alignTop="@+id/editText_datenaiss"
         android:layout_alignEnd="@+id/editText_datenaiss"
         android:layout_alignStart="@+id/textView_pseudo"
-        />
+        android:layout_marginTop="35dp"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_telephone"
-        android:layout_below="@+id/editText_datenaiss"
         android:layout_alignEnd="@+id/editText_email"
         android:layout_alignStart="@+id/editText_email"
-        />
+        android:layout_alignTop="@+id/editText_email"
+        android:layout_marginTop="35dp"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editText_siteweb"
-        android:layout_alignBottom="@+id/textView_siteweb"
+        android:layout_alignTop="@+id/editText_telephone"
         android:layout_alignStart="@+id/editText_email"
         android:layout_toStartOf="@+id/button_save"
         android:layout_alignEnd="@+id/editText_telephone"
-        />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="biographie"
-        android:id="@+id/textView_bio"
-        android:layout_below="@+id/textView_siteweb"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="35dp"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -180,6 +176,26 @@
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/editText_siteweb"
         android:layout_alignEnd="@+id/editText_pseudo"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Unlock"
+        android:id="@+id/button_unlock"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/button_save"
+        android:layout_alignTop="@+id/button_save"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="save"
+        android:id="@+id/button_save"
+        android:textColor="@color/abc_search_url_text"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/editText_telephone"
+        android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

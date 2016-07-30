@@ -1,6 +1,7 @@
 package dev.etna.jabberclient.fragments;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -41,6 +42,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
     private EditText editSiteWeb;
     private EditText editBio;
     private Button buttonSave;
+    private Button buttonUnlock; /** unlock editable text for update profil */
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,16 +50,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ProfilFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ProfilFragment newInstance(String param1, String param2) {
+    public static ProfilFragment newInstance() {
         ProfilFragment fragment = new ProfilFragment();
         return fragment;
     }
@@ -104,12 +97,45 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
         editBio = (EditText) myFragmentView.findViewById(R.id.editText_bio);
         editBio.setText(Profil.getInstance().getBio());
 
+        /** LOCK THE EDITABLE INPUT */
+        doLock();
 
         buttonSave = (Button) myFragmentView.findViewById(R.id.button_save);
+        buttonSave.setVisibility(View.GONE);
         buttonSave.setOnClickListener(this);
+
+        buttonUnlock = (Button) myFragmentView.findViewById(R.id.button_unlock);
+        buttonUnlock.setOnClickListener(this);
 
         // Inflate the layout for this fragment
         return myFragmentView;
+    }
+
+    private void doLock(){
+        editPseudo.setEnabled(false);
+        editPrenom.setEnabled(false);
+        editNom.setEnabled(false);
+        editDateNaiss.setEnabled(false);
+        editEmail.setEnabled(false);
+        editPhoneNumber.setEnabled(false);
+        editSiteWeb.setEnabled(false);
+        editBio.setEnabled(false);
+    }
+
+    private void unLock(){
+        editPseudo.setEnabled(true);
+        editPrenom.setEnabled(true);
+        editNom.setEnabled(true);
+        editDateNaiss.setEnabled(true);
+        //editEmail.setEnabled(true);
+        editPhoneNumber.setEnabled(true);
+        editSiteWeb.setEnabled(true);
+        editBio.setEnabled(true);
+        buttonSave.setVisibility(View.VISIBLE);
+    }
+
+    public void saveDataToProfil(){
+        Profil.getInstance().setDataProfil(this);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -122,7 +148,20 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClick(View v)
     {
-        Log.i(" button click "," clicked ");
+        switch (v.getId()){
+            case R.id.button_unlock:{
+                unLock();
+                Log.i("### click ###","unlocked");
+                break;
+            }
+            case R.id.button_save:{
+                saveDataToProfil();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.detach(this).attach(this).commit();
+                Log.i("### click ###"," save ");
+                break;
+            }
+        }
     }
 
     @Override
