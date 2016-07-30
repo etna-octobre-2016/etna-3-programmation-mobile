@@ -9,7 +9,9 @@ public enum XMPPServiceError
     LOGIN_UNEXPECTED_ERROR,
     LOGOUT_UNEXPECTED_ERROR,
     CONTACT_ADD_UNEXPECTED_ERROR,
-    CONTACT_FETCH_UNEXPECTED_ERROR;
+    CONTACT_FETCH_UNEXPECTED_ERROR,
+    CONTACT_PROFILE_NOT_FOUND,
+    CONTACT_PROFILE_UNEXPECTED_ERROR;
 
     /**
      * Returns a localized label used to represent this enumeration value.  If no label

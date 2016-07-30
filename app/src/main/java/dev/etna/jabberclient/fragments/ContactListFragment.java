@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.manager.ContactManager;
@@ -69,9 +72,10 @@ public class ContactListFragment extends Fragment implements ITaskObservable
                 Contact contact;
                 ContactManager contactManager;
 
-                contact = (Contact) adapterView.getItemAtPosition(index);
-                contactManager = ContactManager.getInstance();
+                contact         = (Contact) adapterView.getItemAtPosition(index);
+                contactManager  = ContactManager.getInstance();
                 contactManager.setCurrentChat(contact);
+                MainActivity.getInstance().switchFragment(new ChatFragment());
             }
         };
     }

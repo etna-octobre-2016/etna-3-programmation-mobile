@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.util.Log;
 
 import dev.etna.jabberclient.interfaces.ITaskObservable;
+import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
 
@@ -37,6 +38,7 @@ public class ContactAddTask extends Task
         try
         {
             this.service.addContact(this.contact);
+            ContactManager.getInstance().addContact(this.contact);
             error = null;
         }
         catch (XMPPServiceException e)
@@ -47,7 +49,7 @@ public class ContactAddTask extends Task
     }
 
     @Override
-    protected void onPostExecute(XMPPServiceException error)
+    protected void onPostExecute(Throwable error)
     {
         if (error == null)
         {

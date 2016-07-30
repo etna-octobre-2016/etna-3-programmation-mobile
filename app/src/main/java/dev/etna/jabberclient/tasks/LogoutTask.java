@@ -2,8 +2,6 @@ package dev.etna.jabberclient.tasks;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
 import dev.etna.jabberclient.LoginActivity;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
@@ -38,7 +36,7 @@ public class LogoutTask extends Task
     }
 
     @Override
-    protected void onPostExecute(XMPPServiceException error)
+    protected void onPostExecute(Throwable error)
     {
         if (error == null)
         {

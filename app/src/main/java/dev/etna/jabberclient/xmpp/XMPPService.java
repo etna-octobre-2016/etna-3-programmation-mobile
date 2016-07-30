@@ -3,7 +3,9 @@ package dev.etna.jabberclient.xmpp;
 import android.content.Context;
 
 import org.jivesoftware.smack.AbstractXMPPConnection;
-import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException.XMPPErrorException;
+import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.packet.XMPPError;
 import org.jivesoftware.smack.roster.Roster;
 import org.jivesoftware.smack.roster.RosterEntry;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
@@ -16,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import dev.etna.jabberclient.model.Contact;
+import dev.etna.jabberclient.model.Profil;
 
 public class XMPPService
 {
@@ -29,6 +32,7 @@ public class XMPPService
     private String password;
     private String serverAddress;
     private String username;
+    private VCard vcard;
 
 
     ////////////////////////////////////////////////////////////
@@ -64,17 +68,13 @@ public class XMPPService
     // ACCESSORS & MUTATORS
     ////////////////////////////////////////////////////////////
 
-    public XMPPConnection getConnection()
-    {
-        return this.connection;
-    }
-
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
 
-    public void addContact(String contactUsername, String contactServerAddress) throws XMPPServiceException
+    public void addContact(Contact contact) throws XMPPServiceException
     {
+        Presence subscribe;
         Roster roster;
         String jabberID;
 
@@ -85,17 +85,16 @@ public class XMPPService
             {
                 roster.reloadAndWait();
             }
-            jabberID = contactUsername + "@" + contactServerAddress;
-            roster.createEntry(jabberID, contactUsername, null);
+            jabberID = contact.getLogin();
+            roster.createEntry(jabberID, contact.getUsername(), null);
+            subscribe = new Presence(Presence.Type.subscribe);
+            subscribe.setTo(jabberID);
+            this.connection.sendStanza(subscribe);
         }
         catch (Exception e)
         {
             throw new XMPPServiceException(XMPPServiceError.CONTACT_ADD_UNEXPECTED_ERROR, this.context, e);
         }
-    }
-    public void addContact(Contact contact) throws XMPPServiceException
-    {
-        this.addContact(contact.getUsername(), contact.getServerAddress());
     }
     public void connect() throws XMPPServiceException
     {
@@ -129,8 +128,19 @@ public class XMPPService
             for (RosterEntry entry : entries)
             {
                 contact = new Contact(entry.getUser());
-                contactProfile = this.getContactProfileData(contact);
-                contact.setAvatar(contactProfile.getAvatar());
+                try
+                {
+                    contactProfile = this.getContactProfileData(contact);
+                    contact.setProfile(new Profil(contactProfile));
+                }
+                catch (XMPPServiceException e)
+                {
+                    if (e.getError() != XMPPServiceError.CONTACT_PROFILE_NOT_FOUND)
+                    {
+                        throw e;
+                    }
+                    contact.setProfile(new Profil());
+                }
                 contacts.add(contact);
             }
             return contacts;
@@ -145,6 +155,8 @@ public class XMPPService
         try
         {
             this.connection.login();
+            this.vcard = new VCard();
+            this.vcard.load(connection);
         }
         catch (Exception e)
         {
@@ -179,11 +191,42 @@ public class XMPPService
                 .build();
         return config;
     }
-    private VCard getContactProfileData(Contact contact) throws Exception
+    private VCard getContactProfileData(Contact contact) throws XMPPServiceException
     {
+        VCard vCard;
         VCardManager vCardManager;
 
-        vCardManager = VCardManager.getInstanceFor(this.connection);
-        return vCardManager.loadVCard(contact.getLogin());
+        try
+        {
+            vCardManager = VCardManager.getInstanceFor(this.connection);
+            vCard = vCardManager.loadVCard(contact.getLogin());
+            return vCard;
+        }
+        catch (XMPPErrorException e)
+        {
+            if (e.getXMPPError().getCondition() == XMPPError.Condition.item_not_found)
+            {
+                throw new XMPPServiceException(XMPPServiceError.CONTACT_PROFILE_NOT_FOUND, this.context, e);
+            }
+            else
+            {
+                throw new XMPPServiceException(XMPPServiceError.CONTACT_PROFILE_UNEXPECTED_ERROR, this.context, e);
+            }
+        }
+        catch (Exception e)
+        {
+            throw new XMPPServiceException(XMPPServiceError.CONTACT_PROFILE_UNEXPECTED_ERROR, this.context, e);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    // PRIVATE METHODS
+    ////////////////////////////////////////////////////////////
+    public AbstractXMPPConnection getConnection() {
+        return connection;
+    }
+
+    public VCard getVcard() {
+        return vcard;
     }
 }
