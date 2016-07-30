@@ -67,11 +67,8 @@ public class ContactListFragment extends Fragment implements ITaskObservable
             public void onItemClick(AdapterView<?> adapterView, View view, int index, long id)
             {
                 Contact contact;
-                ContactManager contactManager;
 
                 contact = (Contact) adapterView.getItemAtPosition(index);
-                contactManager = ContactManager.getInstance();
-                contactManager.setCurrentChat(contact);
             }
         };
     }

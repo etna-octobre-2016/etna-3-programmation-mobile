@@ -29,4 +29,7 @@
     <string name="error_contact_add_unexpected_error">Une erreur inattendue a eu lieu lors de l\'ajout d\'un contact</string>
     <string name="error_contact_profile_fetch_error">Une erreur a eu lieu lors de la récupération du profil utilisateur</string>
     <string name="error_contact_fetch_unexpected_error">Une erreur inattendue a eu lieu lors de la récupération des contacts</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
