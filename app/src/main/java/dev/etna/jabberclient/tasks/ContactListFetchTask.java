@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.adapters.ContactListAdapter;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
+import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.utils.Drawables;
 
@@ -37,10 +39,15 @@ public class ContactListFetchTask extends Task
     protected Throwable doInBackground(Void... empty)
     {
         Exception error;
+        ContactManager contactManager;
 
         try
         {
             this.contacts = this.service.fetchContacts();
+            contactManager = ContactManager.getInstance();
+            synchronized (contactManager) {
+                contactManager.setContactsList((ArrayList) contacts);
+            }
             setDefaultAvatars();
             error = null;
         }
