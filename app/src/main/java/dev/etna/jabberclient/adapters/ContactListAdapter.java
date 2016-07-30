@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.etna.jabberclient.R;
@@ -25,6 +27,7 @@ public class ContactListAdapter extends BaseAdapter
     private boolean isSelectionEnabled;
     private LayoutInflater layoutInflater;
     private List list;
+    private ArrayList<Contact> selectedContacts;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -34,6 +37,7 @@ public class ContactListAdapter extends BaseAdapter
     {
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
+        selectedContacts = new ArrayList<>();
         isSelectionEnabled = false;
     }
 
@@ -65,6 +69,11 @@ public class ContactListAdapter extends BaseAdapter
         return 0;
     }
 
+    public ArrayList<Contact> getSelectedContacts()
+    {
+        return selectedContacts;
+    }
+
     @Override
     public View getView(int i, View view, ViewGroup root)
     {
@@ -94,6 +103,36 @@ public class ContactListAdapter extends BaseAdapter
         avatar.setImageBitmap(bitmap);
         username = (TextView) view.findViewById(R.id.username);
         username.setText(contact.getUsername());
+        if (isSelectionEnabled)
+        {
+            checkBox.setOnCheckedChangeListener(this.getSelectionCheckboxListener(i));
+        }
         return view;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // PRIVATE METHODS
+    ////////////////////////////////////////////////////////////
+
+    private CompoundButton.OnCheckedChangeListener getSelectionCheckboxListener(final int itemIndex)
+    {
+        return new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton checkBox, boolean checked)
+            {
+                Contact contact;
+
+                contact = (Contact) getItem(itemIndex);
+                if (checked)
+                {
+                    selectedContacts.add(contact);
+                }
+                else
+                {
+                    selectedContacts.remove(contact);
+                }
+            }
+        };
     }
 }
