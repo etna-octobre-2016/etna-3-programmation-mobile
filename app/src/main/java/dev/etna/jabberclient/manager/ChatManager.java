@@ -24,7 +24,6 @@ public class ChatManager {
     }
 
     public void initAllChat () {
-        XMPPChat chat;
         ArrayList<Contact> list;
 
         list = ContactManager.getInstance().getContact_list();
@@ -33,8 +32,10 @@ public class ChatManager {
         }
     }
     public void initChat(Contact contact) {
+        XMPPChat chat;
+
         if (chatMap.get(contact) == null) {
-            XMPPChat chat = new XMPPChat(contact);
+            chat = new XMPPChat(contact);
             chatMap.put(contact, chat);
         }
     }

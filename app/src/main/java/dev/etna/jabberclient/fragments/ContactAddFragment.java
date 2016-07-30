@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import dev.etna.jabberclient.R;
+import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactAddTask;
 
@@ -29,9 +30,17 @@ public class ContactAddFragment extends Fragment
     private void addContact()
     {
         ContactAddTask task;
+        ContactManager contactManager;
         Contact contact;
+        String srvAdresse;
+        String username;
 
-        contact = new Contact(serverAddressField.getText().toString(), usernameField.getText().toString());
+        contactManager  = ContactManager.getInstance();
+        srvAdresse      = serverAddressField.getText().toString();
+        username        = usernameField.getText().toString();
+        contact         = new Contact(srvAdresse, username);
+        contactManager.addContact(contact);
+
         task = new ContactAddTask(contact, this.getActivity(), null);
         task.execute();
     }

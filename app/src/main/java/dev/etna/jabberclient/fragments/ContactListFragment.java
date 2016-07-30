@@ -70,8 +70,6 @@ public class ContactListFragment extends Fragment implements ITaskObservable
                 ContactManager contactManager;
 
                 contact = (Contact) adapterView.getItemAtPosition(index);
-                contactManager = ContactManager.getInstance();
-                contactManager.setCurrentChat(contact);
             }
         };
     }
