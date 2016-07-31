@@ -22,6 +22,7 @@ import dev.etna.jabberclient.adapters.ContactListAdapter;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactListFetchTask;
+import dev.etna.jabberclient.tasks.ContactsDeleteTask;
 import dev.etna.jabberclient.tasks.Task;
 
 public class ContactListFragment extends Fragment implements ITaskObservable
@@ -83,6 +84,10 @@ public class ContactListFragment extends Fragment implements ITaskObservable
             adapter = new ContactListAdapter(((ContactListFetchTask) task).getContacts(), listView, activity);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this.getItemClickListener());
+        }
+        else if (task instanceof ContactsDeleteTask)
+        {
+            Log.d("DELETE", "complete");
         }
     }
 
@@ -151,15 +156,17 @@ public class ContactListFragment extends Fragment implements ITaskObservable
 
     private void deleteSelectedItems()
     {
-        final AlertDialog dialog;
+        AlertDialog dialog;
         AlertDialog.Builder dialogBuilder;
-        ContactListAdapter adapter;
         int count;
+        final ContactListAdapter adapter;
+        final ITaskObservable self;
 
         adapter = (ContactListAdapter) listView.getAdapter();
         count = adapter.getSelectedContactsCount();
         if (count > 0)
         {
+            self = this;
             dialogBuilder = new AlertDialog.Builder(activity);
             dialogBuilder.setMessage(getString(R.string.dialog_contacts_delete_confirmation, count));
             dialogBuilder.setPositiveButton(R.string.label_action_delete, new DialogInterface.OnClickListener() {
@@ -167,8 +174,10 @@ public class ContactListFragment extends Fragment implements ITaskObservable
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i)
                 {
-                    Log.i("CONTACTS-DELETE", "go!");
-                    dialogInterface.dismiss();
+                    Task task;
+
+                    task = new ContactsDeleteTask(adapter.getSelectedContacts(), activity, self);
+                    task.execute();
                 }
             });
             dialogBuilder.setNegativeButton(R.string.label_action_cancel, new DialogInterface.OnClickListener() {

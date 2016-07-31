@@ -65,10 +65,6 @@ public class XMPPService
     }
 
     ////////////////////////////////////////////////////////////
-    // ACCESSORS & MUTATORS
-    ////////////////////////////////////////////////////////////
-
-    ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
 
@@ -172,6 +168,37 @@ public class XMPPService
         catch (Exception e)
         {
             throw new XMPPServiceException(XMPPServiceError.LOGOUT_UNEXPECTED_ERROR, this.context, e);
+        }
+    }
+    public void deleteContact(Contact contact) throws XMPPServiceException
+    {
+        Presence unsubscribe;
+        Roster roster;
+        String jabberID;
+
+        try
+        {
+            roster = Roster.getInstanceFor(connection);
+            if (!roster.isLoaded())
+            {
+                roster.reloadAndWait();
+            }
+            jabberID = contact.getLogin();
+            unsubscribe = new Presence(Presence.Type.unsubscribe);
+            unsubscribe.setTo(jabberID);
+            connection.sendStanza(unsubscribe);
+            roster.removeEntry(roster.getEntry(jabberID));
+        }
+        catch (Exception e)
+        {
+            throw new XMPPServiceException(XMPPServiceError.CONTACT_DELETE_UNEXPECTED_ERROR, this.context, e);
+        }
+    }
+    public void deleteContacts(List<Contact> contacts) throws XMPPServiceException
+    {
+        for (Contact contact : contacts)
+        {
+            deleteContact(contact);
         }
     }
 
