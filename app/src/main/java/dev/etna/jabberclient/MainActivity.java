@@ -17,7 +17,6 @@ import android.view.MenuItem;
 
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.fragments.ContactListFragment;
-import dev.etna.jabberclient.model.Profil;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
@@ -59,11 +58,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             Log.i("MainActivity", "same fragment will not be loaded twice in a row");
         }
-        //=======
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        Log.i(" -- myProfil ",Profil.getInstance().toString());
     }
 
     @Override
