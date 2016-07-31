@@ -32,6 +32,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- Interface messages -->
+    <string name="message_contact_list_empty">La liste de contact est vide</string>
+
     <!-- Error messages -->
     <string name="error_title">Oups...</string>
     <string name="error_login_bad_credentials">Ces identifiants sont incorrects</string>

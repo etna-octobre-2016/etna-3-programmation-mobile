@@ -7,7 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,8 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -45,6 +44,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     private int optionsMenuMode = OPTIONS_MENU_DEFAULT;
     private Activity activity;
     private ListView listView;
+    private TextView textView;
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
@@ -82,13 +82,22 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     {
         if (task instanceof ContactListFetchTask)
         {
-            ListAdapter adapter;
+            List<Contact> contacts;
+            ContactListAdapter adapter;
 
-            listView = (ListView) activity.findViewById(R.id.contactListView);
-            adapter = new ContactListAdapter(((ContactListFetchTask) task).getContacts(), listView, activity);
-            listView.setAdapter(adapter);
-            listView.setOnItemClickListener(this.getItemClickListener());
-            activity.invalidateOptionsMenu();
+            contacts = ((ContactListFetchTask) task).getContacts();
+            if (contacts.size() == 0)
+            {
+                textView.setVisibility(TextView.VISIBLE);
+            }
+            else
+            {
+                listView.setVisibility(ListView.VISIBLE);
+                adapter = new ContactListAdapter(contacts, listView, activity);
+                listView.setAdapter(adapter);
+                listView.setOnItemClickListener(this.getItemClickListener());
+                activity.invalidateOptionsMenu();
+            }
         }
         else if (task instanceof ContactsDeleteTask)
         {
@@ -106,8 +115,12 @@ public class ContactListFragment extends Fragment implements ITaskObservable
             disableListSelection();
             message = getString(R.string.toast_selected_deleted_count, deletedContacts.size());
             toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+            if (contacts.size() == 0)
+            {
+                listView.setVisibility(ListView.GONE);
+                textView.setVisibility(TextView.VISIBLE);
+            }
         }
     }
 
@@ -154,9 +167,14 @@ public class ContactListFragment extends Fragment implements ITaskObservable
             selectMenuItem.setVisible(true);
             cancelMenuItem.setVisible(false);
             deleteMenuItem.setVisible(false);
-            if (contactListAdapter != null) // @NOTE: contactListAdapter is NULL before contacts fetching
+            selectIcon = selectMenuItem.getIcon();
+            if (contactListAdapter == null) // @NOTE: contactListAdapter is NULL before contacts fetching
             {
-                selectIcon = selectMenuItem.getIcon();
+                selectIcon.setAlpha(128);
+                selectMenuItem.setEnabled(false);
+            }
+            else
+            {
                 if (contactListAdapter.getCount() == 0)
                 {
                     selectMenuItem.setEnabled(false);
@@ -269,6 +287,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
 
         activity = getActivity();
         listView = (ListView) activity.findViewById(R.id.contactListView);
+        textView = (TextView) activity.findViewById(R.id.contactListMessage);
         task = new ContactListFetchTask(activity, this);
         task.execute();
     }

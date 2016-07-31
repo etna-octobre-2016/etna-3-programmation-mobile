@@ -62,6 +62,8 @@ public class ContactListAdapter extends BaseAdapter
     public void setContacts(List<Contact> contacts)
     {
         this.contacts = contacts;
+        listView.clearChoices();
+        notifyDataSetChanged();
     }
 
     ////////////////////////////////////////////////////////////
