@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import dev.etna.jabberclient.R;
@@ -21,6 +22,7 @@ import dev.etna.jabberclient.adapters.ContactListAdapter;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactListFetchTask;
+import dev.etna.jabberclient.tasks.Task;
 
 public class ContactListFragment extends Fragment implements ITaskObservable
 {
@@ -47,7 +49,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     public void onActivityCreated(Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        this.initialize();
+        initialize();
     }
 
     @Override
@@ -71,9 +73,17 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     }
 
     @Override
-    public void onComplete()
+    public void onAsyncTaskComplete(Task task)
     {
-        this.addListeners();
+        if (task instanceof ContactListFetchTask)
+        {
+            ListAdapter adapter;
+
+            listView = (ListView) activity.findViewById(R.id.contactListView);
+            adapter = new ContactListAdapter(((ContactListFetchTask) task).getContacts(), listView, activity);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(this.getItemClickListener());
+        }
     }
 
     @Override
@@ -138,11 +148,6 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     ////////////////////////////////////////////////////////////
     // PRIVATE METHODS
     ////////////////////////////////////////////////////////////
-
-    private void addListeners()
-    {
-        listView.setOnItemClickListener(this.getItemClickListener());
-    }
 
     private void deleteSelectedItems()
     {
