@@ -17,34 +17,10 @@ import android.view.MenuItem;
 
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.fragments.ContactListFragment;
-import dev.etna.jabberclient.model.Profil;
 import dev.etna.jabberclient.tasks.LogoutTask;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
 {
-    ////////////////////////////////////////////////////////////
-    // CONSTANTS
-    ////////////////////////////////////////////////////////////
-
-    public static final int OPTIONS_MENU_DEFAULT = 0;
-    public static final int OPTIONS_MENU_CONTACT_LIST_DEFAULT = 1;
-    public static final int OPTIONS_MENU_CONTACT_LIST_SELECT = 2;
-
-    ////////////////////////////////////////////////////////////
-    // ATTRIBUTES
-    ////////////////////////////////////////////////////////////
-
-    private int optionsMenuMode = OPTIONS_MENU_DEFAULT;
-
-    ////////////////////////////////////////////////////////////
-    // ACCESSORS & MUTATORS
-    ////////////////////////////////////////////////////////////
-
-    public void setOptionsMenuMode(int mode)
-    {
-        optionsMenuMode = mode;
-    }
-
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
@@ -76,11 +52,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             Log.i("MainActivity", "same fragment will not be loaded twice in a row");
         }
-        //=======
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        Log.i(" -- myProfil ",Profil.getInstance().toString());
     }
 
     @Override
@@ -122,24 +93,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
-        if (optionsMenuMode == OPTIONS_MENU_CONTACT_LIST_DEFAULT)
-        {
-            menu.findItem(R.id.action_contact_list_select).setVisible(true);
-            menu.findItem(R.id.action_contact_list_cancel).setVisible(false);
-            menu.findItem(R.id.action_contact_list_delete).setVisible(false);
-        }
-        else if (optionsMenuMode == OPTIONS_MENU_CONTACT_LIST_SELECT)
-        {
-            menu.findItem(R.id.action_contact_list_select).setVisible(false);
-            menu.findItem(R.id.action_contact_list_cancel).setVisible(true);
-            menu.findItem(R.id.action_contact_list_delete).setVisible(true);
-        }
-        return true;
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item)
@@ -150,19 +103,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.sidenav_account)
         {
-            setOptionsMenuMode(MainActivity.OPTIONS_MENU_DEFAULT);
             Intent intent = new Intent(this,ProfilActivity.class);
             startActivity(intent);
             Log.i("SIDENAV", "click on my account button");
         }
         else if (id == R.id.sidenav_contact_list)
         {
-            setOptionsMenuMode(MainActivity.OPTIONS_MENU_CONTACT_LIST_DEFAULT);
             this.switchFragment(new ContactListFragment());
         }
         else if (id == R.id.sidenav_contact_add)
         {
-            setOptionsMenuMode(MainActivity.OPTIONS_MENU_DEFAULT);
             this.switchFragment(new ContactAddFragment());
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

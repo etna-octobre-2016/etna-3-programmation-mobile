@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
@@ -22,9 +21,17 @@ import dev.etna.jabberclient.tasks.ContactListFetchTask;
 public class ContactListFragment extends Fragment implements ITaskObservable
 {
     ////////////////////////////////////////////////////////////
+    // CONSTANTS
+    ////////////////////////////////////////////////////////////
+
+    public static final int OPTIONS_MENU_DEFAULT = 0;
+    public static final int OPTIONS_MENU_SELECT = 1;
+
+    ////////////////////////////////////////////////////////////
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
+    private int optionsMenuMode = OPTIONS_MENU_DEFAULT;
     private Activity activity;
     private ListView listView;
 
@@ -74,21 +81,36 @@ public class ContactListFragment extends Fragment implements ITaskObservable
         if (itemID == R.id.action_contact_list_select)
         {
             enableListSelection();
-            ((MainActivity) activity).setOptionsMenuMode(MainActivity.OPTIONS_MENU_CONTACT_LIST_SELECT);
-            activity.invalidateOptionsMenu(); // @NOTE: this line triggers the call of activity.onPrepareOptionsMenu
             return true;
         }
         else if (itemID == R.id.action_contact_list_cancel)
         {
             disableListSelection();
-            ((MainActivity) activity).setOptionsMenuMode(MainActivity.OPTIONS_MENU_CONTACT_LIST_DEFAULT);
-            activity.invalidateOptionsMenu();
+            return true;
         }
         else if (itemID == R.id.action_contact_list_delete)
         {
             Log.i("CONTACT-LIST", "delete");
+            return true;
         }
         return false;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu)
+    {
+        if (optionsMenuMode == OPTIONS_MENU_DEFAULT)
+        {
+            menu.findItem(R.id.action_contact_list_select).setVisible(true);
+            menu.findItem(R.id.action_contact_list_cancel).setVisible(false);
+            menu.findItem(R.id.action_contact_list_delete).setVisible(false);
+        }
+        else if (optionsMenuMode == OPTIONS_MENU_SELECT)
+        {
+            menu.findItem(R.id.action_contact_list_select).setVisible(false);
+            menu.findItem(R.id.action_contact_list_cancel).setVisible(true);
+            menu.findItem(R.id.action_contact_list_delete).setVisible(true);
+        }
     }
 
     ////////////////////////////////////////////////////////////
@@ -104,12 +126,16 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     {
         listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
         listView.invalidateViews();
+        optionsMenuMode = OPTIONS_MENU_DEFAULT;
+        activity.invalidateOptionsMenu();  // @NOTE: this line triggers the call of onPrepareOptionsMenu()
     }
 
     private void enableListSelection()
     {
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         listView.invalidateViews();
+        optionsMenuMode = OPTIONS_MENU_SELECT;
+        activity.invalidateOptionsMenu(); // @NOTE: this line triggers the call of onPrepareOptionsMenu()
     }
 
     private AdapterView.OnItemClickListener getItemClickListener()
