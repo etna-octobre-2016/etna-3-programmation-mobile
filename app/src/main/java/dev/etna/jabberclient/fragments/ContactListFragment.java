@@ -90,11 +90,8 @@ public class ContactListFragment extends Fragment implements ITaskObservable
 
     private void enableListSelection()
     {
-        ContactListAdapter adapter;
-
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        adapter = (ContactListAdapter) listView.getAdapter();
-        adapter.enableSelection();
+        listView.invalidateViews();
     }
 
     private AdapterView.OnItemClickListener getItemClickListener()

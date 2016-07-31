@@ -61,8 +61,8 @@ public class ContactListFetchTask extends Task
         {
             try
             {
-                adapter = new ContactListAdapter(contacts, activity);
                 listView = (ListView) activity.findViewById(R.id.contactListView);
+                adapter = new ContactListAdapter(contacts, listView, activity);
                 listView.setAdapter(adapter);
                 callback.onComplete();
             }

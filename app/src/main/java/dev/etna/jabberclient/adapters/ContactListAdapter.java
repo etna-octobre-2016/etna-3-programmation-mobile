@@ -3,9 +3,11 @@ package dev.etna.jabberclient.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,44 +28,36 @@ public class ContactListAdapter extends BaseAdapter
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
-    private boolean isSelectionEnabled;
+    private AbsListView listView;
     private LayoutInflater layoutInflater;
     private List list;
-    private ArrayList<Contact> selectedContacts;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public ContactListAdapter(List list, Context context)
+    public ContactListAdapter(List list, AbsListView listView, Context context)
     {
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
-        selectedContacts = new ArrayList<>();
-        isSelectionEnabled = false;
-        sortContactsByUsername(false);
+        this.listView = listView;
+        sortContactsByUsername();
     }
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
 
-    public void enableSelection()
-    {
-        isSelectionEnabled = true;
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getCount()
     {
-        return this.list.size();
+        return list.size();
     }
 
     @Override
     public Object getItem(int i)
     {
-        return this.list.get(i);
+        return list.get(i);
     }
 
     @Override
@@ -72,13 +66,30 @@ public class ContactListAdapter extends BaseAdapter
         return 0;
     }
 
-    public ArrayList<Contact> getSelectedContacts()
+    public List<Contact> getSelectedContacts()
     {
+        int i;
+        int size;
+        int index;
+        ArrayList<Contact> selectedContacts;
+        SparseBooleanArray selectedIndexes;
+
+        selectedContacts = new ArrayList<>();
+        selectedIndexes = listView.getCheckedItemPositions();
+        size = selectedIndexes.size();
+        for (i = 0; i < size; i++)
+        {
+            index = selectedIndexes.keyAt(i);
+            if (selectedIndexes.get(index))
+            {
+                selectedContacts.add((Contact) getItem(index));
+            }
+        }
         return selectedContacts;
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup root)
+    public View getView(int i, View view, ViewGroup parentView)
     {
         byte[] avatarBinary;
         int checkboxVisibility;
@@ -88,13 +99,15 @@ public class ContactListAdapter extends BaseAdapter
         Contact contact;
         ImageView avatar;
         TextView username;
+        AbsListView listView;
 
         if (view == null)
         {
-            view = layoutInflater.inflate(R.layout.fragment_contact_list_item, root, false);
+            view = layoutInflater.inflate(R.layout.fragment_contact_list_item, parentView, false);
         }
+        listView = (AbsListView) parentView;
         checkBox = (CheckBox) view.findViewById(R.id.checkBox);
-        checkboxVisibility = (isSelectionEnabled) ? CheckBox.VISIBLE : CheckBox.GONE;
+        checkboxVisibility = (listView.getChoiceMode() == AbsListView.CHOICE_MODE_MULTIPLE) ? CheckBox.VISIBLE : CheckBox.GONE;
         checkBox.setVisibility(checkboxVisibility);
         contact = (Contact)this.getItem(i);
         avatarBinary = contact.getAvatar();
@@ -106,27 +119,23 @@ public class ContactListAdapter extends BaseAdapter
         avatar.setImageBitmap(bitmap);
         username = (TextView) view.findViewById(R.id.username);
         username.setText(contact.getUsername());
-        if (isSelectionEnabled)
+        if (checkboxVisibility == CheckBox.VISIBLE)
         {
             checkBox.setOnCheckedChangeListener(this.getSelectionCheckboxListener(i));
         }
         return view;
     }
 
-    public void sortContactsByUsername(boolean updateView)
+    public void sortContactsByUsername()
     {
-        Collections.sort(list, new Comparator<Contact>() {
-
+        Collections.sort(list, new Comparator<Contact>()
+        {
             @Override
             public int compare(Contact contact1, Contact contact2)
             {
                 return contact1.getUsername().compareTo(contact2.getUsername());
             }
         });
-        if (updateView)
-        {
-            notifyDataSetChanged();
-        }
     }
 
     ////////////////////////////////////////////////////////////
@@ -140,17 +149,7 @@ public class ContactListAdapter extends BaseAdapter
             @Override
             public void onCheckedChanged(CompoundButton checkBox, boolean checked)
             {
-                Contact contact;
-
-                contact = (Contact) getItem(itemIndex);
-                if (checked)
-                {
-                    selectedContacts.add(contact);
-                }
-                else
-                {
-                    selectedContacts.remove(contact);
-                }
+                listView.setItemChecked(itemIndex, checked);
             }
         };
     }
