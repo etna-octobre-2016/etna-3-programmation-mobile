@@ -40,15 +40,6 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
     private LinearLayout messageContener;
 
     ////////////////////////////////////////////////////////////
-    // CONSTRUCTORS
-    ////////////////////////////////////////////////////////////
-
-    public ChatFragment()
-    {
-        // Required empty public constructor
-    }
-
-    ////////////////////////////////////////////////////////////
     // PRIVATE METHODS
     ////////////////////////////////////////////////////////////
 
@@ -73,6 +64,7 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
 
         this.contact    = ContactManager.getInstance().getCurrentChatContact();
         this.chat       = ChatManager.getInstance().getChat(contact);
+        getActivity().setTitle(contact.getUsername());
         this.addListeners();
     }
 
