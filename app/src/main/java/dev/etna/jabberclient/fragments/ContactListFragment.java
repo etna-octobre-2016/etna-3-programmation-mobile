@@ -1,6 +1,8 @@
 package dev.etna.jabberclient.fragments;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import dev.etna.jabberclient.R;
+import dev.etna.jabberclient.adapters.ContactListAdapter;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactListFetchTask;
@@ -90,7 +93,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
         }
         else if (itemID == R.id.action_contact_list_delete)
         {
-            Log.i("CONTACT-LIST", "delete");
+            deleteSelectedItems();
             return true;
         }
         return false;
@@ -120,6 +123,42 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     private void addListeners()
     {
         listView.setOnItemClickListener(this.getItemClickListener());
+    }
+
+    private void deleteSelectedItems()
+    {
+        final AlertDialog dialog;
+        AlertDialog.Builder dialogBuilder;
+        ContactListAdapter adapter;
+        int count;
+
+        adapter = (ContactListAdapter) listView.getAdapter();
+        count = adapter.getSelectedContactsCount();
+        if (count > 0)
+        {
+            dialogBuilder = new AlertDialog.Builder(activity);
+            dialogBuilder.setMessage(getString(R.string.dialog_contacts_delete_confirmation, count));
+            dialogBuilder.setPositiveButton(R.string.label_action_delete, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    Log.i("CONTACTS-DELETE", "go!");
+                    dialogInterface.dismiss();
+                }
+            });
+            dialogBuilder.setNegativeButton(R.string.label_action_cancel, new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i)
+                {
+                    Log.i("CONTACTS-DELETE", "canceled");
+                    dialogInterface.cancel();
+                }
+            });
+            dialog = dialogBuilder.create();
+            dialog.show();
+        }
     }
 
     private void disableListSelection()

@@ -13,6 +13,9 @@
     <string name="label_server_address">Adresse du serveur</string>
     <string name="label_username">Nom d\'utilisateur</string>
 
+    <!-- Dialogs -->
+    <string name="dialog_contacts_delete_confirmation">Êtes-vous sûr de vouloir supprimer %d contact(s) ?</string>
+
     <!-- Toasts -->
     <string name="toast_selected_contacts_none">Aucun contact sélectionné</string>
     <string name="toast_selected_contacts_count">Contact sélectionnés : %d</string>
