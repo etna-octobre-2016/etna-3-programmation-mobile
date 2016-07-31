@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import dev.etna.jabberclient.R;
@@ -39,6 +41,7 @@ public class ContactListAdapter extends BaseAdapter
         this.list = list;
         selectedContacts = new ArrayList<>();
         isSelectionEnabled = false;
+        sortContactsByUsername(false);
     }
 
     ////////////////////////////////////////////////////////////
@@ -108,6 +111,22 @@ public class ContactListAdapter extends BaseAdapter
             checkBox.setOnCheckedChangeListener(this.getSelectionCheckboxListener(i));
         }
         return view;
+    }
+
+    public void sortContactsByUsername(boolean updateView)
+    {
+        Collections.sort(list, new Comparator<Contact>() {
+
+            @Override
+            public int compare(Contact contact1, Contact contact2)
+            {
+                return contact1.getUsername().compareTo(contact2.getUsername());
+            }
+        });
+        if (updateView)
+        {
+            notifyDataSetChanged();
+        }
     }
 
     ////////////////////////////////////////////////////////////
