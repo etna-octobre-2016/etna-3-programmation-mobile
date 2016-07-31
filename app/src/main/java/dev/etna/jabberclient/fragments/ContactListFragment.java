@@ -3,6 +3,7 @@ package dev.etna.jabberclient.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
@@ -102,6 +103,8 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     @Override
     public void onPrepareOptionsMenu(Menu menu)
     {
+        ContactListAdapter contactListAdapter;
+
         if (optionsMenuMode == OPTIONS_MENU_DEFAULT)
         {
             menu.findItem(R.id.action_contact_list_select).setVisible(true);
@@ -110,9 +113,25 @@ public class ContactListFragment extends Fragment implements ITaskObservable
         }
         else if (optionsMenuMode == OPTIONS_MENU_SELECT)
         {
+            Drawable deleteIcon;
+            MenuItem deleteMenuItem;
+
             menu.findItem(R.id.action_contact_list_select).setVisible(false);
             menu.findItem(R.id.action_contact_list_cancel).setVisible(true);
-            menu.findItem(R.id.action_contact_list_delete).setVisible(true);
+            deleteMenuItem = menu.findItem(R.id.action_contact_list_delete);
+            deleteMenuItem.setVisible(true);
+            deleteIcon = deleteMenuItem.getIcon();
+            contactListAdapter = (ContactListAdapter) listView.getAdapter();
+            if (contactListAdapter.getSelectedContactsCount() == 0)
+            {
+                deleteMenuItem.setEnabled(false);
+                deleteIcon.setAlpha(128);
+            }
+            else
+            {
+                deleteMenuItem.setEnabled(true);
+                deleteIcon.setAlpha(255);
+            }
         }
     }
 

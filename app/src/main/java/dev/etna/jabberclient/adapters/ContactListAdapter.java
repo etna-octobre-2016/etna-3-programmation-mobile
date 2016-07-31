@@ -1,5 +1,6 @@
 package dev.etna.jabberclient.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -191,7 +192,13 @@ public class ContactListAdapter extends BaseAdapter
                 }
                 toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
                 toast.show();
+                updateOptionsMenu();
             }
         };
+    }
+
+    private void updateOptionsMenu()
+    {
+        ((Activity) context).invalidateOptionsMenu();
     }
 }
