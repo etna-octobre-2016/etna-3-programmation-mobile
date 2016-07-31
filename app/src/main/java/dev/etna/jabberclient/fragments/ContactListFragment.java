@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.adapters.ContactListAdapter;
@@ -84,10 +88,26 @@ public class ContactListFragment extends Fragment implements ITaskObservable
             adapter = new ContactListAdapter(((ContactListFetchTask) task).getContacts(), listView, activity);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this.getItemClickListener());
+            activity.invalidateOptionsMenu();
         }
         else if (task instanceof ContactsDeleteTask)
         {
-            Log.d("DELETE", "complete");
+            ContactListAdapter adapter;
+            List<Contact> contacts;
+            List<Contact> deletedContacts;
+            String message;
+            Toast toast;
+
+            adapter = (ContactListAdapter) listView.getAdapter();
+            contacts = adapter.getContacts();
+            deletedContacts = ((ContactsDeleteTask) task).getContacts();
+            contacts.removeAll(deletedContacts);
+            adapter.setContacts(contacts);
+            disableListSelection();
+            message = getString(R.string.toast_selected_deleted_count, deletedContacts.size());
+            toast = Toast.makeText(activity, message, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }
     }
 
@@ -119,24 +139,42 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     public void onPrepareOptionsMenu(Menu menu)
     {
         ContactListAdapter contactListAdapter;
+        Drawable deleteIcon;
+        Drawable selectIcon;
+        MenuItem cancelMenuItem;
+        MenuItem deleteMenuItem;
+        MenuItem selectMenuItem;
 
+        contactListAdapter = (ContactListAdapter) listView.getAdapter();
+        cancelMenuItem = menu.findItem(R.id.action_contact_list_cancel);
+        deleteMenuItem = menu.findItem(R.id.action_contact_list_delete);
+        selectMenuItem = menu.findItem(R.id.action_contact_list_select);
         if (optionsMenuMode == OPTIONS_MENU_DEFAULT)
         {
-            menu.findItem(R.id.action_contact_list_select).setVisible(true);
-            menu.findItem(R.id.action_contact_list_cancel).setVisible(false);
-            menu.findItem(R.id.action_contact_list_delete).setVisible(false);
+            selectMenuItem.setVisible(true);
+            cancelMenuItem.setVisible(false);
+            deleteMenuItem.setVisible(false);
+            if (contactListAdapter != null) // @NOTE: contactListAdapter is NULL before contacts fetching
+            {
+                selectIcon = selectMenuItem.getIcon();
+                if (contactListAdapter.getCount() == 0)
+                {
+                    selectMenuItem.setEnabled(false);
+                    selectIcon.setAlpha(128);
+                }
+                else
+                {
+                    selectMenuItem.setEnabled(true);
+                    selectIcon.setAlpha(255);
+                }
+            }
         }
         else if (optionsMenuMode == OPTIONS_MENU_SELECT)
         {
-            Drawable deleteIcon;
-            MenuItem deleteMenuItem;
-
-            menu.findItem(R.id.action_contact_list_select).setVisible(false);
-            menu.findItem(R.id.action_contact_list_cancel).setVisible(true);
-            deleteMenuItem = menu.findItem(R.id.action_contact_list_delete);
+            selectMenuItem.setVisible(false);
+            cancelMenuItem.setVisible(true);
             deleteMenuItem.setVisible(true);
             deleteIcon = deleteMenuItem.getIcon();
-            contactListAdapter = (ContactListAdapter) listView.getAdapter();
             if (contactListAdapter.getSelectedContactsCount() == 0)
             {
                 deleteMenuItem.setEnabled(false);

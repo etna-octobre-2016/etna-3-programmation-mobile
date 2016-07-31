@@ -33,21 +33,35 @@ public class ContactListAdapter extends BaseAdapter
     private AbsListView listView;
     private Context context;
     private LayoutInflater layoutInflater;
-    private List list;
+    private List contacts;
     private int selectedContactsCount;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public ContactListAdapter(List list, AbsListView listView, Context context)
+    public ContactListAdapter(List contacts, AbsListView listView, Context context)
     {
         this.context = context;
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.list = list;
+        this.contacts = contacts;
         this.listView = listView;
         this.selectedContactsCount = 0;
         sortContactsByUsername();
+    }
+
+    ////////////////////////////////////////////////////////////
+    // ACCESSORS & MUTATORS
+    ////////////////////////////////////////////////////////////
+
+    public List<Contact> getContacts()
+    {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts)
+    {
+        this.contacts = contacts;
     }
 
     ////////////////////////////////////////////////////////////
@@ -57,13 +71,13 @@ public class ContactListAdapter extends BaseAdapter
     @Override
     public int getCount()
     {
-        return list.size();
+        return contacts.size();
     }
 
     @Override
     public Object getItem(int i)
     {
-        return list.get(i);
+        return contacts.get(i);
     }
 
     @Override
@@ -156,7 +170,7 @@ public class ContactListAdapter extends BaseAdapter
 
     public void sortContactsByUsername()
     {
-        Collections.sort(list, new Comparator<Contact>()
+        Collections.sort(contacts, new Comparator<Contact>()
         {
             @Override
             public int compare(Contact contact1, Contact contact2)
