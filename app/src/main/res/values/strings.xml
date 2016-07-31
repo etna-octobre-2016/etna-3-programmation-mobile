@@ -24,6 +24,7 @@
     <!-- Titles -->
     <string name="title_activity_main">Bienvenue</string>
     <string name="title_fragment_contact_add">Ajouter un contact</string>
+    <string name="title_fragment_contact_list">Mes contacts</string>
 
     <!-- Side nav -->
     <string name="sidenav_account">Mon compte</string>

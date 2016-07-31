@@ -288,6 +288,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
         activity = getActivity();
         listView = (ListView) activity.findViewById(R.id.contactListView);
         textView = (TextView) activity.findViewById(R.id.contactListMessage);
+        activity.setTitle(R.string.title_fragment_contact_list);
         task = new ContactListFetchTask(activity, this);
         task.execute();
     }
