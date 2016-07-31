@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -29,8 +30,10 @@ public class ContactListAdapter extends BaseAdapter
     ////////////////////////////////////////////////////////////
 
     private AbsListView listView;
+    private Context context;
     private LayoutInflater layoutInflater;
     private List list;
+    private int selectedContactsCount;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -38,9 +41,11 @@ public class ContactListAdapter extends BaseAdapter
 
     public ContactListAdapter(List list, AbsListView listView, Context context)
     {
+        this.context = context;
         this.layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.list = list;
         this.listView = listView;
+        this.selectedContactsCount = 0;
         sortContactsByUsername();
     }
 
@@ -86,6 +91,28 @@ public class ContactListAdapter extends BaseAdapter
             }
         }
         return selectedContacts;
+    }
+
+    public int getSelectedContactsCount()
+    {
+        int count;
+        int i;
+        int index;
+        int size;
+        SparseBooleanArray selectedIndexes;
+
+        count = 0;
+        selectedIndexes = listView.getCheckedItemPositions();
+        size = selectedIndexes.size();
+        for (i = 0; i < size; i++)
+        {
+            index = selectedIndexes.keyAt(i);
+            if (selectedIndexes.get(index))
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
@@ -149,7 +176,21 @@ public class ContactListAdapter extends BaseAdapter
             @Override
             public void onCheckedChanged(CompoundButton checkBox, boolean checked)
             {
+                String message;
+                Toast toast;
+
                 listView.setItemChecked(itemIndex, checked);
+                selectedContactsCount = getSelectedContactsCount();
+                if (selectedContactsCount == 0)
+                {
+                    message = context.getString(R.string.toast_selected_contacts_none);
+                }
+                else
+                {
+                    message = context.getString(R.string.toast_selected_contacts_count, selectedContactsCount);
+                }
+                toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+                toast.show();
             }
         };
     }
