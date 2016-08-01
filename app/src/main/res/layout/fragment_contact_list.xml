@@ -7,5 +7,15 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:id="@+id/contactListView"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/message_contact_list_empty"
+        android:id="@+id/contactListMessage"
+        android:visibility="gone"
+        android:layout_gravity="center" />
 </FrameLayout>

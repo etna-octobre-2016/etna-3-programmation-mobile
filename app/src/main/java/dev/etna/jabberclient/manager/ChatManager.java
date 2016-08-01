@@ -7,15 +7,34 @@ import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPChat;
 
 /**
- * Created by Gato on 14/07/16.
+ * Created by Cedric Olivier on 14/07/16.
  */
 public class ChatManager {
-    private static ChatManager instance             = null;
-    private HashMap<Contact, XMPPChat> chatMap = null;
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  STATIC ATTRIBUTS
+    ///////////////////////////////////////////////////////////////////////////
+    private static ChatManager instance         = null;
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  PRIVATE ATTRIBUTS
+    ///////////////////////////////////////////////////////////////////////////
+    private HashMap<Contact, XMPPChat> chatMap  = null;
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  CONSTRUCTOR
+    ///////////////////////////////////////////////////////////////////////////
+
     private ChatManager() {
         chatMap     = new HashMap<Contact, XMPPChat>();
         initAllChat();
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  PUBLIC METHODS
+    ///////////////////////////////////////////////////////////////////////////
 
     public static ChatManager getInstance() {
         if (instance == null)
@@ -24,7 +43,6 @@ public class ChatManager {
     }
 
     public void initAllChat () {
-        XMPPChat chat;
         ArrayList<Contact> list;
 
         list = ContactManager.getInstance().getContact_list();
@@ -32,9 +50,12 @@ public class ChatManager {
             initChat(contact);
         }
     }
+
     public void initChat(Contact contact) {
+        XMPPChat chat;
+
         if (chatMap.get(contact) == null) {
-            XMPPChat chat = new XMPPChat(contact);
+            chat = new XMPPChat(contact);
             chatMap.put(contact, chat);
         }
     }
@@ -45,5 +66,4 @@ public class ChatManager {
         }
         return chatMap.get(contact);
     }
-
 }

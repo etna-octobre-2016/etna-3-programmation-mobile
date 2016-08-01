@@ -8,12 +8,13 @@ import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPChat;
 
 /**
- * Created by ceolivie on 13/07/2016.
+ * Created by Cedric Olivier on 13/07/2016.
  */
 public class ContactManager {
-    private XMPPChat currentChat;
+    private Contact currentChatContact;
     private static ContactManager instance = null;
     private ArrayList<Contact> contact_list;
+    private Contact mainUser;
     public static final String EXTRA_CONTACT = "extra.contact";
 
     private ContactManager() {
@@ -30,9 +31,9 @@ public class ContactManager {
     }
 
     public void initContactList() {
-        //TODO: get all users contact with api or saved data
-        addContact("gatopreto@jabber.hot-chilli.eu");
-        addContact("johndoe000001@jabber.hot-chilli.net");
+//        //TODO: get all users contact with api or saved data
+//        addContact("gatopreto@jabber.hot-chilli.eu");
+//        addContact("johndoe000001@jabber.hot-chilli.net");
     }
 
     public void addContact(String login, String nom) {
@@ -49,11 +50,13 @@ public class ContactManager {
         addContact(contact);
     }
 
-    private void addContact(Contact contact) {
-        if (getContact(contact.getLogin()) != null)
+    public void addContact(Contact contact) {
+        if (getContact(contact.getLogin()) != null) {
             Log.i("WAR", "Contact « " + contact.getLogin() + " » already exist in contact list");
-        else
+        } else {
             contact_list.add(contact);
+            ChatManager.getInstance().initChat(contact);
+        }
     }
 
     public void removeContact(String login) {
@@ -77,15 +80,23 @@ public class ContactManager {
     }
 
     public void setCurrentChat(Contact contact) {
-
-        ChatManager chatManager;
-
-        chatManager = ChatManager.getInstance();
-        this.currentChat = chatManager.getChat(contact);
+        this.currentChatContact = contact;
     }
 
-    public XMPPChat getCurrentChat() {
+    public Contact getCurrentChatContact() {
 
-        return this.currentChat;
+        return this.currentChatContact;
+    }
+
+    public void setContactsList(ArrayList<Contact> contactsList) {
+        this.contact_list = contactsList;
+    }
+
+    public void setMainUser(Contact contact) {
+        this.mainUser = contact;
+    }
+
+    public Contact getMainUser() {
+        return this.mainUser;
     }
 }
