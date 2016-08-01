@@ -19,7 +19,7 @@
 
 
             <LinearLayout
-                android:id="@+id/messageContener"
+                android:id="@+id/chatLayout"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">

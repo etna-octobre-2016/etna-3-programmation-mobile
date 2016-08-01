@@ -10,12 +10,31 @@ import dev.etna.jabberclient.xmpp.XMPPChat;
  * Created by Cedric Olivier on 14/07/16.
  */
 public class ChatManager {
-    private static ChatManager instance             = null;
-    private HashMap<Contact, XMPPChat> chatMap = null;
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  STATIC ATTRIBUTS
+    ///////////////////////////////////////////////////////////////////////////
+    private static ChatManager instance         = null;
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  PRIVATE ATTRIBUTS
+    ///////////////////////////////////////////////////////////////////////////
+    private HashMap<Contact, XMPPChat> chatMap  = null;
+
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  CONSTRUCTOR
+    ///////////////////////////////////////////////////////////////////////////
+
     private ChatManager() {
         chatMap     = new HashMap<Contact, XMPPChat>();
         initAllChat();
     }
+
+    ///////////////////////////////////////////////////////////////////////////
+    //  PUBLIC METHODS
+    ///////////////////////////////////////////////////////////////////////////
 
     public static ChatManager getInstance() {
         if (instance == null)
@@ -31,6 +50,7 @@ public class ChatManager {
             initChat(contact);
         }
     }
+
     public void initChat(Contact contact) {
         XMPPChat chat;
 
@@ -46,5 +66,4 @@ public class ChatManager {
         }
         return chatMap.get(contact);
     }
-
 }
