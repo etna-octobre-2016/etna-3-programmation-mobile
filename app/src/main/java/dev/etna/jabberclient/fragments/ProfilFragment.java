@@ -58,45 +58,49 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i("### ","onCreate 1");
         if (getArguments() != null) {
+            Log.i("### ","onCreate 2");
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.i("### ","onCreateView 1");
         myFragmentView = inflater.inflate(R.layout.fragment_profil, container, false);
 
-        imgView_avatar = (ImageView) myFragmentView.findViewById(R.id.imageView_avatarProfil);
-        byte[] imgProfile = Profil.getInstance().getAvatar();
-        Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgProfile , 0, imgProfile.length);
-        imgView_avatar.setImageBitmap(imgBitmap);
+        Profil instance = Profil.getInstance();
 
-        editPseudo = (EditText) myFragmentView.findViewById(R.id.editText_pseudo);
-        editPseudo.setText(Profil.getInstance().getPseudo());
+            imgView_avatar = (ImageView) myFragmentView.findViewById(R.id.imageView_avatarProfil);
+            byte[] imgProfile = instance.getAvatar();
+            if (imgProfile!=null) {
+                Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgProfile, 0, imgProfile.length);
+                imgView_avatar.setImageBitmap(imgBitmap);
+            }
+            editPseudo = (EditText) myFragmentView.findViewById(R.id.editText_pseudo);
+            editPseudo.setText(instance.getPseudo());
 
-        editPrenom = (EditText) myFragmentView.findViewById(R.id.editText_prenom);
-        editPrenom.setText(Profil.getInstance().getFirstName());
+            editPrenom = (EditText) myFragmentView.findViewById(R.id.editText_prenom);
+            editPrenom.setText(instance.getFirstName());
 
-        editNom = (EditText) myFragmentView.findViewById(R.id.editText_nom);
-        editNom.setText(Profil.getInstance().getName());
+            editNom = (EditText) myFragmentView.findViewById(R.id.editText_nom);
+            editNom.setText(instance.getName());
 
-        editDateNaiss = (EditText) myFragmentView.findViewById(R.id.editText_datenaiss);
-        editDateNaiss.setText(Profil.getInstance().getBirthday());
+            editDateNaiss = (EditText) myFragmentView.findViewById(R.id.editText_datenaiss);
+            editDateNaiss.setText(instance.getBirthday());
 
-        editEmail = (EditText) myFragmentView.findViewById(R.id.editText_email);
-        editEmail.setText(Profil.getInstance().getEmail());
+            editEmail = (EditText) myFragmentView.findViewById(R.id.editText_email);
+            editEmail.setText(instance.getEmail());
 
-        editPhoneNumber = (EditText) myFragmentView.findViewById(R.id.editText_telephone);
-        editPhoneNumber.setText(Profil.getInstance().getPhoneNumber());
+            editPhoneNumber = (EditText) myFragmentView.findViewById(R.id.editText_telephone);
+            editPhoneNumber.setText(instance.getPhoneNumber());
 
-        editSiteWeb = (EditText) myFragmentView.findViewById(R.id.editText_siteweb);
-        editSiteWeb.setText(Profil.getInstance().getWebSite());
+            editSiteWeb = (EditText) myFragmentView.findViewById(R.id.editText_siteweb);
+            editSiteWeb.setText(instance.getWebSite());
 
-        editBio = (EditText) myFragmentView.findViewById(R.id.editText_bio);
-        editBio.setText(Profil.getInstance().getBio());
-
+            editBio = (EditText) myFragmentView.findViewById(R.id.editText_bio);
+            editBio.setText(instance.getBio());
         /** LOCK THE EDITABLE INPUT */
         doLock();
 
@@ -109,6 +113,10 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
 
         // Inflate the layout for this fragment
         return myFragmentView;
+    }
+
+    private void fillUPView(){
+
     }
 
     private void doLock(){
@@ -151,6 +159,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
         switch (v.getId()){
             case R.id.button_unlock:{
                 unLock();
+                buttonUnlock.setVisibility(View.INVISIBLE);
                 Log.i("### click ###","unlocked");
                 break;
             }
@@ -158,6 +167,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
                 saveDataToProfil();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();
+                buttonUnlock.setVisibility(View.VISIBLE);
                 Log.i("### click ###"," save ");
                 break;
             }

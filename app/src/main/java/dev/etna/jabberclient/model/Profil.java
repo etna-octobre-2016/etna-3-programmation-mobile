@@ -36,6 +36,11 @@ public class Profil {
     private String Country;
 
     private String bio;
+
+    public VCard getvCard() {
+        return vCard;
+    }
+
     private VCard vCard;
 
     private static Profil INSTANCE = null;
@@ -48,16 +53,8 @@ public class Profil {
 
         vCard = service.getVcard();
         ProviderManager.addIQProvider("vCard", "vcard-temp",new VCardProvider());
-
-        setAvatar(vCard.getAvatar());
-        setFirstName(vCard.getFirstName());
-        setName(vCard.getLastName());
-        setPseudo(vCard.getNickName());
-        setEmail(vCard.getEmailHome());
-        setPhoneNumber(vCard.getPhoneHome("CELL"));
-        setBirthday(vCard.getField("BDAY"));
-        setBio(vCard.getField("DESC"));
-        setWebSite(vCard.getField("URL"));
+        if (vCard!=null)
+            loadObjectProfil(vCard);
 
         if (INSTANCE == null)
         {
@@ -78,16 +75,16 @@ public class Profil {
 
     public void setDataProfil(ProfilFragment fragProf){
 
-        vCard.setFirstName(fragProf.getEditPrenom().getText().toString());
-        vCard.setLastName(fragProf.getEditNom().getText().toString());
-        vCard.setNickName(fragProf.getEditPseudo().getText().toString());
-        vCard.setEmailHome(fragProf.getEditEmail().getText().toString());
-        vCard.setField("BDAY",fragProf.getEditDateNaiss().getText().toString());
-        vCard.setField("DESC",fragProf.getEditBio().getText().toString());
-        vCard.setField("URL",fragProf.getEditSiteWeb().getText().toString());
+        getvCard().setFirstName(fragProf.getEditPrenom().getText().toString());
+        getvCard().setLastName(fragProf.getEditNom().getText().toString());
+        getvCard().setNickName(fragProf.getEditPseudo().getText().toString());
+        getvCard().setEmailHome(fragProf.getEditEmail().getText().toString());
+        getvCard().setField("BDAY",fragProf.getEditDateNaiss().getText().toString());
+        getvCard().setField("DESC",fragProf.getEditBio().getText().toString());
+        getvCard().setField("URL",fragProf.getEditSiteWeb().getText().toString());
 
         try {
-            vCard.save(XMPPService.getInstance().getConnection());
+            getvCard().save(XMPPService.getInstance().getConnection());
         } catch (SmackException.NoResponseException e) {
             e.printStackTrace();
         } catch (XMPPException.XMPPErrorException e) {
@@ -95,6 +92,21 @@ public class Profil {
         } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();
         }
+
+        /** reload object after udpate **/
+        loadObjectProfil(getvCard());
+    }
+
+    public void loadObjectProfil(VCard vc){
+        setAvatar(vc.getAvatar());
+        setFirstName(vc.getFirstName());
+        setName(vc.getLastName());
+        setPseudo(vc.getNickName());
+        setEmail(vc.getEmailHome());
+        setPhoneNumber(vc.getPhoneHome("CELL"));
+        setBirthday(vc.getField("BDAY"));
+        setBio(vc.getField("DESC"));
+        setWebSite(vc.getField("URL"));
     }
 
     ////////////////////////////////////////////////////////////
