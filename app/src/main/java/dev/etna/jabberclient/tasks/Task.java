@@ -33,6 +33,30 @@ abstract public class Task extends AsyncTask<Void, Void, Throwable>
     }
 
     ////////////////////////////////////////////////////////////
+    // PROTECTED METHODS
+    ////////////////////////////////////////////////////////////
+
+    @Override
+    protected void onPostExecute(Throwable error)
+    {
+        if (error == null)
+        {
+            try
+            {
+                callback.onAsyncTaskComplete(this);
+            }
+            catch (Exception e)
+            {
+                handleError(e);
+            }
+        }
+        else
+        {
+            handleError(error);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
     // PRIVATE METHODS
     ////////////////////////////////////////////////////////////
 

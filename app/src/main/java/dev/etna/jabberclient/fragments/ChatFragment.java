@@ -1,8 +1,6 @@
 package dev.etna.jabberclient.fragments;
 
 import android.app.Fragment;
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -24,7 +22,6 @@ import java.util.Observer;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.manager.ChatManager;
 import dev.etna.jabberclient.manager.ContactManager;
-import dev.etna.jabberclient.manager.DataManager;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.xmpp.XMPPChat;
 
@@ -40,59 +37,80 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
     private TextView tv;
     private Contact contact;
     private XMPPChat chat;
-    private LinearLayout chatLayout;
-    private RelativeLayout rl;
-    private RelativeLayout.LayoutParams layoutParams;
-    private String mainUserLogin;
-
+    private LinearLayout messageContener;
 
     ////////////////////////////////////////////////////////////
-    // CONSTRUCTORS
+    // PRIVATE METHODS
     ////////////////////////////////////////////////////////////
 
-    public ChatFragment() {
-        // Required empty public constructor
+    private void addListeners()
+    {
+        this.sendButton.setOnClickListener(this);
+        this.chat.addObserver(this);
     }
-
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
+    public void onActivityCreated(Bundle savedInstanceState)
+    {
         super.onActivityCreated(savedInstanceState);
 
-        this.sendButton     = (Button) this.getView().findViewById(R.id.button);
-        this.editText       = (EditText) this.getView().findViewById(R.id.editText);
-        this.chatLayout     = (LinearLayout) this.getView().findViewById(R.id.messageContener);
-        this.contact        = ContactManager.getInstance().getCurrentChatContact();
-        this.chat           = ChatManager.getInstance().getChat(contact);
-        this.mainUserLogin  = ContactManager.getInstance().getMainUser().getLogin();
+        this.sendButton         = (Button) this.getView().findViewById(R.id.button);
+        this.editText           = (EditText) this.getView().findViewById(R.id.editText);
+        this.messageContener    = (LinearLayout) this.getView().findViewById(R.id.messageContener);
+
+        this.contact    = ContactManager.getInstance().getCurrentChatContact();
+        this.chat       = ChatManager.getInstance().getChat(contact);
+        getActivity().setTitle(contact.getUsername());
         this.addListeners();
-        restorePreviousConversation();
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
 
+    RelativeLayout rl;
     @Override
-    public void update(Observable observable, Object o) {
-        Cursor cursor;
+    public void update(Observable observable, Object o)
+    {
+        rl = new RelativeLayout(this.getActivity());
 
-        cursor = DataManager.getInstance().getMessageListByContact(this.contact);
-        cursor.moveToLast();
-        updateConversationView(formatMessage(cursor));
+        RelativeLayout.LayoutParams lprams = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        tv = new TextView(this.getView().getContext());
+
+        if (chat.getLastMessage().getFrom() != null)
+        {
+            lprams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            tv.setBackgroundColor(ContextCompat.getColor(this.getView().getContext(), R.color.isChat));
+        }
+        else
+        {
+            lprams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            tv.setBackgroundColor(ContextCompat.getColor(this.getView().getContext(), R.color.myChat));
+        }
+
+        tv.setText(chat.getLastMessage().getBody());
+        rl.addView(tv, lprams);
+        this.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                messageContener.addView(rl);
+            }
+        });
     }
 
     @Override
-    public void onClick(View view) {
-        Message message;
-
-        message = new Message();
+    public void onClick(View view)
+    {
+        Message message = new Message();
         message.setBody(editText.getText().toString());
         try {
             chat.sendMessage(message);
@@ -100,62 +118,5 @@ public class ChatFragment extends Fragment implements Observer, View.OnClickList
             Log.i("ERR", "Error Delivering block");
         }
         editText.setText(null);
-    }
-
-
-    ////////////////////////////////////////////////////////////
-    // PRIVATE METHODS
-    ////////////////////////////////////////////////////////////
-
-    private void updateConversationView(Message message) {
-        Context context;
-
-        context = this.getView().getContext();
-        rl      = new RelativeLayout(context);
-        tv      = new TextView(context);
-        layoutParams = new RelativeLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        if (message.getTo().equals(mainUserLogin)) {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            tv.setBackgroundColor(ContextCompat.getColor(context, R.color.isChat));
-        } else {
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            tv.setBackgroundColor(ContextCompat.getColor(context, R.color.myChat));
-        }
-        tv.setText(message.getBody());
-        rl.addView(tv, layoutParams);
-        this.getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                chatLayout.addView(rl);
-            }
-        });
-    }
-
-    private void restorePreviousConversation() {
-        Cursor cursor;
-
-        cursor  = DataManager.getInstance().getMessageListByContact(this.contact);
-        cursor.moveToFirst();
-        while(cursor.moveToNext()) {
-            updateConversationView(formatMessage(cursor));
-        }
-    }
-
-    private void addListeners() {
-        this.sendButton.setOnClickListener(this);
-        this.chat.addObserver(this);
-    }
-
-    private Message formatMessage (Cursor cursor) {
-        Message message;
-
-        message = new Message();
-        message.setFrom(cursor.getString(1));
-        message.setTo(cursor.getString(2));
-        message.setBody(cursor.getString(3));
-        return message;
     }
 }

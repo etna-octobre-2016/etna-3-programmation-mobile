@@ -77,6 +77,7 @@ public class ContactAddFragment extends Fragment
         this.serverAddressField = (EditText) view.findViewById(R.id.serverAddress);
         this.usernameField = (EditText) view.findViewById(R.id.username);
         this.submitButton = (Button) view.findViewById(R.id.submit);
+        getActivity().setTitle(R.string.title_fragment_contact_add);
         this.addListeners();
     }
 
