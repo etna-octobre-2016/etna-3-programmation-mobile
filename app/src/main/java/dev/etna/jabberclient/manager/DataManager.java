@@ -92,7 +92,8 @@ public class DataManager implements DataBaseConstants{
         Cursor cursor;
         String where;
 
-        where = COL_FROM + " = '" + contact.getLogin() + "' OR " + COL_TO + " = '" +contact.getLogin() + "' ";
+        where = COL_FROM + " = '" + contact.getLogin() + "' OR "
+                + COL_TO + " = '" + contact.getLogin() + "' ";
         cursor = db.query(TBL_NAME, new String[] { COL_ID, COL_FROM, COL_TO, COL_CONTENT},
                 where,
                 null, null, null, null);

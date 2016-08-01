@@ -55,6 +55,9 @@ public class Contact
 
     public String getLogin()
     {
+        if (login == null) {
+            login =  username + "@" + serverAddress;
+        }
         return this.login;
     }
 

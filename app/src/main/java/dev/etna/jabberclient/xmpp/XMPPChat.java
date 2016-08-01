@@ -60,11 +60,17 @@ public class XMPPChat extends Observable implements ChatMessageListener{
 
     public void sendMessage(Message message) throws SmackException.NotConnectedException {
         message.setFrom(ContactManager.getInstance().getMainUser().getLogin());
-        chat.sendMessage(message.getBody());
+        message.setTo(contact.getLogin());
         saveMessage(message);
+        chat.sendMessage(message);
     }
 
     private void receiptMessage(Message message) {
+        String from;
+
+        from = message.getFrom();
+        from = from.split("/")[0];
+        message.setFrom(from);
         saveMessage(message);
     }
 

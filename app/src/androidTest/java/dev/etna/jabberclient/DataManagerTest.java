@@ -49,8 +49,8 @@ public class DataManagerTest {
 
         activityRule = new ActivityTestRule<>(MainActivity.class, true, false);
         activityRule.launchActivity(null);
-        dm = new DataManager(activityRule.getActivity());
-        dm.open();
+        dm = DataManager.getInstance();
+        dm.open(activityRule.getActivity());
         dm.removeAllMessage();
 
         for (Message m : getMessageList())
