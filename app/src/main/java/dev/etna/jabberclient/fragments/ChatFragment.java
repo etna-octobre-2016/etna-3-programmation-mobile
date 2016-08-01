@@ -160,8 +160,8 @@ public class ChatFragment extends Fragment
 
         cursor = DataManager.getInstance().getMessageListByContact(contact);
         cursor.moveToFirst();
-        do {
+        while (cursor.moveToNext()) {
             updateChatView(getMessage(cursor));
-        } while (cursor.moveToNext());
+        }
     }
 }
