@@ -59,20 +59,8 @@ public class DataManager implements DataBaseConstants{
         open();
     }
 
-    public void close() {
-        db.close();
-    }
-
-    public SQLiteDatabase getDB() {
-        return db;
-    }
-
     public void removeAllMessage() {
         db.delete(TBL_NAME, null, null);
-    }
-
-    public void updateTable() {
-        sqLiteBDD.onUpgrade(db, 1, 2);
     }
 
     public long saveMessage(Message message) {
@@ -82,10 +70,6 @@ public class DataManager implements DataBaseConstants{
         values.put(COL_TO, message.getTo());
         values.put(COL_CONTENT, message.getBody());
         return db.insert(TBL_NAME, null, values);
-    }
-
-    public int removeMessageWhitID(int id) {
-        return db.delete(TBL_NAME, COL_ID + " = " + id, null);
     }
 
     public Cursor getMessageListByContact(Contact contact) {
