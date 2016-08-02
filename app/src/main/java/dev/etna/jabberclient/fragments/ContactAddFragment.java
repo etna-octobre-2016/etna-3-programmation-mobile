@@ -100,8 +100,9 @@ public class ContactAddFragment extends Fragment implements ITaskObservable
             Toast toast;
 
             message = getString(R.string.toast_contact_added_successfully);
-            toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
+            toast = Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
             toast.show();
+            usernameField.setText(null);
         }
     }
 
