@@ -132,11 +132,11 @@ public class ChatFragment extends Fragment
         if (isMainUser) {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
             textView.setBackgroundColor(ContextCompat.getColor(context,
-                    R.color.isChat));
+                    R.color.colorLightGrey));
         } else {
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
             textView.setBackgroundColor(ContextCompat.getColor(context,
-                    R.color.myChat));
+                    R.color.colorLightShaded));
         }
     }
 
