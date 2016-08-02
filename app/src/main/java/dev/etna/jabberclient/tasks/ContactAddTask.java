@@ -1,7 +1,6 @@
 package dev.etna.jabberclient.tasks;
 
 import android.app.Activity;
-import android.util.Log;
 
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.manager.ContactManager;
@@ -37,8 +36,8 @@ public class ContactAddTask extends Task
 
         try
         {
-            this.service.addContact(this.contact);
-            ContactManager.getInstance().addContact(this.contact);
+            service.addContact(contact);
+            ContactManager.getInstance().addContact(contact);
             error = null;
         }
         catch (XMPPServiceException e)
@@ -46,18 +45,5 @@ public class ContactAddTask extends Task
             error = e;
         }
         return error;
-    }
-
-    @Override
-    protected void onPostExecute(Throwable error)
-    {
-        if (error == null)
-        {
-            Log.i("CONTACT_ADD", "contact added successfully!");
-        }
-        else
-        {
-            this.handleError(error);
-        }
     }
 }

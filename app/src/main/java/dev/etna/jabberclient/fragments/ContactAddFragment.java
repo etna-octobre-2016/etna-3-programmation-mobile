@@ -2,6 +2,7 @@ package dev.etna.jabberclient.fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import dev.etna.jabberclient.R;
+import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.ContactAddTask;
+import dev.etna.jabberclient.tasks.Task;
 
-public class ContactAddFragment extends Fragment
+public class ContactAddFragment extends Fragment implements ITaskObservable
 {
     ////////////////////////////////////////////////////////////
     // PRIVATE ATTRIBUTES
@@ -41,13 +44,15 @@ public class ContactAddFragment extends Fragment
         contact         = new Contact(srvAdresse, username);
         contactManager.addContact(contact);
 
-        task = new ContactAddTask(contact, this.getActivity(), null);
+        task = new ContactAddTask(contact, getActivity(), this);
         task.execute();
     }
+
     private void addListeners()
     {
-        this.submitButton.setOnClickListener(this.getSubmitButtonClickListener());
+        submitButton.setOnClickListener(getSubmitButtonClickListener());
     }
+
     private View.OnClickListener getSubmitButtonClickListener()
     {
         final ContactAddFragment self;
@@ -63,6 +68,18 @@ public class ContactAddFragment extends Fragment
         };
     }
 
+    private void initialize()
+    {
+        View view;
+
+        view = getView();
+        serverAddressField = (EditText) view.findViewById(R.id.serverAddress);
+        usernameField = (EditText) view.findViewById(R.id.username);
+        submitButton = (Button) view.findViewById(R.id.submit);
+        getActivity().setTitle(R.string.title_fragment_contact_add);
+        addListeners();
+    }
+
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
@@ -70,15 +87,17 @@ public class ContactAddFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
-        View view;
-
         super.onActivityCreated(savedInstanceState);
-        view = this.getView();
-        this.serverAddressField = (EditText) view.findViewById(R.id.serverAddress);
-        this.usernameField = (EditText) view.findViewById(R.id.username);
-        this.submitButton = (Button) view.findViewById(R.id.submit);
-        getActivity().setTitle(R.string.title_fragment_contact_add);
-        this.addListeners();
+        initialize();
+    }
+
+    @Override
+    public void onAsyncTaskComplete(Task task)
+    {
+        if (task instanceof ContactAddTask)
+        {
+            Log.i("CONTACT_ADD", "contact added successfully!");
+        }
     }
 
     @Override
