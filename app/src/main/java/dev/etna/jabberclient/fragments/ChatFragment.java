@@ -46,6 +46,7 @@ public class ChatFragment extends Fragment
     private String mainLogin;
     private RelativeLayout.LayoutParams layoutParams;
 
+
     ///////////////////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ///////////////////////////////////////////////////////////////////////////
@@ -75,7 +76,6 @@ public class ChatFragment extends Fragment
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
-
 
     @Override
     public void update(Observable observable, Object o) {
@@ -127,17 +127,17 @@ public class ChatFragment extends Fragment
 
     private void formatTextViewChat(boolean isMainUser) {
         Context context;
+        int color;
 
         context = this.getView().getContext();
         if (isMainUser) {
+            color = ContextCompat.getColor(context, R.color.isChat);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-            textView.setBackgroundColor(ContextCompat.getColor(context,
-                    R.color.isChat));
         } else {
+            color = ContextCompat.getColor(context, R.color.myChat);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-            textView.setBackgroundColor(ContextCompat.getColor(context,
-                    R.color.myChat));
         }
+        textView.setBackgroundColor(color);
     }
 
     private void addListeners() {

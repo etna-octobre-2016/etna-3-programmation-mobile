@@ -19,8 +19,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import java.util.ArrayList;
-
 import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.adapters.ContactListAdapter;
@@ -45,9 +43,9 @@ public class ContactListFragment extends Fragment implements ITaskObservable
     ////////////////////////////////////////////////////////////
 
     private int optionsMenuMode = OPTIONS_MENU_DEFAULT;
-    private Activity activity;
-    private ListView listView;
-    private TextView textView;
+    public Activity activity;
+    public ListView listView;
+    public TextView textView;
 
     ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
@@ -252,7 +250,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
         }
     }
 
-    private void disableListSelection()
+    public void disableListSelection()
     {
         listView.setChoiceMode(ListView.CHOICE_MODE_NONE);
         listView.invalidateViews();
@@ -268,7 +266,7 @@ public class ContactListFragment extends Fragment implements ITaskObservable
         activity.invalidateOptionsMenu(); // @NOTE: this line triggers the call of onPrepareOptionsMenu()
     }
 
-    private AdapterView.OnItemClickListener getItemClickListener()
+    public AdapterView.OnItemClickListener getItemClickListener()
     {
         return new AdapterView.OnItemClickListener(){
 
