@@ -1,5 +1,6 @@
 package dev.etna.jabberclient;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,12 +8,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.manager.ContactManager;
 import dev.etna.jabberclient.model.Contact;
 import dev.etna.jabberclient.tasks.LoginTask;
+import dev.etna.jabberclient.tasks.Task;
 import dev.etna.jabberclient.xmpp.XMPPService;
 
-public class LoginActivity extends AppCompatActivity
+public class LoginActivity extends AppCompatActivity implements ITaskObservable
 {
     ////////////////////////////////////////////////////////////
     // PRIVATE ATTRIBUTES
@@ -28,14 +31,27 @@ public class LoginActivity extends AppCompatActivity
     ////////////////////////////////////////////////////////////
 
     @Override
+    public void onAsyncTaskComplete(Task task)
+    {
+        if (task instanceof LoginTask)
+        {
+            Contact userContact;
+            Intent intent;
+            LoginTask loginTask;
+
+            loginTask = (LoginTask) task;
+            userContact = new Contact(loginTask.getServerAddress(), loginTask.getUsername());
+            ContactManager.getInstance().setMainUser(userContact);
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
     public void onContentChanged()
     {
         super.onContentChanged();
-        this.serverAddressField = (EditText) this.findViewById(R.id.serverAddress);
-        this.usernameField = (EditText) this.findViewById(R.id.username);
-        this.passwordField = (EditText) this.findViewById(R.id.password);
-        this.submitButton = (Button) this.findViewById(R.id.submit);
-        this.addListeners();
+        initialize();
     }
 
     ////////////////////////////////////////////////////////////
@@ -55,8 +71,9 @@ public class LoginActivity extends AppCompatActivity
 
     private void addListeners()
     {
-        this.submitButton.setOnClickListener(this.getSubmitButtonClickListener());
+        submitButton.setOnClickListener(getSubmitButtonClickListener());
     }
+
     private OnClickListener getSubmitButtonClickListener()
     {
         final LoginActivity self;
@@ -71,20 +88,28 @@ public class LoginActivity extends AppCompatActivity
             }
         };
     }
+
+    private void initialize()
+    {
+        serverAddressField = (EditText) findViewById(R.id.serverAddress);
+        usernameField = (EditText) findViewById(R.id.username);
+        passwordField = (EditText) findViewById(R.id.password);
+        submitButton = (Button) findViewById(R.id.submit);
+        addListeners();
+    }
+
     private void login()
     {
-        Contact contact;
-        String password;
         LoginTask task;
+        String serverAddress;
+        String password;
+        String username;
 
-        contact = new Contact();
-        contact.setServerAddress(this.serverAddressField.getText().toString());
-        contact.setUsername(this.usernameField.getText().toString());
-
-        password = this.passwordField.getText().toString();
-        XMPPService.initXmppService(contact.getUsername(), password, contact.getServerAddress(), this.getApplicationContext());
-        ContactManager.getInstance().setMainUser(contact);
-        task = new LoginTask(this, null);
+        serverAddress = serverAddressField.getText().toString();
+        password = passwordField.getText().toString();
+        username = usernameField.getText().toString();
+        XMPPService.initXmppService(username, password, serverAddress, this);
+        task = new LoginTask(this);
         task.execute();
     }
 }

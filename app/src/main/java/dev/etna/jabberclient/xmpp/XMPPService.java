@@ -65,6 +65,30 @@ public class XMPPService
     }
 
     ////////////////////////////////////////////////////////////
+    // ACCESSORS & MUTATORS
+    ////////////////////////////////////////////////////////////
+
+    public AbstractXMPPConnection getConnection()
+    {
+        return connection;
+    }
+
+    public String getServerAddress()
+    {
+        return serverAddress;
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    public VCard getVcard()
+    {
+        return vcard;
+    }
+
+    ////////////////////////////////////////////////////////////
     // PUBLIC METHODS
     ////////////////////////////////////////////////////////////
 
@@ -244,16 +268,5 @@ public class XMPPService
         {
             throw new XMPPServiceException(XMPPServiceError.CONTACT_PROFILE_UNEXPECTED_ERROR, this.context, e);
         }
-    }
-
-    ////////////////////////////////////////////////////////////
-    // PRIVATE METHODS
-    ////////////////////////////////////////////////////////////
-    public AbstractXMPPConnection getConnection() {
-        return connection;
-    }
-
-    public VCard getVcard() {
-        return vcard;
     }
 }
