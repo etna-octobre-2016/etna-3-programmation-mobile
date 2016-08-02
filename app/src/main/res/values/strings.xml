@@ -20,6 +20,7 @@
     <string name="toast_selected_contacts_none">Aucun contact sélectionné</string>
     <string name="toast_selected_contacts_count">Contact(s) sélectionné(s) : %d</string>
     <string name="toast_selected_deleted_count">Contact(s) supprimé(s) : %d</string>
+    <string name="toast_contact_added_successfully">Contact ajouté avec succès !</string>
 
     <!-- Titles -->
     <string name="title_activity_main">Bienvenue</string>

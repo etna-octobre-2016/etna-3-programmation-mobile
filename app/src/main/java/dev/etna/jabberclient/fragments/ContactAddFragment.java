@@ -2,12 +2,12 @@ package dev.etna.jabberclient.fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
@@ -96,7 +96,12 @@ public class ContactAddFragment extends Fragment implements ITaskObservable
     {
         if (task instanceof ContactAddTask)
         {
-            Log.i("CONTACT_ADD", "contact added successfully!");
+            String message;
+            Toast toast;
+
+            message = getString(R.string.toast_contact_added_successfully);
+            toast = Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT);
+            toast.show();
         }
     }
 
