@@ -1,5 +1,7 @@
 package dev.etna.jabberclient.model;
 
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.provider.ProviderManager;
 import org.jivesoftware.smackx.vcardtemp.packet.VCard;
 import org.jivesoftware.smackx.vcardtemp.provider.VCardProvider;
@@ -34,9 +36,12 @@ public class Profil {
     private String Country;
 
     private String bio;
-    private VCard vCard;
 
-    private static Profil INSTANCE = null;
+    public VCard getvCard() {
+        return vCard;
+    }
+
+    private VCard vCard;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -46,13 +51,9 @@ public class Profil {
 
         vCard = service.getVcard();
         ProviderManager.addIQProvider("vCard", "vcard-temp",new VCardProvider());
+        if (vCard!=null)
+            loadObjectProfil(vCard);
 
-        fillProfileData();
-
-        if (INSTANCE == null)
-        {
-            INSTANCE = this;
-        }
     }
 
     public Profil(VCard vCard) {
@@ -67,17 +68,39 @@ public class Profil {
     // METHODS
     ////////////////////////////////////////////////////////////
 
-    /** Point d'accès pour l'instance unique du singleton */
-    public static Profil getInstance()
-    {
-        return INSTANCE;
+    public void setDataProfil(ProfilFragment fragProf){
+        getvCard().setFirstName(fragProf.getEditPrenom().getText().toString());
+        getvCard().setLastName(fragProf.getEditNom().getText().toString());
+        getvCard().setNickName(fragProf.getEditPseudo().getText().toString());
+        getvCard().setEmailHome(fragProf.getEditEmail().getText().toString());
+        getvCard().setField("BDAY",fragProf.getEditDateNaiss().getText().toString());
+        getvCard().setField("DESC",fragProf.getEditBio().getText().toString());
+        getvCard().setField("URL",fragProf.getEditSiteWeb().getText().toString());
+
+        try {
+            getvCard().save(XMPPService.getInstance().getConnection());
+        } catch (SmackException.NoResponseException e) {
+            e.printStackTrace();
+        } catch (XMPPException.XMPPErrorException e) {
+            e.printStackTrace();
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
+
+        /** reload object after udpate **/
+        loadObjectProfil(getvCard());
     }
 
-
-    public void setDataProfil(ProfilFragment fragProf){
-        vCard.setFirstName(fragProf.getEditPrenom().getText().toString());
-
-        //vCard.save();
+    public void loadObjectProfil(VCard vc){
+        setAvatar(vc.getAvatar());
+        setFirstName(vc.getFirstName());
+        setName(vc.getLastName());
+        setPseudo(vc.getNickName());
+        setEmail(vc.getEmailHome());
+        setPhoneNumber(vc.getPhoneHome("CELL"));
+        setBirthday(vc.getField("BDAY"));
+        setBio(vc.getField("DESC"));
+        setWebSite(vc.getField("URL"));
     }
 
     public boolean hasAvatar() {

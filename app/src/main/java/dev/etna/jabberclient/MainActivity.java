@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,11 +18,12 @@ import android.view.MenuItem;
 
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.fragments.ContactListFragment;
+import dev.etna.jabberclient.fragments.ProfilFragment;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.tasks.LogoutTask;
 import dev.etna.jabberclient.tasks.Task;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ITaskObservable
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ProfilFragment.OnFragmentInteractionListener,ITaskObservable
 {
 
     ///////////////////////////////////////////////////////////////////////////
@@ -133,9 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.sidenav_account)
         {
-            Intent intent = new Intent(this,ProfilActivity.class);
-            startActivity(intent);
-            Log.i("SIDENAV", "click on my account button");
+            this.switchFragment(new ProfilFragment());
         }
         else if (id == R.id.sidenav_contact_list)
         {
@@ -171,5 +171,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         instance = this;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
