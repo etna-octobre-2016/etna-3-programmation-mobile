@@ -3,6 +3,8 @@ package dev.etna.jabberclient;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -84,7 +86,11 @@ public class LoginActivity extends AppCompatActivity implements ITaskObservable
             @Override
             public void onClick(View view)
             {
-                self.login();
+                resetFormErrors();
+                if (isFormValid())
+                {
+                    self.login();
+                }
             }
         };
     }
@@ -96,6 +102,53 @@ public class LoginActivity extends AppCompatActivity implements ITaskObservable
         passwordField = (EditText) findViewById(R.id.password);
         submitButton = (Button) findViewById(R.id.submit);
         addListeners();
+    }
+
+    private boolean isFormValid()
+    {
+        boolean isValid;
+        String password;
+        String serverAddress;
+        String username;
+
+        isValid = true;
+        serverAddress = serverAddressField.getText().toString();
+        username = usernameField.getText().toString();
+        password = passwordField.getText().toString();
+
+        /*
+         * Server address validation
+         */
+        if (TextUtils.isEmpty(serverAddress))
+        {
+            serverAddressField.setError(getText(R.string.error_field_required));
+            isValid = false;
+        }
+        else if (!Patterns.DOMAIN_NAME.matcher(serverAddress).matches())
+        {
+            serverAddressField.setError(getText(R.string.error_field_invalid));
+            isValid = false;
+        }
+
+        /*
+         * Username validation
+         */
+        if (TextUtils.isEmpty(username))
+        {
+            usernameField.setError(getText(R.string.error_field_required));
+            isValid = false;
+        }
+
+        /*
+         * Password validation
+         */
+        if (TextUtils.isEmpty(password))
+        {
+            passwordField.setError(getText(R.string.error_field_required));
+            isValid = false;
+        }
+
+        return isValid;
     }
 
     private void login()
@@ -112,4 +165,12 @@ public class LoginActivity extends AppCompatActivity implements ITaskObservable
         task = new LoginTask(this);
         task.execute();
     }
+
+    private void resetFormErrors()
+    {
+        passwordField.setError(null);
+        serverAddressField.setError(null);
+        usernameField.setError(null);
+    }
+
 }
