@@ -46,4 +46,6 @@
     <string name="error_contact_delete_unexpected_error">Une erreur inattendue a eu lieu lors de la suppression d\'un contact</string>
     <string name="error_contact_profile_fetch_error">Une erreur a eu lieu lors de la récupération du profil utilisateur</string>
     <string name="error_contact_fetch_unexpected_error">Une erreur inattendue a eu lieu lors de la récupération des contacts</string>
+    <string name="error_field_required">Ce champ est obligatoire</string>
+    <string name="error_field_invalid">Ce champ est invalide</string>
 </resources>
