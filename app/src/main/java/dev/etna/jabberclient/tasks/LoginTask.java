@@ -37,9 +37,6 @@ public class LoginTask extends Task
             this.service.connect();
             this.service.login();
 
-            /** loading the profil model **/
-            new Profil(service);
-
             error = null;
         }
         catch (XMPPServiceException e)

@@ -14,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import dev.etna.jabberclient.R;
 import dev.etna.jabberclient.model.Profil;
+import dev.etna.jabberclient.xmpp.XMPPService;
 
 
 /**
@@ -58,9 +60,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("### ","onCreate 1");
         if (getArguments() != null) {
-            Log.i("### ","onCreate 2");
         }
     }
 
@@ -70,37 +70,38 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
         Log.i("### ","onCreateView 1");
         myFragmentView = inflater.inflate(R.layout.fragment_profil, container, false);
 
-        Profil instance = Profil.getInstance();
+        Profil prof = XMPPService.getInstance().getMyProfil();
 
             imgView_avatar = (ImageView) myFragmentView.findViewById(R.id.imageView_avatarProfil);
-            byte[] imgProfile = instance.getAvatar();
+            byte[] imgProfile = prof.getAvatar();
             if (imgProfile!=null) {
                 Bitmap imgBitmap = BitmapFactory.decodeByteArray(imgProfile, 0, imgProfile.length);
                 imgView_avatar.setImageBitmap(imgBitmap);
             }
             editPseudo = (EditText) myFragmentView.findViewById(R.id.editText_pseudo);
-            editPseudo.setText(instance.getPseudo());
+            editPseudo.setText(prof.getPseudo());
 
             editPrenom = (EditText) myFragmentView.findViewById(R.id.editText_prenom);
-            editPrenom.setText(instance.getFirstName());
+            editPrenom.setText(prof.getFirstName());
 
             editNom = (EditText) myFragmentView.findViewById(R.id.editText_nom);
-            editNom.setText(instance.getName());
+            editNom.setText(prof.getName());
 
             editDateNaiss = (EditText) myFragmentView.findViewById(R.id.editText_datenaiss);
-            editDateNaiss.setText(instance.getBirthday());
+            editDateNaiss.setText(prof.getBirthday());
 
             editEmail = (EditText) myFragmentView.findViewById(R.id.editText_email);
-            editEmail.setText(instance.getEmail());
+            editEmail.setText(prof.getEmail());
 
             editPhoneNumber = (EditText) myFragmentView.findViewById(R.id.editText_telephone);
-            editPhoneNumber.setText(instance.getPhoneNumber());
+            editPhoneNumber.setText(prof.getPhoneNumber());
 
             editSiteWeb = (EditText) myFragmentView.findViewById(R.id.editText_siteweb);
-            editSiteWeb.setText(instance.getWebSite());
+            editSiteWeb.setText(prof.getWebSite());
 
             editBio = (EditText) myFragmentView.findViewById(R.id.editText_bio);
-            editBio.setText(instance.getBio());
+            editBio.setText(prof.getBio());
+
         /** LOCK THE EDITABLE INPUT */
         doLock();
 
@@ -113,10 +114,6 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
 
         // Inflate the layout for this fragment
         return myFragmentView;
-    }
-
-    private void fillUPView(){
-
     }
 
     private void doLock(){
@@ -135,7 +132,7 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
         editPrenom.setEnabled(true);
         editNom.setEnabled(true);
         editDateNaiss.setEnabled(true);
-        //editEmail.setEnabled(true);
+        editEmail.setEnabled(true);
         editPhoneNumber.setEnabled(true);
         editSiteWeb.setEnabled(true);
         editBio.setEnabled(true);
@@ -143,10 +140,9 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
     }
 
     public void saveDataToProfil(){
-        Profil.getInstance().setDataProfil(this);
+        XMPPService.getInstance().getMyProfil().setDataProfil(this);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -160,16 +156,21 @@ public class ProfilFragment extends Fragment implements View.OnClickListener
             case R.id.button_unlock:{
                 unLock();
                 buttonUnlock.setVisibility(View.INVISIBLE);
-                Log.i("### click ###","unlocked");
+
                 break;
             }
             case R.id.button_save:{
                 saveDataToProfil();
+
+                /** refresh fragment */
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.detach(this).attach(this).commit();
+
                 buttonUnlock.setVisibility(View.VISIBLE);
-                Log.i("### click ###"," save ");
-                break;
+
+                Toast.makeText(getContext(), "Profil updated successfully", Toast.LENGTH_SHORT).show();
+
+            break;
             }
         }
     }

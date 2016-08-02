@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 import dev.etna.jabberclient.model.Contact;
+import dev.etna.jabberclient.model.Profil;
 
 public class XMPPService
 {
@@ -29,6 +30,7 @@ public class XMPPService
     private String serverAddress;
     private String username;
     private VCard vcard;
+    private Profil myProfil;
 
 
     ////////////////////////////////////////////////////////////
@@ -142,6 +144,7 @@ public class XMPPService
             this.connection.login();
             this.vcard = new VCard();
             this.vcard.load(connection);
+            myProfil = new Profil(this);
         }
         catch (Exception e)
         {
@@ -194,4 +197,6 @@ public class XMPPService
     public VCard getVcard() {
         return vcard;
     }
+    public Profil getMyProfil() {return myProfil;}
+
 }

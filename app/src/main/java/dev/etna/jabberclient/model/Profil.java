@@ -43,8 +43,6 @@ public class Profil {
 
     private VCard vCard;
 
-    private static Profil INSTANCE = null;
-
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
@@ -56,25 +54,13 @@ public class Profil {
         if (vCard!=null)
             loadObjectProfil(vCard);
 
-        if (INSTANCE == null)
-        {
-            INSTANCE = this;
-        }
     }
 
     ////////////////////////////////////////////////////////////
     // METHODS
     ////////////////////////////////////////////////////////////
 
-    /** Point d'accès pour l'instance unique du singleton */
-    public static Profil getInstance()
-    {
-        return INSTANCE;
-    }
-
-
     public void setDataProfil(ProfilFragment fragProf){
-
         getvCard().setFirstName(fragProf.getEditPrenom().getText().toString());
         getvCard().setLastName(fragProf.getEditNom().getText().toString());
         getvCard().setNickName(fragProf.getEditPseudo().getText().toString());
