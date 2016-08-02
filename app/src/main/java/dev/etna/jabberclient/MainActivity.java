@@ -17,9 +17,11 @@ import android.view.MenuItem;
 
 import dev.etna.jabberclient.fragments.ContactAddFragment;
 import dev.etna.jabberclient.fragments.ContactListFragment;
+import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.tasks.LogoutTask;
+import dev.etna.jabberclient.tasks.Task;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ITaskObservable
 {
 
     ///////////////////////////////////////////////////////////////////////////
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     {
         LogoutTask task;
 
-        task = new LogoutTask(this, null);
+        task = new LogoutTask(this);
         task.execute();
     }
 
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         FragmentManager manager;
         FragmentTransaction transaction;
 
-        manager = this.getFragmentManager();
+        manager = getFragmentManager();
         currentFragment = manager.findFragmentByTag("MAIN_FRAGMENT");
         if (currentFragment == null || !(currentFragment.getClass().equals(newFragment.getClass())))
         {
@@ -68,6 +70,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else
         {
             Log.i("MainActivity", "same fragment will not be loaded twice in a row");
+        }
+    }
+
+    @Override
+    public void onAsyncTaskComplete(Task task)
+    {
+        if (task instanceof LogoutTask)
+        {
+            Intent intent;
+
+            intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
         }
     }
 
@@ -106,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             this.logout();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
