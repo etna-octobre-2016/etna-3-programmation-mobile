@@ -1,11 +1,7 @@
 package dev.etna.jabberclient.tasks;
 
 import android.app.Activity;
-import android.content.Intent;
 
-import org.jivesoftware.smackx.vcardtemp.packet.VCard;
-
-import dev.etna.jabberclient.MainActivity;
 import dev.etna.jabberclient.interfaces.ITaskObservable;
 import dev.etna.jabberclient.model.Profil;
 import dev.etna.jabberclient.xmpp.XMPPServiceException;
@@ -16,16 +12,37 @@ public class LoginTask extends Task
     // ATTRIBUTES
     ////////////////////////////////////////////////////////////
 
-    private VCard vcard;
+    private String serverAddress;
+    private String username;
 
     ////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     ////////////////////////////////////////////////////////////
 
-    public LoginTask(Activity activity, ITaskObservable callback)
+    public LoginTask(Activity activity)
     {
-        super(activity, callback);
+        super(activity, (ITaskObservable) activity);
+        this.serverAddress = service.getServerAddress();
+        this.username = service.getUsername();
     }
+
+    ////////////////////////////////////////////////////////////
+    // ACCESSORS
+    ////////////////////////////////////////////////////////////
+
+    public String getServerAddress()
+    {
+        return serverAddress;
+    }
+
+    public String getUsername()
+    {
+        return username;
+    }
+
+    ////////////////////////////////////////////////////////////
+    // PROTECTED METHODS
+    ////////////////////////////////////////////////////////////
 
     @Override
     protected XMPPServiceException doInBackground(Void... empty)
@@ -36,11 +53,7 @@ public class LoginTask extends Task
         {
             this.service.connect();
             this.service.login();
-
-            /** loading the profil model **/
-            this.vcard = service.getVcard();
             new Profil(service);
-
             error = null;
         }
         catch (XMPPServiceException e)
@@ -48,19 +61,5 @@ public class LoginTask extends Task
             error = e;
         }
         return error;
-    }
-
-    @Override
-    protected void onPostExecute(Throwable error)
-    {
-        if (error == null)
-        {
-            Intent intent = new Intent(this.activity.getApplicationContext(), MainActivity.class);
-            this.activity.startActivity(intent);
-        }
-        else
-        {
-            this.handleError(error);
-        }
     }
 }
