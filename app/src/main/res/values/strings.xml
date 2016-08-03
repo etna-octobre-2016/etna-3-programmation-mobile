@@ -1,7 +1,51 @@
 <resources>
     <string name="app_name">JabberClient</string>
-    <string name="login_username">Nom d\'utilisateur</string>
-    <string name="login_password">Mot de passe</string>
-    <string name="login_submit">Se connecter</string>
-    <string name="login_serveraddress">Adresse du serveur</string>
+
+    <!-- Labels -->
+    <string name="label_action_cancel">Annuler</string>
+    <string name="label_action_contact_add">Ajouter aux contacts</string>
+    <string name="label_action_delete">Supprimer</string>
+    <string name="label_action_login">Se connecter</string>
+    <string name="label_action_logout">Se déconnecter</string>
+    <string name="label_action_select">Sélectionner</string>
+    <string name="label_contact_username">Nom d\'utilisateur du contact</string>
+    <string name="label_password">Mot de passe</string>
+    <string name="label_server_address">Adresse du serveur</string>
+    <string name="label_username">Nom d\'utilisateur</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_contacts_delete_confirmation">Êtes-vous sûr de vouloir supprimer %d contact(s) ?</string>
+
+    <!-- Toasts -->
+    <string name="toast_selected_contacts_none">Aucun contact sélectionné</string>
+    <string name="toast_selected_contacts_count">Contact(s) sélectionné(s) : %d</string>
+    <string name="toast_selected_deleted_count">Contact(s) supprimé(s) : %d</string>
+    <string name="toast_contact_added_successfully">Contact ajouté avec succès !</string>
+
+    <!-- Titles -->
+    <string name="title_activity_main">Bienvenue</string>
+    <string name="title_fragment_contact_add">Ajouter un contact</string>
+    <string name="title_fragment_contact_list">Mes contacts</string>
+
+    <!-- Side nav -->
+    <string name="sidenav_account">Mon compte</string>
+    <string name="sidenav_contact_list">Mes contacts</string>
+    <string name="sidenav_contact_add">Ajouter un contact</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Interface messages -->
+    <string name="message_contact_list_empty">La liste de contact est vide</string>
+
+    <!-- Error messages -->
+    <string name="error_title">Oups...</string>
+    <string name="error_login_bad_credentials">Ces identifiants sont incorrects</string>
+    <string name="error_login_unexpected_error">Une erreur inattendue a eu lieu lors de la connexion</string>
+    <string name="error_logout_unexpected_error">Une erreur inattendue a eu lieu lors de la déconnexion</string>
+    <string name="error_contact_add_unexpected_error">Une erreur inattendue a eu lieu lors de l\'ajout d\'un contact</string>
+    <string name="error_contact_delete_unexpected_error">Une erreur inattendue a eu lieu lors de la suppression d\'un contact</string>
+    <string name="error_contact_profile_fetch_error">Une erreur a eu lieu lors de la récupération du profil utilisateur</string>
+    <string name="error_contact_fetch_unexpected_error">Une erreur inattendue a eu lieu lors de la récupération des contacts</string>
+    <string name="error_field_required">Ce champ est obligatoire</string>
+    <string name="error_field_invalid">Ce champ est invalide</string>
 </resources>
